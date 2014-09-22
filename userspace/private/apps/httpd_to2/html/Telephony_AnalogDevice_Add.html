@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+var isModify = false;
+var position= "";
+
+var FxsInUseList = '<%ejGetVoice(FxsInUseList)%>';
+var FxsInUse = FxsInUseList.split(" ");
+
+var FXSInternalNameList = '<%ejGetVoice(FxsInternalNameList)%>';
+var FXSInternalName = FXSInternalNameList.split(" ");
+var FXSInternalNumberList = '<%ejGetVoice(FxsInternalNumberList)%>';
+var FXSInternalNumber = FXSInternalNumberList.split(" ");
+
+var ISDNInternalNameList = '<%ejGetVoice(IsdnInternalNameList)%>';
+var ISDNInternalName = ISDNInternalNameList.split(" ");
+var ISDNInternalNumberList = '<%ejGetVoice(IsdnInternalNumberList)%>';
+var ISDNInternalNumber = ISDNInternalNumberList.split(" ");
+
+var DECTInternalNameList = '<%ejGetVoice(DectInternalNameList)%>';
+var DECTInternalName = DECTInternalNameList.split(" ");
+var DECTInternalNumberList = '<%ejGetVoice(DectInternalNumberList)%>';
+var DECTInternalNumber = DECTInternalNumberList.split(" ");
+
+var DevNumberInUse = '';
+var DevNameInUse = '';
+
+function getValue()
+{
+		with ( document.forms[0] ) {
+				//alert(window.location.href);
+				var url = window.location.href;
+				var qparts = url.split("#");
+
+				if ((qparts.length == 0) || (qparts[1].length == 0))
+				{return;}
+				
+				var query = qparts[1];
+				var vars = query.split("&");
+				
+				for (i=0; i<vars.length; i++)
+				{
+						var parts = vars[i].split("=");
+						if (parts[0] == "DeviceName")
+						{
+								deviceName.value =  parts[1];		  
+								DevNameInUse = parts[1];
+						}
+				
+						if(parts[0] == "DeviceNumber")
+						{
+								deviceNumber.value =  parts[1];
+								DevNumberInUse = parts[1];
+						}
+						
+						if(parts[0] == "Position")
+						{
+								isModify = true;
+								position = parts[1];
+						}		
+						
+						if(parts[0] == "DeviceCallWait")
+						{
+								deviceCallwaiting.value = parts[1];
+						}						
+				}  
+
+				return true;
+		}
+}
+
+function formcheck(){
+	with ( document.forms[0] ) {
+		var NumberCheckError = deviceNumber.value.replace(/[0-9]/g,'');
+		var NameCheckEmpty = deviceName.value.replace(/[ ]/g,'');
+		var NameCheckError = deviceName.value.replace(/[a-zA-Z0-9]/g,'');
+		if(deviceName.value.length == 0 || NameCheckError.length != 0 || NameCheckEmpty.length == 0)
+		{
+			//alert("Name ist illegale");
+			showErr('Der eingegebene Name beinhaltet unerlaubte Zeichen (0-9, a-z, A-Z).');
+			return false;
+		}
+		
+		if(deviceNumber.value.length == 0 || NumberCheckError.length != 0)
+		{
+			//alert("Interne rufnummer ist illegale");
+			showErr("Die  vergebene interne Rufnummer ist ungültig ( 10 - 99, Keine Doppelvergabe).");
+			return false;
+		}
+		
+		return true;
+	}
+		
+}
+
+function internalNumCheck()
+{
+	with ( document.forms[0] ) 
+	{
+		var interNumber = parseInt(deviceNumber.value, 10);
+		if((interNumber > 99) || (interNumber < 10))
+		{
+			return false;
+		}
+		return true;
+	}
+}
+
+function isInternalNameAndNumUsed()
+{
+	with ( document.forms[0] ) 
+	{
+		var i = 0;
+		if(deviceNumber.value == DevNumberInUse && deviceName.value == DevNameInUse && isModify) /*the internal number is not changed*/
+		{
+			return false;
+		}
+		
+		for(i = 0; i < FXSInternalNumber.length && FXSInternalNumber[0] != ""; i++)
+		{
+			if(((FXSInternalNumber[i] == deviceNumber.value) || (FXSInternalName[i] == deviceName.value)) && FxsInUse[i] == "True")
+			{
+				if(isModify) /*if modify, maybe user only modify one of name or number.*/
+				{
+					if((FXSInternalNumber[i] == DevNumberInUse) || (FXSInternalName[i] == DevNameInUse))
+					{
+						continue;
+					}
+				}
+				return true;
+			}
+		}
+		for(i = 0; i < ISDNInternalNumber.length && ISDNInternalNumber[0] != ""; i++)
+		{
+			if((ISDNInternalNumber[i] == deviceNumber.value) || (ISDNInternalName[i] == deviceName.value))
+			{
+				return true;
+			}			
+		}
+		for(i = 0; i < DECTInternalNumber.length && DECTInternalNumber[0] != ""; i++)
+		{
+			if((DECTInternalNumber[i] == deviceNumber.value) || (DECTInternalName[i] == deviceName.value))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}	
+}
+
+function addFxsInternalApply(current_view){ 
+   with ( document.forms[0] ) {
+		if(!formcheck()){
+			//alert("Bitte vollstandige Informationen");
+			return;
+		}
+		if(!internalNumCheck())
+		{
+			showErr("Die  vergebene interne Rufnummer ist ungültig ( 10 - 99, Keine Doppelvergabe).");
+			return;
+		}
+		if(isInternalNameAndNumUsed())
+		{
+			showErr("Dieser Name oder interne Nummer ist bereits vergeben.");
+			return;
+		}
+		
+		var loc = 'voiceinternalapply.cmd?';
+		if(isModify == true)
+		{
+			loc += 'action=modify';		
+		}
+		else
+		{
+			loc += 'action=add';
+		}	
+		loc += '&InternalType=X_FXS';
+		loc += '&InternalName=' + deviceName.value.replace(/[ ]/g,'_');
+		loc += '&InternalNumber=' + deviceNumber.value;
+		loc += '&CallWaiting=' + deviceCallwaiting.value;
+		loc += '&Position=' + FXSdevice.value;
+		loc += '&currentview='+ current_view;
+		loc += '&sessionKey='+ sessionkey;		
+		var code = 'location="' + loc + '"';
+		//alert(code);
+		fadding();    
+		eval(code);
+		return;
+   }   
+}
+function printFXSListBox()
+{
+		with ( document.forms[0] ) {
+				if(!getValue())
+					return;
+				if(isModify)
+				{
+						//alert("modify");
+						document.writeln("<option value=\""+position+"\"> Leitung  "+ position+"</option>");
+						FXSdevice.disabled=true;
+				}
+				else
+				{
+						//alert("add");
+	
+						var FXSindex=0;
+						while(FXSindex < FxsInUse.length)
+						{
+								if (FxsInUse[FXSindex] == "False")
+								{
+									document.writeln("<option value=\""+eval(FXSindex + 1)+"\"> Leitung  "+ eval(FXSindex + 1)+"</option>");
+								}
+								FXSindex++;
+						}
+				}
+		}
+}
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onLoad="operaResize();faddingReload();">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabB" value="DECT" onclick="location.href='Telephony_DECT.html'"></td>
+					<td><input type='button' class='tabDB' value='Analog-Geräte' onclick="location.href='Telephony_AnalogDevice.html'"></td>
+					<td><input type='button' class='tabB' value='ISDN-Geräte' onclick="location.href='Telephony_IsdnDevice.html'"></td>
+				</tr>
+			</table>
+		</div>
+			<div class="bg_body_auto2" style="min-height:400px;_height:400px;" id="defaultId">	
+				<div class="left">
+				<form>				
+					<div class="stepWrapper">
+					<div class="subhead">Analog-Gerät hinzufügen</div>
+						<table width="530" class="alignment">
+							<tr>
+								<td width="110" class="bold">Schritt 1:</td>
+								<td width="150">Name des Gerätes:</td>
+								<td><input name="deviceName" type="text" class="blue_frame" style="width:150px" maxlength="16"></td>
+							</tr>
+							<tr>
+								<td class="bold">Schritt 2:</td>
+								<td width="150">Interne Rufnummer:</td>
+								<td><input name="deviceNumber" type="text" class="blue_frame" style="width:150px" maxlength="2"></td>
+							</tr>
+							<tr>
+								<td class="bold">Schritt 3:</td>
+								<td>Anklopfen:</td>
+								<td><select name="deviceCallwaiting" class="blue_frame" style="width:100px">
+											<option value="on">ein</option>
+											<option value="off">aus</option>
+										</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="bold">Schritt 4:</td>
+								<td>Leitung:</td>
+								<td>
+									<select name="FXSdevice" class="blue_frame" style="width:100px">
+										<script language="javascript">
+												printFXSListBox();
+										</script>
+									</select>
+								</td>
+							</tr>
+						</table>
+					</div>		
+				</form>
+				</div>
+				<div class="right">
+					<div id='help' name='Analog_add'>
+					<script type="text/javascript">
+						showHelp();
+					</script>
+					</div>
+				</div>
+			</div><!-- end class="bg_body_auto2"-->
+			<div class="bg_bottom_bar">
+				<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();addFxsInternalApply('Telephony_AnalogDevice.html');return false;"></div>
+			</div>
+	</div>
+
+</body>
+</html>

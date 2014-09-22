@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+ <link rel="stylesheet" href="jquery.tooltip.css" type="text/css" />
+	<script type="text/javascript" src="jquery-1.9.1.min.js.js"></script>
+    <script type="text/javascript" src="jquery.tooltip.js"></script>
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+
+<SCRIPT LANGUAGE="JavaScript">
+	$(function(){
+		$("div.item").tooltip();
+		$(".show").click(
+			function(){
+			$(".msg").css('opacity','0.9');
+			$(".msg").show(500).delay(65000).fadeOut(800);
+				return;
+			});        
+		$(".btn").click(
+			function(){
+			$(".msg").hide();
+		});  
+		
+	});   
+
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+var ButtenFlag = 0;
+var DECTActiveState = '<%ejGetVoice(DectBaseState)%>';
+var DECTEcoMode = '<%ejGetVoice(DectBaseEcoMode)%>';
+
+var DECTInternalNameList = '<%ejGetVoice(DectInternalNameList)%>';
+var DECTInternalName = DECTInternalNameList.split(" ");
+
+var DECTInternalNumberList = '<%ejGetVoice(DectInternalNumberList)%>';
+var DECTInternalNumber = DECTInternalNumberList.split(" ");
+
+var DectRegDevIdList = '<%ejGetVoice(DectRegHsDevIdList)%>';
+var DectRegDevIds = DectRegDevIdList.split(" ");
+
+function doDectHsRegistration(){
+	var handsetName = '<%ejGetVoice(DectRegHsDevName)%>' ;
+	var handsetNum = '<%ejGetVoice(DectRegHsDevIntNum)%>' ;
+	if(ButtenFlag == 0){
+	if(6 <= DECTInternalName.length){
+		showErr('only 6 Handsets can be be supported!');  
+		return ;
+	}
+	showDectRegisterWait('Durch Drücken von <b>Mobilteil hinzufügen</b> starten Sie die Anmeldung eines DECT Handsets.');
+	
+	with ( document.forms[0] ) {
+		var loc = 'voiceDectHsReg.cmd?'; 
+		loc += 'currentview=Telephony_DECT.html' ;
+		loc += '&InternalType=X_DECT';
+		loc += '&Action=Add' ;
+		loc += '&InternalName=' + handsetName ;
+		loc += '&InternalNumber=' + handsetNum ;
+		loc += '&sessionKey='+sessionkey;		
+		var code = 'location="' + loc + '"';
+		//alert(code);    
+		eval(code);
+   } 
+			ButtenFlag = 1;
+	}
+	
+}
+
+function doDectActive(cmd){ 
+	 if(ButtenFlag == 0){
+   with ( document.forms[0] ) {
+		var loc = 'voiceDectActive.cmd?'; 
+		loc += 'currentview=Telephony_DECT.html' ;
+		loc += '&InternalType=X_DECT';
+		if(cmd == "ecoModeActive"){
+			if(DECTEcoMode == "deaktiviert."){
+				if(confirm("Möchten Sie den DECT-Ecomode aktivieren?")){
+					loc += '&action=ecoModeActive';
+				}else{
+				}
+			}else{
+				if(confirm("Möchten Sie den DECT-Ecomode deaktivieren?")){
+			loc += '&action=ecoModeActive';
+				}else{
+				}
+			}
+		}else if(cmd == "pinCodeEdit"){
+			if(!PINcheck())
+			{
+				showErr('Bitte geben Sie eine PIN ein. Die PIN darf nur aus Zahlen bestehen und muss zwischen 4 und 8 Zeichen lang sein.');
+				return;
+			}
+			else
+			{
+				loc += '&action=pinCodeEdit';
+				loc += '&pinCode='+ document.getElementById('pinCode').value ;
+			}
+		}else{	
+			if(DECTActiveState == "deaktiviert."){
+				if(confirm("Möchten Sie die DECT-Basis aktivieren?")){
+			loc += '&action=active';
+				}else{
+				}
+			}else{
+				if(confirm("Möchten Sie die DECT-Basis deaktivieren? Alle verbundenen Schnurlostelefone werden von dieser Basisstation getrennt")){
+					loc += '&action=active';
+				}else{
+				}
+			}
+		}
+	   
+		loc += '&sessionKey='+sessionkey;		
+		}
+		ButtenFlag = 1;
+		var code = 'location="' + loc + '"';
+		eval(code);
+   }   
+}
+
+function PINcheck(){
+	with ( document.forms[0] ) {
+		var NumberCheckError = document.getElementById('pinCode').value.replace(/[0-9]/g,'');
+		if((document.getElementById('pinCode').value.length == 0) || (NumberCheckError.length != 0) ||(document.getElementById('pinCode').value.length<4)||(document.getElementById('pinCode').value.length>8))
+		{
+			//showErr('Bitte geben Sie eine PIN ein. Die Pin darf nur aus Zahlen bestehen und muss zwischen 4 und 8 Zeichen lang sein.');
+			return false;
+		}
+		
+		return true;
+	}
+		
+}
+
+function doDectPaging(current_view,position){ 
+   with ( document.forms[0] ) {
+		var loc = 'voiceDectPaging.cmd?'; 
+		loc += 'currentview='+current_view;
+		loc += '&InternalType=X_DECT';
+		loc += '&Position='+position;
+		if(position>=1){
+			loc += '&HandsetId='+DectRegDevIds[(position-1)];
+		}
+		loc += '&sessionKey='+sessionkey;		
+		var code = 'location="' + loc + '"';
+		eval(code);
+   }   
+}
+
+
+function startDectDelete(current_view,position){ 
+   with ( document.forms[0] ) {
+
+	var delConfirm = window.confirm('Möchten Sie den Eintrag löschen?');
+		if(delConfirm)
+		{
+		showWait();
+		var loc = 'voiceinternaldelete.cmd?'; 
+		loc += '&currentview='+current_view;
+		loc += '&InternalType=X_DECT';
+		loc += '&Position='+position;
+		if(position>=1){
+			loc += '&HandsetId='+DectRegDevIds[(position-1)];
+		}
+		loc += '&InternalName=' +eval("document.getElementById('DECT').rows["+position+"].cells[0].innerHTML");
+		loc += '&InternalNumber=' + eval("document.getElementById('DECT').rows["+position+"].cells[1].innerHTML");
+		loc += '&sessionKey='+sessionkey;		
+		var code = 'location="' + loc + '"';
+		eval(code);
+		}
+   }   
+}
+
+function startDataModify(type,position){ 
+   with ( document.forms[0] ) {
+		var loc = 'DECT_Add.html#'; 
+		loc += 'InternalType='+type;
+		loc += '&Position='+position;
+		if(position>=1){
+			loc += '&HandsetId='+DectRegDevIds[(position-1)];
+		}
+		loc += '&InternalName=' +eval("document.getElementById('DECT').rows["+position+"].cells[0].innerHTML");
+		loc += '&InternalNumber=' + eval("document.getElementById('DECT').rows["+position+"].cells[1].innerHTML");
+		loc += '&sessionKey='+sessionkey;		
+		var code = 'location="' + loc + '"';
+		eval(code);
+   }   
+}
+
+function printInternalTable()
+{
+	with(document.forms[0]){
+
+		document.writeln('<table class="myTable font12" width="530" id="DECT">');
+		document.writeln('<tr class="bold">');
+			document.writeln('<td width="160">Name</td>');
+			document.writeln('<td width="160">Interne Rufnummer</td>');
+			document.writeln('<td></td>');
+			document.writeln('<td></td>');
+			document.writeln('<td></td>');
+		document.writeln('</tr>');
+	
+		for(var index=0 ;((index < DECTInternalName.length) && (DECTInternalName[0] != "")); index++)
+		{				
+					document.writeln('<tr>');
+
+				document.writeln('<td>'+DECTInternalName[index]+'</td>');
+				document.writeln('<td>'+DECTInternalNumber[index]+'</td>');				
+				document.writeln('<td><a href="#" class="linkStyle" onclick="startDataModify('+"'X_DECT',"+(index+1)+');">ändern</a></td>');
+				document.writeln('<td><a href="#" class="linkStyle" onclick="startDectDelete('+"'Telephony_DECT.html',"+(index+1)+'); return false;">löschen</a></td>');				
+				document.writeln('<td><a href="#" class="linkStyle" onclick="doDectPaging('+"'Telephony_DECT.html',"+(index+1)+'); return false;">anklingeln</a></td>');
+					document.writeln('</tr>');
+				}
+		document.writeln('</table>');
+	}
+}
+parent.document.getElementById("headerText").innerHTML="<b>Telefonie&nbsp;&nbsp; </b>Konfiguration";
+
+window.onload=function(){
+	operaResize();
+	var Newhandset = '<%ejGetVoice(DectFpNewStatus)%>' ;
+	if (Newhandset=='0'){
+		showErr("Die  Anmeldung des DECT Handsets war nicht erfolgreich. Bitte prüfen Sie die PIN-Eingabe im Handset entsprechend der PIN der Basisstation und versuchen Sie es noch einmal.");
+	}
+}
+</script>
+<style type="text/css">
+/* HOVER STYLES */
+
+div.item { width:5px; height:5px;float:right; cursor: pointer;}
+div#item_3 {}            
+
+
+body{position: relative;}
+.btn{ margin-left: 105px; clear: both}
+.msg{ width : 255px ; height:130px ; background:#363636; display:none; position: absolute; color:#ffffff;
+		top:230px; left:15%; padding:20px;border: 0px; z-index:99; font-family: Arial; font-size: 14px;	
+}
+</style>
+
+
+</head>
+
+<body class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabDB" value="DECT" onclick="location.href='Telephony_DECT.html'"></td>
+					<td><input type='button' class='tabB' value='Analog-Geräte' onclick="location.href='Telephony_AnalogDevice.html'"></td>
+					<td><input type='button' class='tabB' value='ISDN-Geräte' onclick="location.href='Telephony_IsdnDevice.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form>				
+				<div class="stepWrapper">
+				<div class="subhead" style="margin-bottom:-3px;">DECT-Basisstation aktivieren</div>
+					<table class="alignment">
+						<tr>
+							<td class="<%ejGetVoice(DectFpActiveColorStatus)%>" colspan="2"><div class="myTable" style="height:20px;line-height:21.5px"> Die DECT-Basis ist <%ejGetVoice(DectBaseState)%></div></td>
+							<td width="141"><a href="Telephony_DECT.html" onclick="doDectActive('active');return false;"> <%ejGetVoice(DectStateButton)%></a></td>
+						</tr>	
+						<tr>
+							<td class="<%ejGetVoice(DectFpEcomodeColorStatus)%>" colspan="2"><div class="myTable" style="height:20px;line-height:21.5px"> Der DECT-Ecomode ist <%ejGetVoice(DectBaseEcoMode)%> </div></td>
+							<td><a href="Telephony_DECT.html" onclick="doDectActive('ecoModeActive');return false;"><%ejGetVoice(DectEcoButton)%></a></td>
+						</tr>
+						<tr>
+							<td width="162"><font style="font-size:15px" color="#192227" face="Arial">Anmelde-PIN-Vergabe
+								<div id="item_3" class="item"><img src="images/iicon.jpg" height="15" width="15">
+									<div class="tooltip_description" style="display:none">
+										Durch die Vergabe einer individuellen Anmelde-PIN vermeiden Sie, dass unerwünschte Schnurlostelefone an Ihre DECT-Basisstation angemeldet werden können.
+									</div>
+								</div>
+						  </font></td>
+						  <td width="181"><span style="padding-left:10px;">:</span>
+					      <input type="text" id="pinCode" class="blue_frame" style="width:100px" value='<%ejGetVoice(DectBasePin)%>' maxlength="8" ></td>
+							<td><a href="#" onclick="doDectActive('pinCodeEdit');return false;"><img src="images1/confirm.gif"></img></a></td>
+						</tr>
+								  				  				  
+					</table>
+					
+				<div class="subhead">Angemeldete DECT-Telefone</div>
+					<div><a href="#" class="show" onclick="showWait();doDectHsRegistration();return false;"><img src="images1/mobileAppend.gif"></img></a></div>
+					<div class="msg">Der Anmeldevorgang Ihrer DECT-Basisstation läuft. Bitte starten Sie innerhalb 1 Minute die Registrierung an Ihrem DECT-Telefon und geben Sie die Anmelde-PIN ein.<br>In dieser Zeit ist eine Bedienung der Oberfläche nicht möglich.<br> <button class="btn" type="button">OK</button> </div>
+					<div style="margin-top:6px;"></div>
+						<SCRIPT LANGUAGE="JavaScript">
+						printInternalTable();
+						</SCRIPT>	  				  
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='DECT'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar_DECT">
+		</div>
+	</div>
+
+</body>
+</html>

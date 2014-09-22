@@ -1,0 +1,51 @@
+#!/bin/sh
+#
+# Samba starting script for Broadcom Linux Gateway
+#
+
+# This script is meant to start samba daemons : smbd and nmbd.
+# it works when config files and binaries are part of the file systems
+# as well as when they are all stored somewhere in one place e.g. a usb Key 
+
+# logs, pids, private data, etc will be stored there - 
+# Note /tmp must exists - at least 256K large recommended
+export SMBLCLDIR=/var/tmp/smbvar
+rm -Rf ${SMBLCLDIR}*
+mkdir -p ${SMBLCLDIR}
+
+# Binaries will be taken either from current dir or from /bin
+export HERE=`pwd`
+export PATH=${PATH}:${HERE}
+
+# If local smb.conf exists then use it, otherwise assume in it in /etc/..
+if [ -e ${HERE}/smb.conf ]
+then
+  export SMBCONF=${HERE}/smb.conf
+else
+  export SMBCONF=/etc/samba/smb.conf
+fi
+
+echo Using ${SMBCONF}
+
+# If local smb.passwd exists then use it, otherwise assume in it in /etc/..
+if [ -e ${HERE}/smb.passwd ]
+then
+  export SMBPASSFILE=${HERE}/smb.passwd
+else
+  export SMBPASSFILE=/etc/samba/smb.passwd
+fi
+
+echo Using ${SMBPASSFILE}
+
+# If both smbd and nmbd binary files exists, then use it, otherwise take them from path
+if [ -e ${HERE}/nmbd ] && [ -e ${HERE}/smbd ]
+then
+  export EXECPATH=${HERE}/
+  echo Path to binaries : ${EXECPATH}
+else
+  echo Binaries taken from PATH
+fi
+
+${EXECPATH}nmbd -D -s ${SMBCONF} -l=${SMBLCLDIR} --lockdir=${SMBLCLDIR} --piddir=${SMBLCLDIR} --private-dir=${SMBLCLDIR} --smb-passwd-file=${SMBPASSFILE}
+${EXECPATH}smbd -D -s ${SMBCONF} -l=${SMBLCLDIR} --lockdir=${SMBLCLDIR} --piddir=${SMBLCLDIR} --private-dir=${SMBLCLDIR} --smb-passwd-file=${SMBPASSFILE}
+

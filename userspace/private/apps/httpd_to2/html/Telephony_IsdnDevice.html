@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+
+var ISDNInternalNameList = '<%ejGetVoice(IsdnInternalNameList)%>';
+var ISDNInternalName = ISDNInternalNameList.split(" ");
+
+var ISDNInternalNumberList = '<%ejGetVoice(IsdnInternalNumberList)%>';
+var ISDNInternalNumber = ISDNInternalNumberList.split(" ");
+
+var ISDNInternalIndexList = '<%ejGetVoice(IsdnInternalIndexList)%>';
+var ISDNInternalIndex = ISDNInternalIndexList.split(" ");
+
+function startDataDelete(current_view,position){ 
+   with ( document.forms[0] ) {
+
+		var delConfirm = window.confirm('Möchten Sie den Eintrag löschen?');
+		if(delConfirm)
+		{
+			var loc = 'voiceinternaldelete.cmd?'; 
+			loc += '&currentview='+current_view;
+			loc += '&InternalType=X_ISDN';
+			loc += '&Position='+position;
+			if(position>=1){
+				loc += '&IsdnIndex='+ISDNInternalIndex[(position-1)];
+			}
+			loc += '&InternalName=' + eval("document.getElementById('ISDN').rows["+position+"].cells[0].innerHTML");
+			loc += '&InternalNumber=' +  eval("document.getElementById('ISDN').rows["+position+"].cells[1].innerHTML");
+			loc += '&sessionKey='+sessionkey;		
+			var code = 'location="' + loc + '"';
+			eval(code);
+		}
+   }   
+}
+
+function startDataModify(type,position){ 
+   with ( document.forms[0] ) {
+		var loc = 'IsdnDevice_Add.html#'; 
+		loc += 'InternalType='+type;
+		loc += '&Position='+position;
+		loc += '&InternalName=' + eval("document.getElementById('ISDN').rows["+position+"].cells[0].innerHTML");		
+		loc += '&InternalNumber=' +  eval("document.getElementById('ISDN').rows["+position+"].cells[1].innerHTML");
+		loc += '&sessionKey='+sessionkey;		
+		var code = 'location="' + loc + '"';
+		eval(code);
+   }   
+}
+
+function doISDNAdd(){
+	if(8 <= ISDNInternalName.length){
+		//alert("Nur 8 ISDN-Telefon unterstutzt werden kann!"); 
+		showErr('Es werden 8 ISDN-Telefone unterstützt.');   
+		return ;
+	}
+
+	with ( document.forms[0] ) {
+		var loc = 'IsdnDevice_Add.html#';		
+		var code = 'location="' + loc + '"';  
+		eval(code);
+   }  
+	
+}
+
+function printInternalTable()
+{
+	with(document.forms[0]){
+
+		document.writeln('<table class="myTable font12" width="530" id="ISDN">');
+		document.writeln('<tr class="bold">');
+			document.writeln('<td width="180">Name</td>');
+			document.writeln('<td width="120">Interne Rufnummer</td>');
+			document.writeln('<td width="50"></td>');
+			document.writeln('<td></td>');
+		document.writeln('</tr>');
+	
+		for(var index=0 ;((index < ISDNInternalName.length) && (ISDNInternalName[0] != "")); index++)
+		{				
+					document.writeln('<tr>');
+				document.writeln('<td>'+ISDNInternalName[index]+'</td>');
+				document.writeln('<td>'+ISDNInternalNumber[index]+'</td>');				
+				document.writeln('<td><a href="#" class="linkStyle" onclick="startDataModify('+"'X_ISDN',"+(index+1)+');">ändern</a></td>');
+				document.writeln('<td><a href="#" class="linkStyle" onclick="startDataDelete('+"'Telephony_IsdnDevice.html',"+(index+1)+');return false;">löschen</a></td>');				
+					document.writeln('</tr>');
+				}
+		document.writeln('</table>');
+	}
+}
+parent.document.getElementById("headerText").innerHTML="<b>Telefonie&nbsp;&nbsp; </b>Konfiguration";
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onload="operaResize();faddingReload();">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabB" value="DECT" onclick="location.href='Telephony_DECT.html'"></td>
+					<td><input type='button' class='tabB' value='Analog-Geräte' onclick="location.href='Telephony_AnalogDevice.html'"></td>
+					<td><input type='button' class='tabDB' value='ISDN-Geräte' onclick="location.href='Telephony_IsdnDevice.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:400px;_height:400px;">	
+			<div class="left">
+			<form>				
+				<div class="stepWrapper">
+				<div class="subhead">Angeschlossene ISDN-Geräte</div>
+				<div><a href="#" onclick="doISDNAdd();"><img src="images1/isdnDeviceAppend.gif"/></a></div>
+				<div style="margin-top:6px;"></div>
+						<SCRIPT LANGUAGE="JavaScript">
+					printInternalTable();
+						</SCRIPT>			  				  				  
+				</div>		
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='ISDN'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+		</div>
+	</div>
+
+</body>
+</html>

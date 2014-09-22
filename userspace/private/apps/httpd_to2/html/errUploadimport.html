@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--[if IE]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<style type="text/css">
+.body_no_scroll{
+  overflow:hidden;
+}
+.content_right{
+	padding:12px 0 0 22px;
+	_padding:20px 0 0 26px;
+	width: 777px;
+	border:0px solid #000000;
+	behavior: url(css3pie/PIE.htc); /* use ie-css3 */
+}
+
+.bg_body_auto{
+	float:left;position:relative;
+	padding-left:25px;padding-bottom:5px;_padding-bottom:25px;
+	width: 748px;height:auto;
+	margin-left:-2px;
+	
+	border-top:2px solid #19224F;
+	border-left:2px solid #19224F;
+	border-right:2px solid #19224F;
+	border-radius:6px 6px 0px 0px;
+	behavior: url(css3pie/PIE.htc); /* use ie-css3 */
+		-moz-border-radius:6px 6px 0px 0px;
+		-webkit-border-radius:6px 6px 0px 0px;
+} 
+.left{
+	width:73%;
+	border:0px solid #FF0000;
+	float:left;
+	padding-top:12px;
+}
+
+.right{
+	width:24.5%;
+	border:0px solid #0000FF;
+	float:right;
+	padding-top:10px;
+}
+.stepWrapper{
+	border:0px solid #000000;
+	width: 500px;
+	font-size:15px;font-family: Arial;
+	color:#19224F;
+	margin-bottom:20px;
+}
+.headline{
+	font-size: 19px;font-weight: bold;font-family: Arial;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	color:#19224F;
+}
+.bg_bottom_bar{
+	width:773px;
+	height:30px;
+	background-color:#19224F;
+	border:2px solid #19224F;
+	border-top:0px solid #19224F;
+	margin-top:-3px;
+	margin-left:-2px;
+	_margin-left:0px;/*ie6*/
+	_margin-top:-16px;/*ie6*/
+	float:left;position:relative;
+
+	
+	border-radius:0px 0px 5px 5px;
+	behavior: url(css3pie/PIE.htc); /* use ie-css3 */
+		-moz-border-radius:0px 0px 5px 5px;
+		-webkit-border-radius:0px 0px 5px 5px;
+}
+
+.button_center{
+	margin-left:300px;
+	padding-top:2px;
+}
+
+.image{
+	background: url(images1/back.gif) no-repeat;
+	width:150px;height:28px;
+}
+
+.red_head{
+	width:170px;height:26px;	line-height:26px;
+	border-top:1px solid #19224F;
+	border-left:1px solid #19224F;
+	border-right:1px solid #19224F;
+	background-color: #B22222;
+	border-radius:7px 7px 0px 0px;/* IE 6+  */
+		-moz-border-radius:7px 7px 0px 0px;
+		-webkit-border-radius:7px 7px 0px 0px;	
+	font-size:16px;font-weight:bold;
+	text-align:center;color:#FFFFFF;font-family: Arial;
+}
+
+.red_text{
+	width:170px;height:auto;
+	border:1px solid #19224F;
+	border-radius:0px 0px 5px 5px;/* IE 6+  */
+		-moz-border-radius:0px 0px 5px 5px;
+		-webkit-border-radius:0px 0px 5px 5px;		
+	border-spacing:0px;
+	padding:5px;
+	color:#19224F;font-size:13px;font-family: Arial;
+}
+
+.red_head_ie8{
+	width:170px;height:28px;	line-height:28px;
+	background: url(images1/help_red.png) no-repeat;
+	font-size:16px;font-weight:bold;
+	text-align:center;color:#FFFFFF;font-family: Arial;
+}
+
+.red_text_ie8{
+	width:170px;height:auto;
+	border-left:1px solid #19224F;
+	border-right:1px solid #19224F;
+		
+	padding:5px;
+	color:#19224F;font-size:13px;font-family: Arial;
+}
+
+.red_text_bottom_ie8{
+	width:170px;height:10px;
+	border:0px solid #19224F;
+	background: url(images1/help_bottom.gif) no-repeat;
+}
+
+.red_errText_ie8{
+	width:170px;height:auto;
+	border-left:1px solid #19224F;
+	border-right:1px solid #19224F;
+
+	padding:5px;
+	color:#19224F;font-size:13px;font-family: Arial;
+}
+ 
+.red_tail_ie8{
+	width:170px;height:27px;	line-height:27px;
+	border:0px solid #990000;
+	background: url(images1/error_close.gif) no-repeat;
+	font-size:16px;font-weight:bold;
+	text-align:center;color:#FFFFFF;font-family: Arial;
+}
+
+</style>
+<SCRIPT LANGUAGE="JavaScript">
+var isIE8 = navigator.userAgent.search("MSIE 8") > -1;
+var isOpera = navigator.userAgent.search("Opera") > -1;
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+function operaResize()
+{
+	if(isOpera)
+	{
+		var elem = document.getElementById('defaultId');
+		
+		if(elem)
+		{
+			var height;
+			if(elem.className == "bg_body_auto")
+			{
+				height = elem.offsetHeight + 52;
+			}
+			else if (elem.className == "bg_body_auto2")
+			{
+				height = elem.offsetHeight + 82;
+			}
+			else
+			{
+				height = 600;
+			}
+			
+			parent.document.getElementById("mainframe").height = height;
+		}
+	}
+}
+
+function showMsg()
+{
+	var element = document.getElementById('help');
+	//var msg = 'Es wurde keine bzw. eine ungültige Konfigurations-<wbr>datei ausgewählt. Bitte wiederholen Sie den Vorgang.';
+	var msg = 'Es wurde keine bzw. eine ungültige Telefonbuchdatei ausgewählt. Bitte wiederholen Sie den Vorgang.';
+	
+	if(isIE8)
+	{
+		str = "<table cellspacing='0' cellpadding='0' width='170'>";
+		str += "<tr><td class='red_head_ie8'>Hinweis</td></tr>";
+		str += "<tr><td class='red_text_ie8'>" + msg + "</td></tr>";
+		str += "<tr><td class='red_text_bottom_ie8'></td></tr>";
+		str += "</table>";
+	}
+	else
+	{
+		str = "<table cellspacing='0' cellpadding='0' width='170'>";
+		str += "<tr><td class='red_head'>Hinweis</td></tr>";
+		str += "<tr><td class='red_text'>" + msg + "</td></tr>";
+		str += "</table>";
+	}
+	
+	element.innerHTML = str;
+}
+
+function detectBrowser(){
+	var sAgent = navigator.userAgent.toLowerCase();
+	this.isIE = (sAgent.indexOf("msie")!=-1); //IE6.0-7
+	this.isIE6 = (sAgent.indexOf("msie 6")!=-1); //IE6
+	this.isIE7= (sAgent.indexOf("msie 7")!=-1); //IE7
+}
+
+parent.document.getElementById("headerText").innerHTML="<b>Telefonie&nbsp;&nbsp; </b>Telefonbuch";
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onLoad='operaResize();'>
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+					<div class="headline">Das Laden der Telefonbuchdatei ist fehlgeschlagen.</div>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help'>
+				<script type="text/javascript">
+					showMsg();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+<script type="text/javascript">
+	document.write("<div class='button_center'><a href='voiceservicephonebook.cmd?action=view'>");
+</script>
+        <div class="image"></div></a></div>
+		</div>
+	</div>
+</body>
+
+</html>
+

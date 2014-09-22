@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="javascript">
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+var dhcpStaticAddressEnable = '<%ejGet(dhcpStaticAddressEnable)%>';
+var dhcpStaticAddressChaddr = '<%ejGet(dhcpStaticAddressChaddr)%>';
+var dhcpStaticAddressYiaddr = '<%ejGet(dhcpStaticAddressYiaddr)%>';
+var dhcpStaticAddressDevname = '<%ejGet(dhcpStaticAddressDevname)%>';
+var dhcpStaticAddressIndex = '<%ejGet(dhcpStaticAddressIndex)%>';  
+var ethIpAddress = '<%ejGet(ethIpAddress)%>';
+var staticiplease_count = 0;
+function selectEntry(){
+	with ( document.forms[0] ) {
+		  var indexMAC;
+		  for (i = 0; i < rad.length; i++) {
+			 if ( rad[i].checked == true ){
+				  indexMAC = i;
+				}
+		  }  
+		  var staticiplease = '<%ejGet(landevicestatus)%>';
+          var info = staticiplease.split('|');
+		  splitDhcpAddress();
+		  if(indexMAC <  staticiplease_count){
+		  	  setOtherValue(info[indexMAC]);		  
+		  }
+	}
+}
+
+function frmLoad() {
+
+   with ( document.forms[0] ) {
+		splitDhcpAddress();	  	 
+   }
+}
+
+function setOtherValue(info){
+	with ( document.forms[0] ) {
+		var names = info.split('/');
+		
+		if(names[0] != '-'){
+			MACParts = names[0].split(':');
+			MacAddr1.value = MACParts[0];
+			MacAddr2.value = MACParts[1];
+			MacAddr3.value = MACParts[2];
+			MacAddr4.value = MACParts[3];
+			MacAddr5.value = MACParts[4];
+			MacAddr6.value = MACParts[5];
+		}
+		
+		addrParts = names[1].split('.');
+		IpAddr4.value = addrParts[3];		
+
+		if(names[2] != '-') {
+			if(names[2].length > 63)
+				devName.value = names[2].substring(0, 63);
+			else
+				devName.value = names[2];
+		}
+		else
+			devName.value = '';
+	}
+}
+
+function splitDhcpAddress()
+{
+	with ( document.forms[0] ) {
+		addrParts = dhcpStaticAddressYiaddr.split('.');
+		IpAddr1.value = addrParts[0];
+		IpAddr2.value = addrParts[1];
+		IpAddr3.value = addrParts[2];
+		IpAddr4.value = addrParts[3];
+		
+		if(dhcpStaticAddressChaddr != '')
+		{
+			macParts = dhcpStaticAddressChaddr.split(':');
+			MacAddr1.value = macParts[0];
+			MacAddr2.value = macParts[1];
+			MacAddr3.value = macParts[2];
+			MacAddr4.value = macParts[3];
+			MacAddr5.value = macParts[4];
+			MacAddr6.value = macParts[5];
+		}
+		else
+		{
+			MacAddr1.value = '';
+			MacAddr2.value = '';
+			MacAddr3.value = '';
+			MacAddr4.value = '';
+			MacAddr5.value = '';
+			MacAddr6.value = '';
+		}
+		
+		devName.value = dhcpStaticAddressDevname;
+		
+		if(dhcpStaticAddressEnable == 1)
+			staticCheckbox.checked = 1;
+		else
+			staticCheckbox.checked = 0;
+		
+	}
+}
+
+function btnApply() {
+   var loc = 'dhcpdstaticlease.cmd?action=edit_to2';
+   var reg_char = /^[A-Za-z0-9\-\.]*$/; /*legal of character*/
+   with ( document.forms[0] ) {
+		var IpAddress_part1 =  parseInt(IpAddr1.value);
+		var IpAddress_part2 =  parseInt(IpAddr2.value);
+		var IpAddress_part3 =  parseInt(IpAddr3.value);
+		var IpAddress_part4 =  parseInt(IpAddr4.value); 	
+      if (isValidMacAddress(MacAddr1.value + ':' + MacAddr2.value + ':' + MacAddr3.value + ':' + MacAddr4.value + ':' + MacAddr5.value + ':' + MacAddr6.value) == false) {
+		showErr('Die MAC-Adresse "' + MacAddr1.value + ':' + MacAddr2.value + ':' + MacAddr3.value + ':' + MacAddr4.value + ':' + MacAddr5.value + ':' + MacAddr6.value + '" ist ungültig.');
+  		return;
+	  }
+	  else if (isValidIpAddress(IpAddress_part1 + '.' + IpAddress_part2 + '.' + IpAddress_part3 + '.' + IpAddress_part4) == false ||
+	  			IpAddress_part4 == 0 ||
+				IpAddress_part4 == 255 ||
+				IpAddress_part1 + '.' + IpAddress_part2 + '.' + IpAddress_part3 + '.' + IpAddress_part4 == ethIpAddress) 
+	  {
+	  	  showErr('Die IP Adresse "' + IpAddr1.value + '.' + IpAddr2.value + '.' + IpAddr3.value + '.' + IpAddr4.value + '" ist ungültig.');
+	      return;
+      }  
+      else {
+			var staticiplease = '<%ejGetOther(staticiplease)%>';
+			var info = staticiplease.split('|');
+			for (i = 0; i < info.length; i++) {
+				var names = info[i].split('/');
+				if (names[4] == dhcpStaticAddressIndex) {continue;}
+				else if ((names[0] == (MacAddr1.value + ':' + MacAddr2.value + ':' + MacAddr3.value + ':' + MacAddr4.value + ':' + MacAddr5.value + ':' + MacAddr6.value)) || (names[1] == (IpAddress_part1 + '.' + IpAddress_part2 + '.' + IpAddress_part3 + '.' + IpAddress_part4))) {
+					showErr('Die von Ihnen eingerichtete statische DHCP-Adresse wird schon in einer anderen Regel verwendet.');
+					return;
+				}
+			}
+			
+			var laniplease = '<%ejGet(landevicestatus)%>';
+			var laninfo = laniplease.split('|');
+			
+			if (laninfo != '') {
+				for ( i = 0; i < laninfo.length; i++ ) 
+				{						 
+					var names = laninfo[i].split('/');
+					if ((names[0] != (MacAddr1.value + ':' + MacAddr2.value + ':' + MacAddr3.value + ':' + MacAddr4.value + ':' + MacAddr5.value + ':' + MacAddr6.value)) && (names[1] == (IpAddress_part1 + '.' + IpAddress_part2 + '.' + IpAddress_part3 + '.' + IpAddress_part4))) {
+						showErr('Die statische DHCP Adresse wird bereits von einem verbundenen Gerät benutzt. Bitte vergeben Sie eine andere Adresse.');
+						return;
+					}
+				}
+			}
+			
+			if(staticCheckbox.checked == 1)
+				loc += '&staticAddressEnbl=1';
+			else
+				loc += '&staticAddressEnbl=0';
+				
+			if (devName.value != "")
+			{
+				//check hostname
+				if (!reg_char.test(devName.value) ) {
+					//showErr('The Hostname should be [0-9], [a-z], [A-Z], [-.]');
+					showErr('Der GeräteName darf nur aus den Zeichen [0-9], [a-z], [A-Z] und [-.] bestehen.');
+					return;
+				}
+			}
+			loc += '&devname=' + devName.value;	
+	        loc += '&mac=' + MacAddr1.value + ':' + MacAddr2.value + ':' + MacAddr3.value + ':' + MacAddr4.value + ':' + MacAddr5.value + ':' + MacAddr6.value;
+			
+    	    loc += '&static_ip=' + IpAddress_part1 + '.' + IpAddress_part2 + '.' + IpAddress_part3 + '.' + IpAddress_part4;	    
+            loc += '&sessionKey=' + sessionKey;
+   	      var code = 'location="' + loc + '"';
+		  fadding();
+   	      eval(code);
+      }
+   }
+}
+function hideTable(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'hidden';
+	   if (document.getElementById)  // DOM3 = IE5, NS6
+		  document.getElementById('myTableID').style.visibility = status;
+	   else {
+		  if (document.layers == false) // IE4
+			 document.all.myTableID.style.visibility = status;
+	   }
+	}
+parent.document.getElementById("headerText").innerHTML="<b>Heimnetz&nbsp;&nbsp; </b>LAN";
+</script>
+</head>
+
+<body onload="frmLoad();operaResize();faddingReload();" class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabDB" value="DHCPv4" onclick="location.href='HomeGroup_LAN_DHCP.html'"></td>
+					<td><input type="button" class="tabB" value="DHCPv6" onclick="location.href='HomeGroup_LAN_FixedIpAddress.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+					<div class="subhead">DHCP-Eintrag erstellen</div>
+					<table class="alignment">
+						<tr height="50">
+							<td >
+								<input type="checkbox" name="staticCheckbox">&nbsp;&nbsp;&nbsp;&nbsp;Diese Regel aktivieren
+							</td>							
+						</tr>
+					</table>
+				</div>	
+				
+			<table class="myTable" style="visibility:hidden" id="myTableID">
+			<tr><td>
+				<div class="stepWrapper">	
+					<table class="alignment" style="font-size:12px">					
+						<tr height="50">
+							<td width="32"></td>
+							<td width="130"><b>Gerätename</b></td>
+							<td width="200"><b>MAC-Adresse</b></td>	
+							<td width="130"><b>IPv4-Adresse</b></td>
+						</tr>						
+						<script language="javascript">
+                       <!-- hide
+                       {
+                          var i = 0;
+                          var staticiplease = '<%ejGet(landevicestatus)%>';
+                          var info = staticiplease.split('|');
+                          staticiplease_count = 0;
+
+                          if (info != '') {
+                             for ( i = 0; i < info.length; i++ ) 
+                             {						 
+                                var names = info[i].split('/');
+                                document.writeln("<tr>");
+								document.writeln("	<td> <input type='radio' onclick='selectEntry()' name='rad'></td>");
+								document.writeln("	<td width='160'>" + names[2] + "</td>");
+								document.writeln("	<td width='170'>" + names[0] + "</td>");
+			           			document.writeln("	<td width='130'>" + names[1] + "</td>");
+								document.writeln("</tr>");      										
+                                staticiplease_count ++;
+                             }
+                          }
+						  hideTable(0);
+                       }
+                       // done hiding -->
+                       </script>
+					   <tr>
+					   		<td> <input type='radio' onclick='selectEntry()' name='rad' checked="checked"></td>
+					   		<td>andere</td>
+					   </tr>
+					</table>
+				</div>
+				<div class="stepWrapper">
+					<table class="alignment" style="font-size:12px">					
+						<tr>
+							<td width="140">Gerätename:</td>
+							<td width="330">
+								<input type="text" class="blue_frame" style="width:150px" name="devName" maxlength="63">				
+							</td>
+						</tr>
+						<tr >
+							<td>MAC-Adresse:</td>
+							<td>
+								<input type="text" class="blue_frame" name="MacAddr1" maxlength="2">:
+								<input type="text" class="blue_frame" name="MacAddr2" maxlength="2">:
+								<input type="text" class="blue_frame" name="MacAddr3" maxlength="2">:
+								<input type="text" class="blue_frame" name="MacAddr4" maxlength="2">:
+								<input type="text" class="blue_frame" name="MacAddr5" maxlength="2">:
+								<input type="text" class="blue_frame" name="MacAddr6" maxlength="2">								
+						  </td>
+						</tr>					
+						<tr >
+							<td width="140">IPv4-Adresse:</td>
+							<td >
+								<input type="text" class="blue_frame" readonly="true" name="IpAddr1">.
+								<input type="text" class="blue_frame" readonly="true" name="IpAddr2">.
+								<input type="text" class="blue_frame" readonly="true" name="IpAddr3">.
+								<input type="text" class="blue_frame" name="IpAddr4" maxlength="3">	
+							</td>
+						</tr>	
+					</table>
+				</div>
+			</td></tr>
+			</table>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='DHCPv4_edit'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<!--<div class="button_center"><a href="#" onClick="showWait();btnApply()"><img src="images1/apply.gif"></img></a></div> -->
+			<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();btnApply()"></div>
+		</div>
+	</div>
+
+</body>
+</html>

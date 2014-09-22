@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta HTTP-EQUIV='Pragma' CONTENT='no-cache;charset=utf-8'>
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+function frmLoad() {
+	
+	if(isIE || isOpera || isSafari)
+	{
+		document.forms[0].ddnsMode.style.width = "179px";
+	}
+	
+	
+	with (document.forms[0]) {
+		ddnsMode.selectedIndex = 0;
+	}
+}
+
+function btnApply(place) {
+  var loc = place + '?action=add&service=';
+
+  if ( place == "dyndns.cmd" ) {
+    with ( document.forms[0] ) {
+	  loc += ddnsMode.options[ddnsMode.selectedIndex].value;
+
+      if((checkssid(ddnsHostname.value) == false) || (checkssid(dyndnsUsername.value) == false) || (checkssid(dyndnsPassword.value) == false)){
+	  	showErr('Alle Namen können nur die Zeichen [0-9], [a-z], [A-Z], [!@#~%-+=,$%^&*()_{}[]\\<>?/.`:\';\"|] existiert.');
+	  	return;
+      }
+
+ /*     if ( account.value.length == 0 ) {
+		showErr('Das Feld Konto ist leer. Bitte geben Sie einen Namen für das Konto ein (frei wählbar).');
+        //alert('Account is empty. Please input the account.');
+        return;
+      }
+	  else*/
+/*      if ( account.value.length == 0 || account.value.length > 32 )
+      {
+		showErr('Das Konto muss zwischen 1 und 32 Zeichen lang sein.');
+	  	//showErr('Der Konto darf nicht länger als 32 Zeichen sein.');
+		//alert('The string length of account should be less than 32.');
+		return;
+      }
+	  loc += '&account=' + account.value;
+*/	  
+      if ( ddnsHostname.value.length == 0 ) {
+	  	showErr('Das Feld Domain-Name ist leer. Bitte geben Sie den Domain-Namen ein.');
+        //alert('Domain-Name is empty. Please input the Domain-Name.');
+        return;
+      }
+	  else if ( ddnsHostname.value.length > 64 )
+	  {
+		//showErr('Das Feld Domain-Name ist leer. Bitte geben Sie den Domain-Namen ein.');
+	  	showErr('Der Domain-Name darf nicht länger als 64 Zeichen sein.');
+		//alert('The string length of Domain-Name should be less than 64.');
+		return;
+	  }
+	  loc += '&hostname=' + encodeUrl(ddnsHostname.value);
+	  		
+      if ( dyndnsUsername.value.length == 0 ) {
+	  	  showErr('Das Feld Benutzername ist leer. Bitte geben Sie den Benutzernamen ein.');	
+          //alert('Username is empty. Please input the username.' );
+        return;
+      }
+	  else  if ( dyndnsUsername.value.length > 64 )
+	  {
+		//showErr('Der Benutzername muss zwischen 1 und 64 Zeichen lang sein.');
+	  	showErr('Der Benutzername darf nicht länger als 64 Zeichen sein.');
+		//alert('The string length of Benutzername should be less than 64.');
+		return;
+	  }
+      loc += '&username=' + encodeUrl(dyndnsUsername.value);
+
+      if ( dyndnsPassword.value.length == 0 ) {
+	  	showErr('Das Feld Kennwort ist leer. Bitte geben Sie das Kennwort ein.');
+        //alert('Password is empty. Please input the password.' );
+        return;
+      }
+	  else if ( dyndnsPassword.value.length == 0 || dyndnsPassword.value.length > 64 )
+	  {
+		//showErr('Das Kennwort muss zwischen 1 und 64 Zeichen lang sein.');
+	  	showErr('Der Kennwort darf nicht länger als 64 Zeichen sein.');
+		//alert('The string length of Kennwort should be less than 64.');
+		return;
+	  }
+	  if ( dyndnsPassword.value != checkPassword.value ) {
+		showErr('Bitte geben Sie das richtige Kennwort ein.');
+		//showErr('Das eingegebene Kennwort stimmt nicht mit der Kennwortbestätigung überein. Wiederholen Sie bitte den Vorgang.  Achten Sie darauf, dass Sie zweimal dasselbe Kennwort eingeben.');
+		//alert('Please double confirm your password is correct.');
+        return;
+      }
+      loc += '&password=' + encodeUrl(dyndnsPassword.value);
+ 
+      if(enableDdns.checked == true)
+        loc += '&enableDdns=' + 1;
+      else
+	  	loc += '&enableDdns=' + 0;
+
+    }
+    loc += '&sessionKey=' + sessionKey;
+    var code = 'location="' + loc + '"';
+	fadding();
+    eval(code);
+  }
+}
+
+parent.document.getElementById("headerText").innerHTML="<b>Internet&nbsp;&nbsp; </b>DynDNS";
+</script>
+</head>
+<body onLoad='frmLoad();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+				<div class="headline">DynDNS-Konto erstellen</div>
+				<table class="alignment">
+					<tr>
+						<td colspan="2" height="40"><input type="checkbox" name="enableDdns"> &nbsp;&nbsp;&nbsp;&nbsp;aktivieren</td>
+					</tr>
+					<tr>
+						<td width="160">DynDNS-Anbieter:</td>
+						<td><select class="blue_frame" style="width:177px" name='ddnsMode'>
+								<option value="1" selected="">www.dyndns.org</option>
+								<option value="2">www.dnsdynamic.org</option>
+								<option value="3">www.changeip.com</option>
+								<option value="4">www.noip.com</option>
+								<option value="5">www.zoneedit.com</option>
+							</select>
+						</td>
+					</tr>
+					<!--<tr>
+						<td>Konto:</td>
+						<td><input type="text" class="blue_frame" style="width:150px" name="account"></td>
+					</tr>-->
+					<tr>
+						<td>Domain-Name:</td>
+						<td><input type="text" class="blue_frame" style="width:175px" name="ddnsHostname" maxlength="63"></td>
+					</tr>
+					<tr>
+						<td>Benutzername:</td>
+						<td><input type="text" class="blue_frame" style="width:175px" name="dyndnsUsername" maxlength="63"></td>
+					</tr>
+					<tr>
+						<td>Kennwort:</td>
+						<td><input type="password" class="blue_frame" style="width:175px" name="dyndnsPassword" maxlength="63"></td>
+					</tr>
+					<tr>
+						<td>Kennwortbestätigung:</td>
+						<td><input type="password" class="blue_frame" style="width:175px" name="checkPassword" maxlength="63"></td>
+					</tr>
+				</table>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='DynDNS_add'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_center">
+				<!--<a href="dyndns.cmd?action=view"><img src="images1/back.gif"></img></a>
+				<a onClick="showWait();btnApply('dyndns.cmd')" href="#"><img src="images1/apply.gif"></img></a>
+				<input type="button" class="button" value="Zurück" onclick="location.href='dyndns.cmd?action=view'">-->
+				<input type="button" class="button" value="Speichern" onclick="showWait();btnApply('dyndns.cmd')">	
+			</div>
+		</div>
+	</div>
+</body>
+</html>

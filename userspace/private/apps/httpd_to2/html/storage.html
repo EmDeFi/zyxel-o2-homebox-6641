@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta HTTP-EQUIV='Pragma' CONTENT='no-cache;charset=utf-8'>
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script type="text/javascript">
+
+var sessionKey = "<%ejGetOther(sessionKey)%>";
+
+function safeRmUsb(usbName) 
+{
+	if(confirm('Massenspeicher wird jetzt sicher entfernt.') == false)
+		return;
+	
+	showWait();
+	var loc = 'storageMngr.cmd?action=safeRmUsb&usbName='+ usbName;
+	loc += '&sessionKey=' + sessionKey;
+	
+	var code = 'location=\"' + loc + '\"';
+	fadding();
+	eval(code);
+}
+
+/* natual sorting, ex:Drive1_10 will after Drive1_9 */
+var naturalSort = function (a, b) {
+	var aa = String(a).split(/(-?\d*\.?\d+)/g);
+	var bb = String(b).split(/(-?\d*\.?\d+)/g);
+	var min = Math.min(aa.length, bb.length);
+ 
+	for (var i = 0; i < min; i++) {
+		var x = parseFloat(aa[i]) || aa[i].toLowerCase();
+		var y = parseFloat(bb[i]) || bb[i].toLowerCase();
+		if (x < y) return -1;
+		else if (x > y) return 1;
+	}
+	return 0;
+};
+
+parent.document.getElementById('headerText').innerHTML='<b>Heimnetz&nbsp;&nbsp; </b>USB';
+
+</script>
+
+</head>
+<body class="body_no_scroll" onLoad="operaResize();faddingReload();">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabDB" value="Massenspeicher" onclick="location.href='storage.html'"></td>
+					<td><input type="button" class="tabB" value="Drucker" onclick="location.href='printer.html'"></td>
+					<td><input type="button" class="tabB" value="Nutzerverwaltung" onclick="location.href='HomeGroup_USB_UserManagement.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:460px;_height:460px;" id="defaultId">
+			<div class="left">
+			<form>
+				<div class='stepWrapper'>
+					<div class="headline">Massenspeicher</div>
+					<table class='myTable font12' width='530'>
+						<tr class='bold'>
+							<td width='180'>Angeschlossenes Gerät</td>
+							<td>Speichergröße</td> 
+							<td>Freier Speicher</td>
+							<td>sicher entfernen</td>
+						</tr>
+						<script language="javascript">
+							var i=0;
+							var storageALL ='<%ejGetOther(storageList)%>';
+							var storage = storageALL.split('|');
+							storage.sort(naturalSort);
+							for( i = 0; i < storage.length; i++)
+								{
+									if (storage[i] != '') 
+									{
+										var tmp = storage[i].split(',');
+										document.write("<tr><td>"+tmp[0]+"</td><td>"+tmp[1]+"</td><td>"+tmp[2]+"</td><td align='center'><a href='#' onClick="+'"safeRmUsb('+"'"+tmp[0]+"')"+'">'+"<img src='images1/safeRmUsb.gif'></a></td></tr>");
+									}
+
+								}
+						</script>
+					</table>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Massenspeicher'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class='bg_bottom_bar'>
+			<!--<div class='button_center'><a href='storage.html'><img src='images1/update.gif' /></a></div> -->
+			<div class='button_center'><input type="button" class="button" value="Aktualisieren" onclick="location.href='storage.html'"></div>
+		</div>
+	</div>
+</body>
+</html>

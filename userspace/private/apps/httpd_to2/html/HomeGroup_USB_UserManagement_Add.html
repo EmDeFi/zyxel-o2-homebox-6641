@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta HTTP-EQUIV='Pragma' CONTENT='no-cache;charset=utf-8'>
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="javascript">
+<!-- hide
+var userInfo = '<%ejGetOther(fileShareUsers)%>';
+//var userInfo = 'admin|test|eason';
+var Users = userInfo.split('|');
+var sessionKey = "<%ejGetOther(sessionKey)%>";
+	
+function btnApply() {
+
+	var loc = 'CIFS_user.cmd?action=add';
+	/*legal of character*/
+	var reg_char = /^[A-Za-z0-9]*$/;  
+	/*number of character*/
+	var reg_user_num = /^[A-Za-z0-9]{1,8}$/;
+	var reg_pw_num = /^[A-Za-z0-9]{5,16}$/;
+	
+	with ( document.forms[0] ) 
+	{
+		if ( username.value == '' ) {
+			//alert( 'Please enter user name' );
+			showErr('Bitte geben Sie einen Benutzername ein.');
+			return;
+		}
+		
+		
+		//check username exist or not 
+		for(var i = 0; i < Users.length; i++)
+		{
+			if(username.value == Users[i]){
+				//alert("Username \""+ username.value +"\" already exist");
+				showErr("Der Benutzername \""+ username.value +"\" ist bereits vorhanden.");
+				return;
+			}
+		}
+	
+		//check username
+		if (!reg_char.test(username.value) ) {
+			//alert('Character of username should be [0-9],[a-z],[A-Z]');
+			showErr('Der Benutzername darf nur aus den Zeichen [0-9], [a-z], [A-Z] bestehen.');
+			return;
+		}
+		
+		if (!reg_user_num.test(username.value) ) {
+			//alert('Length of username should be 1-8');
+			showErr('Das Benutzername muss zwischen 1 und 8 Zeichen lang sein.');
+			return;
+		}
+	    
+		//check password
+		if ( passwd.value == '' ) {
+			//alert( 'Please enter password' );
+			showErr('Bitte geben Sie ein Kennwort ein.');
+			return;
+		}
+		
+		if (!reg_char.test(passwd.value) ) {
+			//alert('Character of password should be [0-9],[a-z],[A-Z]');
+			showErr('Das Kennwort darf nur aus den Zeichen [0-9], [a-z], [A-Z] bestehen.');
+			return;
+		}
+		if (!reg_pw_num.test(passwd.value) ) {
+			//alert('Length of password should be 5-16');
+			showErr('Das Kennwort muss zwischen 5 und 16 Zeichen lang sein.');
+			return;
+		}
+		
+		//check passwordcfm
+		if ( passwdcfm.value == '' ) {
+			//alert( 'Please enter password(confirm)' );
+			showErr('Bitte bestätigen Sie Ihr Kennwort.');
+			return;
+		}
+		if(passwdcfm.value != passwd.value){
+			//alert('Password(confirm) not match the password field, please re-type again');
+			showErr('Bitte geben Sie das richtige Kennwort ein.');
+			return;
+		}
+		
+		//enable
+		loc += '&enblUser=1';
+		/*
+		if(enblUser.checked == true)
+			loc += '&enblUser=1';
+		else
+			loc += '&enblUser=0';*/
+		
+		//username & password	
+		loc += '&username=' + username.value;
+		loc += '&password=' + passwd.value;
+		
+		//access
+		if(smbWrite.selectedIndex == 0)
+			loc += '&smbWrite=0';
+		else
+			loc += '&smbWrite=1';
+	}
+	
+	loc += '&sessionKey=' + sessionKey;
+	var code = 'location="' + loc + '"';
+	
+	//alert(code);
+	fadding();
+	eval(code);
+	
+}
+
+function frmLoad()
+{
+	if(isIE || isOpera || isSafari)
+		document.forms[0].smbWrite.style.width = "174px";
+}
+
+// done hiding -->
+parent.document.getElementById("headerText").innerHTML="<b>Heimnetz&nbsp;&nbsp;</b> USB";
+</script>
+
+</head>
+<body class="body_no_scroll" onLoad="frmLoad();operaResize();faddingReload();">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabB" value="Massenspeicher" onclick="location.href='storage.html'"></td>
+					<td><input type="button" class="tabB" value="Drucker" onclick="location.href='printer.html'"></td>
+					<td><input type="button" class="tabDB" value="Nutzerverwaltung" onclick="location.href='HomeGroup_USB_UserManagement.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form>
+				<div class="stepWrapper">
+				<div class="headline">Nutzer anlegen</div>
+				<table width="530" class='alignment'>
+					<!--<tr>
+						<td width="100">Enable</td>
+						<td><input type="checkbox" name="enblUser" checked="checked"></td>
+					</tr> -->
+					<tr>
+						<td class="bold">Schritt 1:</td>
+						<td width="150">Name</td>
+						<td><input type="text" name="username" class="blue_frame" style="width:170px" maxlength="8"></td>
+					</tr>
+					<tr>
+						<td class="bold">Schritt 2:</td>
+						<td>Zugriffstyp</td>
+						<td>
+							<select class="blue_frame" name="smbWrite" style="width:172px">
+								<option value="1" selected>Lesen</option>
+								<option value="2">Schreiben</option>
+							</select>		
+						</td>
+					</tr>
+					<tr>
+						<td class="bold">Schritt 3:</td>
+						<td>Kennwort</td>
+						<td><input type="password" name="passwd" class="blue_frame" style="width:170px" maxlength="16"></td>
+					</tr>
+					<tr>
+						<td class="bold">Schritt 4:</td>
+						<td>Kennwortbestätigung</td>
+						<td><input type="password" name="passwdcfm" class="blue_frame" style="width:170px" maxlength="16"></td>
+					</tr>
+					
+				</table>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Nutzerverwaltung_add'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->	
+		<div class="bg_bottom_bar">
+			<div class="button_center">			
+				<!--<input type="button" class="button" value="Zurück" onclick="location.href='HomeGroup_USB_UserManagement.html'"> -->
+				<input type="button" class="button" value="Speichern" onclick="showWait();btnApply()">
+			</div>
+		</div>
+	</div>
+</body>
+</html>

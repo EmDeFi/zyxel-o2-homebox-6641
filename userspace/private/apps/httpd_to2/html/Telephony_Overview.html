@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+var FXSInternalNameList = '<%ejGetVoice(FxsInternalNameList)%>';
+var FXSInternalName = FXSInternalNameList.split(" ");
+var FXSInternalNumberList = '<%ejGetVoice(FxsInternalNumberList)%>';
+var FXSInternalNumber = FXSInternalNumberList.split(" ");
+
+var ISDNInternalNameList = '<%ejGetVoice(IsdnInternalNameList)%>';
+var ISDNInternalName = ISDNInternalNameList.split(" ");
+var ISDNInternalNumberList = '<%ejGetVoice(IsdnInternalNumberList)%>';
+var ISDNInternalNumber = ISDNInternalNumberList.split(" ");
+
+var DECTInternalNameList = '<%ejGetVoice(DectInternalNameList)%>';
+var DECTInternalName = DECTInternalNameList.split(" ");
+var DECTInternalNumberList = '<%ejGetVoice(DectInternalNumberList)%>';
+var DECTInternalNumber = DECTInternalNumberList.split(" ");
+
+var UsernameList = '<%ejGetVoice(Username)%>';
+UsernameList = UsernameList.replace(/['" ]/g,'');
+var Username = UsernameList.split(';');
+
+var FxsUseAccountList = '<%ejGetVoice(FXSUseAccount)%>';
+var FxsUseAccount = FxsUseAccountList.split(';');
+var IsdnUseAccountList = '<%ejGetVoice(ISDNUseAccount)%>';
+var IsdnUseAccount = IsdnUseAccountList.split(';');
+var DectUseAccountList = '<%ejGetVoice(DECTUseAccount)%>';
+var DectUseAccount = DectUseAccountList.split(';');
+
+var FxsInUseList = '<%ejGetVoice(FxsInUseList)%>';
+var FxsInUse = FxsInUseList.split(" ");
+
+function printFXSInternalTable()
+{
+	with(document.forms[0]){
+
+		document.writeln('<table class="myTable font12" width="530" id="FXS">');
+		document.writeln('<tr class="bold">');
+			document.writeln('<td width="200">Name</td>');
+			document.writeln('<td width="160">Interne Rufnummer</td>');
+			document.writeln('<td>Telefonnummer</td>');
+		document.writeln('</tr>');
+	
+		for(var index=0 ;((index < FXSInternalName.length) && (FXSInternalName[0] != "")); index++)
+		{
+			if(FxsInUse[index] == "True")
+			{
+			var useAccount =  FxsUseAccount[index].split('=');		
+			var Account = Username[(useAccount[1]-1)].split('=');
+		
+			document.writeln('<tr>');
+				document.writeln('<td>'+FXSInternalName[index]+'</td>');
+				document.writeln('<td>'+FXSInternalNumber[index]+'</td>');				
+				if(Account==''){
+					Account[1]="";
+				document.writeln('<td>'+Account[1]+'</td>');
+				}else{
+					if(Account[1]=='(null)'){
+						Account[1]="";
+						document.writeln('<td>'+Account[1]+'</td>');
+					}else{
+							document.writeln('<td>'+"00"+Account[1]+'</td>');
+				}
+				}
+			document.writeln('</tr>');
+		}
+		}
+		document.writeln('</table>');
+	}
+}
+
+function printISDNInternalTable()
+{
+	with(document.forms[0]){
+
+		document.writeln('<table class="myTable font12" width="530" id="ISDN">');
+		document.writeln('<tr class="bold">');
+			document.writeln('<td width="200">Name</td>');
+			document.writeln('<td width="160">Interne Rufnummer</td>');
+			document.writeln('<td>Telefonnummer</td>');
+		document.writeln('</tr>');
+	
+		for(var index=0 ;((index < ISDNInternalName.length) && (ISDNInternalName[0] != "")); index++)
+		{		
+			var useAccount =  IsdnUseAccount[index];	
+			var Account = Username[(useAccount-1)].split('=');
+			
+			document.writeln('<tr>');
+				document.writeln('<td>'+ISDNInternalName[index]+'</td>');
+				document.writeln('<td>'+ISDNInternalNumber[index]+'</td>');				
+				if(Account==''){
+					Account[1]="";
+				document.writeln('<td>'+Account[1]+'</td>');
+				}else{
+					if(Account[1]=='(null)'){
+						Account[1]="";
+						document.writeln('<td>'+Account[1]+'</td>');
+					}else{
+							document.writeln('<td>'+"00"+Account[1]+'</td>');
+				}
+				}
+			document.writeln('</tr>');
+		}
+		document.writeln('</table>');
+	}
+}
+
+function printDECTInternalTable()
+{
+	with(document.forms[0]){
+
+		document.writeln('<table class="myTable font12" width="530" id="DECT">');
+		document.writeln('<tr class="bold">');
+			document.writeln('<td width="200">Name</td>');
+			document.writeln('<td width="160">Interne Rufnummer</td>');
+			document.writeln('<td>Telefonnummer</td>');
+		document.writeln('</tr>');
+	
+		for(var index=0 ;((index < DECTInternalName.length) && (DECTInternalName[0] != "")); index++)
+		{		
+			var useAccount =  DectUseAccount[index];		
+			var Account = Username[(useAccount-1)].split('=');
+		
+			document.writeln('<tr>');
+				document.writeln('<td>'+DECTInternalName[index]+'</td>');
+				document.writeln('<td>'+DECTInternalNumber[index]+'</td>');				
+				if(Account==''){
+					Account[1]="";
+				document.writeln('<td>'+Account[1]+'</td>');
+				}else{
+					if(Account[1]=='(null)'){
+						Account[1]="";
+						document.writeln('<td>'+Account[1]+'</td>');
+					}else{
+							document.writeln('<td>'+"00"+Account[1]+'</td>');
+				}
+				}
+			document.writeln('</tr>');
+		}
+		document.writeln('</table>');
+	}
+}
+ parent.document.getElementById("headerText").innerHTML="<b>Telefonie&nbsp;&nbsp; </b>Übersicht";
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onLoad="operaResize();">
+	<div class="content_right">
+<!--
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabDB" value="Übersicht" onclick="location.href='Telephony_Overview.html'"></td>
+					<td><input type='button' class='tabB' value='Weckruf' onclick="location.href='Telephony_Overview_WakeupCall.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:520px;_height:520px;" id="defaultId">	
+-->
+		<div class="bg_body_auto" style="min-height:520px;_height:520px;" id="defaultId">	
+			<div class="left">
+			<form>				
+				<div class="stepWrapper">
+					<div class="subhead" style="margin-bottom:-3px;">DECT-Basisstation aktivieren</div>
+						<table width="530">
+							<tr>
+								<td width="280" class="<%ejGetVoice(DectFpActiveColorStatus)%>"><div class="myTable alignment" style="height:20px;line-height:21.5px">Die DECT-Basisstation ist <%ejGetVoice(DectBaseState)%></div></td>
+								 <td><div style="cursor: pointer; cursor: hand;" onclick="window.parent.document.getElementById('Konfiguration').click();"><img src="images1/configuration.gif"></img><div></td>
+							</tr>			  				  				  
+						</table>
+					<div class="subhead">Angeschlossene Analog-Geräte</div>
+					<SCRIPT LANGUAGE="JavaScript">
+						printFXSInternalTable();
+					</SCRIPT>
+					<div class="subhead">ISDN-Geräte</div>
+					<SCRIPT LANGUAGE="JavaScript">
+						printISDNInternalTable();
+					</SCRIPT>	
+					<div class="subhead">Angemeldete DECT Schnurlostelefone</div>
+					<SCRIPT LANGUAGE="JavaScript">
+						printDECTInternalTable();
+					</SCRIPT>
+				</div>	 
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='T_Ubersicht'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+		</div>
+	</div>
+
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DslCpeConfig>
+ <InternetGatewayDevice>
+  <WANDeviceNumberOfEntries></WANDeviceNumberOfEntries>
+  <ACTIVATION_DISCOVERY></ACTIVATION_DISCOVERY>
+  <ActivationBBIBackup>
+    <L2Type></L2Type>
+    <IsDual></IsDual>
+    <IdleDisconnectTime></IdleDisconnectTime>
+    <BBIConnMode></BBIConnMode>
+  </ActivationBBIBackup>
+  <QueueManagement></QueueManagement>
+  <WANDevice></WANDevice>
+  <LANDevice>
+    <LANEthernetInterfaceNumberOfEntries></LANEthernetInterfaceNumberOfEntries>
+    <LANHostConfigManagement>
+      <IPInterface>
+        <X_TELEFONICA-ES_IPv6LanIntfAddress>
+	  <DelegatedAddress></DelegatedAddress>
+        </X_TELEFONICA-ES_IPv6LanIntfAddress>
+      </IPInterface>
+    </LANHostConfigManagement>
+    <LANEthernetInterfaceConfig></LANEthernetInterfaceConfig>
+  </LANDevice>
+  <Layer3Forwarding></Layer3Forwarding>
+ </InternetGatewayDevice>
+</DslCpeConfig>

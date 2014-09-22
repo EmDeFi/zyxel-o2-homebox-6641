@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>o2.box</title>
+  <script src="menu<%ejGetOther(fileVersion)%>.js" type="text/javascript"></script>
+  <!--<script src="TO2.js" type="text/javascript"></script>-->
+  <script type="text/javascript">
+	var isIE = navigator.userAgent.search("MSIE") > -1; 
+	var isOpera = navigator.userAgent.search("Opera") > -1;
+	var isSafari = navigator.userAgent.search("Safari") > -1;
+	
+	function SetCwinHeight() {
+		/*var iframe = document.getElementById("mainframe");
+		var bHeight = iframe.contentWindow.document.body.scrollHeight;
+		var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+		var height = bHeight>dHeight?bHeight:dHeight;
+		iframe.height = height*/
+
+		var iframe = document.getElementById("mainframe");
+		
+		if(isOpera || isSafari)
+		{
+			//iframe.height = iframe.contentWindow.document.documentElement.scrollHeight;
+		}
+		else if(isIE)
+		{
+			iframe.height = iframe.contentWindow.document.body.scrollHeight+8;
+		}
+		else//other broswer
+		{
+			iframe.height = iframe.contentWindow.document.documentElement.offsetHeight+2;
+		}
+	}
+	
+    function popupwnd(url, toolbar, menubar, locationbar, resize, scrollbars, statusbar, left, top, width, height){
+      var popupwindow = this.open(url, '', 'toolbar=' + toolbar + ',menubar=' + menubar + ',location=' + locationbar + ',scrollbars=' + scrollbars + ',resizable=' + resize + ',status=' + statusbar + ',left=' + left + ',top=' + top + ',width=' + width + ',height=' + height);
+    }
+	 
+	function hideKennwort(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'none';
+	   if (document.getElementById)  // DOM3 = IE5, NS6
+		  document.getElementById('Kennwort').style.display = status;
+	   else {
+		  if (document.layers == false) // IE4
+			 document.all.Kennwort.style.display = status;
+	   }
+	}
+	function hideZugangsPIN(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'none';
+	   if (document.getElementById)  // DOM3 = IE5, NS6
+		  document.getElementById('ZugangsPIN').style.display = status;
+	   else {
+		  if (document.layers == false) // IE4
+			 document.all.ZugangsPIN.style.display = status;
+	   }
+	}
+	function hideZugangsdaten(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'none';
+	   if (document.getElementById){  // DOM3 = IE5, NS6
+		  document.getElementById('Zugangsdaten').style.display = status;
+		  document.getElementById('Zugangseinstellung').style.display = status;
+	   }
+	   else {
+		  if (document.layers == false)
+		  { // IE4
+			 document.all.Zugangsdaten.style.display = status;
+			 document.all.Zugangseinstellung.style.display = status;
+		  }
+	   }
+	}
+	function setBoldofMenu(menuNmae)
+	{
+		document.getElementById('Startseite').className="flipLock";
+		document.getElementById('Kennwort').className="flipLock";
+		document.getElementById('ZugangsPIN').className="flipLock";
+		document.getElementById('Zugangsdaten').className="flipLock";
+		document.getElementById('Zugangseinstellung').className="flipLock";
+		document.getElementById('Zusammenfassung').className="flipLock";
+		
+		document.getElementById(menuNmae).className="flipLockSelected";
+	}
+	function hideBody(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'hidden';
+	   if (document.getElementById)  // DOM3 = IE5, NS6
+		  document.getElementById('bodyhide').style.visibility = status;
+	   else {
+		  if (document.layers == false) // IE4
+			 document.all.bodyhide.style.visibility = status;
+	   }
+	}
+	function frmload()
+	{
+		if( window.self != window.top )
+		{	
+			hideBody(1);
+			self.parent.location.href = self.location.href;
+	/*		var parenturl = parent.window.location.href;
+			var partsparenturl = parenturl.split("/");
+			parent.window.location.replace(partsparenturl[0] + '/' + partsparenturl[1] + '/' + partsparenturl[2] + '/index_setupWizard.html');
+	*/	}
+		else
+		{
+			hideBody(0);
+		}
+	}
+  </script>
+  <link href="menu<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="body_center" id='bodyhide' style="visibility:hidden" onload="frmload()" onresize="javascript:SetCwinHeight();">
+<div class="topinfo"></div>
+<div class="logo_header">
+    <span id="headerText" style="margin-left:45px;"></span>
+	<a href="javascript:popupwnd('./Infos_von_index.html','no','no','no','0','no','no','','','1024','768')" target="_self" class="infos_von">Infos von A-Z</a>
+</div>
+<div class="main">
+  <div class="mainnav">
+    <div class="menu"></div>
+    <div id="menu" style="display:none">
+      <div class="menu_head"></div>
+      <ul class="flipMenu">
+        <li id="Startseite"><a target="mainframe" class="paddingSetupWizard">Startseite</a><ul></ul></li>
+        <li id="Kennwort"><a target="mainframe" class="paddingSetupWizard">Kennwort</a><ul></ul></li>  
+		<li id="ZugangsPIN"><a target="mainframe" class="paddingSetupWizard">Zugangs-PIN</a><ul></ul></li>
+        <li id="Zugangsdaten"><a target="mainframe" class="paddingSetupWizard">Zugangsdaten</a><ul></ul></li>
+        <li id="Zugangseinstellung"><a target="mainframe" class="paddingSetupWizard">Zugangseinstellung</a><ul></ul></li>       
+        <li id="Zusammenfassung"><a target="mainframe" class="paddingSetupWizard">Zusammenfassung</a><ul></ul></li>     
+      </ul>
+      <div class="menu_bottom"></div>
+      <br/><br/>
+
+    </div>
+  </div>
+  <div class="data">
+    <iframe id="mainframe" name="mainframe" src="Einrichtungsassistent.html" width="100%"
+            onload="javascript:SetCwinHeight();" frameborder="0"></iframe> 
+  </div>
+  <div></div>
+</div>
+</body>
+</html>

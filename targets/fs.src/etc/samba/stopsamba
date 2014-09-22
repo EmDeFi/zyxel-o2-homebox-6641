@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# Samba stoping script for Broadcom Linux Gateway
+#
+
+
+killall smbd
+killall nmbd
+

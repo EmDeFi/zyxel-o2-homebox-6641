@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Survey</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="JavaScript">
+var sessionKey='<%ejGetOther(sessionKey)%>';
+var getLan1= '<%ejGetOther(sysInfo, enblLan1)%>';
+var getLan2= '<%ejGetOther(sysInfo, enblLan2)%>';
+var getLan3= '<%ejGetOther(sysInfo, enblLan3)%>';
+var getLan4= '<%ejGetOther(sysInfo, enblLan4)%>';
+var getWlan= '<%ejGetWl(wlIsClient)%>';
+var connStatus ="Up";
+function status()
+{
+	document.getElementById("RadioButton1").disabled = true;
+	document.getElementById("RadioButton2").disabled = true;
+	document.getElementById("RadioButton3").disabled = true;
+	document.getElementById("RadioButton4").disabled = true;
+	document.getElementById("RadioButton5").disabled = true;
+	if( getLan1 == "Up")
+	{
+		document.getElementById("RadioButton1").checked = true;	
+		document.getElementById("RadioButton1").disabled = false;	
+	}
+	if ( getLan2 == "Up")
+	{
+		document.getElementById("RadioButton2").checked = true;	
+		document.getElementById("RadioButton2").disabled = false;	
+	}
+	if ( getLan3 == "Up")
+	{
+		document.getElementById("RadioButton3").checked = true;
+		document.getElementById("RadioButton3").disabled = false;
+	}
+	if ( getLan4 == "Up")
+	{
+		document.getElementById("RadioButton4").checked = true;
+		document.getElementById("RadioButton4").disabled = false;
+	}
+	if ( getWlan == "Up")
+	{
+		document.getElementById("RadioButton5").checked = true;
+		document.getElementById("RadioButton5").disabled = false;
+	}	
+	
+	var wanConnStatus ='<%ejGetOther(sysInfo, wanUptime)%>';
+	if(wanConnStatus == 'deactivated')
+		document.getElementById("wanConnStatus").innerHTML = '';
+	else
+	{
+		document.getElementById("wanConnStatus").innerHTML = wanConnStatus;	
+		var ch=0;
+		var cm=0;
+		var cs=0;
+		var ctime = wanConnStatus.split(':');
+		ch = parseInt(ctime[0]);
+		cm = parseInt(ctime[1]);
+		cs = parseInt(ctime[2]);
+		startConnTime(ch,cm,cs);
+	}
+	var currtime='<%ejGetOther(sysInfo, currtimestring)%>';
+	document.getElementById("currtimestring").innerHTML = currtime;	
+	var dh=0;
+	var dm=0;
+	var ds=0;
+	var dtime = currtime.split(':');
+	dh = parseInt(dtime[0]);
+	dm = parseInt(dtime[1]);
+	ds = parseInt(dtime[2]);
+	startDevTime(dh,dm,ds);
+	
+	var lanMAC='<%ejGetOther(sysInfo, lanMac)%>';
+	var partLanMAC = lanMAC.split(':');
+	lanMAC = partLanMAC[0].toUpperCase() + ':' + partLanMAC[1].toUpperCase() + ':' + partLanMAC[2].toUpperCase() + ':' + partLanMAC[3].toUpperCase() + ':' + partLanMAC[4].toUpperCase() + ':' + partLanMAC[5].toUpperCase();
+	document.getElementById("lanMAC").innerHTML = lanMAC;	
+	
+	//Online-Status
+	var wanConnStatus ="<%ejGetOther(sysInfo, wanStatus)%>";
+	if(wanConnStatus == 'verbunden')
+		document.getElementById("wanStatus").innerHTML = "<font color='#228B22'>Verbunden</font>";
+	else
+		document.getElementById("wanStatus").innerHTML = "<font color='#FF0000'>Nicht verbunden</font>";
+	
+	//o2 HomeBox IPv4-Adresse	
+	wanConnStatus ="<%ejGetOther(sysInfo, wanAddr)%>";
+	if(wanConnStatus == 'deactivated')
+		document.getElementById("wanAddr").innerHTML = "";
+	else
+		document.getElementById("wanAddr").innerHTML = wanConnStatus;
+	
+	//WAN IPv6-Adresse
+	document.getElementById("wanIpv6Addr").innerHTML = "<%ejGetOther(sysInfo, wanIpv6Addr)%>";
+	
+	//Gerätebezeichnung
+	document.getElementById("deviceInfo").innerHTML = "<%ejGetOther(sysInfo, deviceInfo)%>";
+	//Firmware Version
+	document.getElementById("sysVersion").innerHTML = "<%ejGet(sysVersion)%>";
+	
+}
+function startDevTime(h,m,s)
+{
+	h=h+Math.floor((m+Math.floor((s+1)/60))/60);
+	m=(m+Math.floor((s+1)/60))%60;
+	s=(s+1)%60;
+	document.getElementById('currtimestring').innerHTML=checkTime(h)+":"+checkTime(m)+":"+checkTime(s)+" Uhr";
+	t=setTimeout(function(){startDevTime(h,m,s)},1000);	
+}
+function startConnTime(h,m,s)
+{
+	h=h+Math.floor((m+Math.floor((s+1)/60))/60);
+	m=(m+Math.floor((s+1)/60))%60;
+	s=(s+1)%60;
+	document.getElementById('wanConnStatus').innerHTML=checkTime(h)+":"+checkTime(m)+":"+checkTime(s);
+	t=setTimeout(function(){startConnTime(h,m,s)},1000);	
+}
+function checkTime(i)
+{
+if (i<10)
+  {
+  i="0" + i;
+  }
+return i;
+}
+
+//reset menu
+parent.document.getElementById('Survey').className="flipFolderOpen";
+parent.document.getElementById('Internet').className="flipFolderClosed";
+if(parent.document.getElementById('InternetList')!="")
+	parent.document.getElementById('InternetList').style.display="none";
+	
+parent.document.getElementById('Telefonie').className="flipFolderClosed";
+if(parent.document.getElementById('TelefonieList')!="")
+	parent.document.getElementById('TelefonieList').style.display="none";
+	
+parent.document.getElementById('Heimnetz').className="flipFolderClosed";
+if(parent.document.getElementById('HeimnetzList')!="")
+	parent.document.getElementById('HeimnetzList').style.display="none";
+	
+parent.document.getElementById('Sicherheit').className="flipFolderClosed";
+if(parent.document.getElementById('SicherheitList')!="")
+	parent.document.getElementById('SicherheitList').style.display="none";
+	
+parent.document.getElementById('System').className="flipFolderClosed";
+if(parent.document.getElementById('SystemList')!="")
+	parent.document.getElementById('SystemList').style.display="none";
+
+parent.document.getElementById("headerText").innerHTML="<b>Übersicht</b>";
+</script>
+</head>
+
+<body onload='status();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:500px;_height:500px;" id="defaultId">	
+			<div class="left">
+			<form> 	
+				<div class="stepWrapper">				
+					<div class="headline">Aktuelle Geräteinformationen</div>
+					<div class="subhead">Status</div>
+					<table class="myTable font12">
+						<tr>
+							<td width="200">Freischaltung</td>
+							<td width="260" align="center">
+							<script language="JavaScript">
+							{
+								var getActivated ='<%ejGetOther(sysInfo, activated)%>';
+								if(getActivated == 'TRUE')
+									document.writeln("<font color='#228B22'>o2 HomeBox ist freigeschaltet </font>");
+								else
+									document.writeln("<font color='#FF0000'>o2 HomeBox ist nicht freigeschaltet </font>");
+							}
+							</script>
+							</td>
+						</tr>
+					</table>
+					<div class="subhead">Internet</div>
+					<table class="myTable font12">
+						<tr>
+							<td width="200">Online-Status</td>
+							<td width="260" align="center" id="wanStatus">
+							</td>
+						</tr>
+						<tr>
+							<td>Verbindungsdauer (hh:mm:ss)</td>
+							<td width='260' align='center' id='wanConnStatus'></td>
+						</tr>
+						<tr>
+							<td>o2 HomeBox IPv4-Adresse</td>
+							<td width="260" align="center" id='wanAddr'>
+							</td>
+						</tr>
+						<tr>
+							<td>WAN IPv6-Adresse</td>							
+							<td width="260" align="center" id='wanIpv6Addr'></td>
+						</tr>
+					</table>
+					<div class="subhead">Telefonie</div>
+					<table class="myTable font12">
+						<tr>
+							<td width="200">Telefonie-Status</td>
+							<script language="JavaScript">
+							{
+								var SIPStatus ='<%ejGetVoice(SIPAccountStatus)%>';
+								if(SIPStatus != 'deaktiviert')
+									document.writeln('<td width="260" align="center" class="fontG">Telefonie <%ejGetVoice(SIPAccountStatus)%></td>');
+								else
+									document.writeln('<td width="260" align="center" class="fontR">Telefonie <%ejGetVoice(SIPAccountStatus)%></td>');
+							}
+							</script>
+						</tr>
+						<tr>
+							<td>Schnurlostelefon-Basis</td>
+							<td align="center" class="<%ejGetVoice(DectFpActiveColorStatus)%>"> DECT-Basisstation ist <%ejGetVoice(DectBaseState)%></td>
+						</tr>						
+					</table>
+					<div class="subhead">Netzwerk</div>
+					<table class="myTable font12" cellspaceing=0>
+						<tr>
+							<td width="200">LAN IPv4-Adresse</td>
+							<!--<td width="240" align="center">192.168.1.1</td>-->
+							<td width="260" align="center"><%ejGetOther(sysInfo, lanAddr)%></td>
+						</tr>
+						<tr>
+							<td>LAN IPv6 Adresse</td>
+							<td width="260" align="center">fe80::1</td>
+						</tr>
+						<tr>						
+							<td height="44" colspan="2" align="center" style='border-top: 1px solid #66CCFF;border-bottom: 1px solid #66CCFF'>
+							<input type="radio" id="RadioButton1" name="LAN1Status">LAN 1
+							<input type="radio" id="RadioButton2" name="LAN2Status">LAN 2
+							<input type="radio" id="RadioButton3" name="LAN3Status">LAN 3
+							<input type="radio" id="RadioButton4" name="LAN4Status">LAN 4
+							<input type="radio" id="RadioButton5" name="WLANStatus">WLAN
+						  	</td>
+					  	</tr>					  	
+						<tr>
+							<td>LAN MAC Adresse</td>
+							<td width="260" align="center" id="lanMAC"></td>
+						</tr>
+						<tr>
+							<td>2.4 GHz WLAN MAC Adresse</td>
+							<td width="260" align="center"><%ejGetOther(sysInfo, wl0Mac)%></td>
+						</tr>	
+						<tr>
+							<td>5 GHz WLAN MAC Adresse</td>
+							<td width="260" align="center"><%ejGetOther(sysInfo, wl1Mac)%></td>
+						</tr>			
+			  	  	</table>
+					<div class="subhead">System</div>
+					<table class="myTable font12">
+						<tr>
+							<td width="200">Gerätebezeichnung</td>
+							<td width="260" align="center" id="deviceInfo"></td>
+						</tr>
+						<tr>
+							<td>Firmware Version</td>
+							<td width="260" align="center" id="sysVersion"></td>
+						</tr>				
+						<tr>
+							<td>Systemzeit</td>
+							<td width="260" align="center" id="currtimestring"></td>
+						</tr>				
+					</table>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Ubersicht'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div>		
+		<div class="bg_bottom_bar">
+			<!--<div class="button_center"><a href="#" onclick="self.location.reload()"><img src="images1/update.gif"></img></a></div> -->
+			<div class="button_center"><input type="button" class="button" value="Aktualisieren" onclick="location.href='Survey.html'"></div>
+	  	</div>
+	</div>
+</body>
+</html>

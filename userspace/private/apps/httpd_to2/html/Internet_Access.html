@@ -1,0 +1,604 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Internet Access Setup.html</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="./css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="./TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="./TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="./TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="./TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="./util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="JavaScript">
+<!-- hide
+var sessionKey='<%ejGetOther(sessionKey)%>';
+var getActivated ='<%ejGetOther(sysInfo, activated)%>';
+var getServiceModel ='<%ejGetOther(sysInfo, GetSM)%>';
+var ActivatedStatus_ADSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_HANSENETULL)%>'; 
+var ActivatedStatus_ADSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_ADSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesalePIN)%>';
+var ActivatedStatus_ADSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_Bitstream)%>';
+var ActivatedStatus_ETH_SMode_ETHER='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_ETHER)%>';
+var ActivatedStatus_ETH_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesaleTK)%>';
+var ActivatedStatus_ETH_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesalePIN)%>';
+var ActivatedStatus_ETH_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_Bitstream)%>';
+var ActivatedStatus_VDSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_HANSENETULL)%>';
+var ActivatedStatus_VDSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_VDSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesalePIN)%>';	
+var ActivatedStatus_VDSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_Bitstream)%>';
+/*
+function hideApplybottom(hide){
+   var status = '';
+
+   if ( hide == 1 )
+      status = 'none';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+      document.getElementById('applybottom').style.display = status;
+   else {
+      if (document.layers == false) // IE4
+         document.all.applybottom.style.display = status;
+   }
+}
+
+function hideAccessInfo(hide) {
+   var status = '';
+
+   if ( hide == 1 )
+      status = 'none';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+      document.getElementById('accessInfo').style.display = status;
+   else {
+      if (document.layers == false) // IE4
+         document.all.accessInfo.style.display = status;
+   }
+}
+*/
+function onload()
+{
+	with ( document.forms[0] ) {
+		
+		if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+			getServiceModel == '' ||
+			getServiceModel == 'Unknown')
+		{
+			ConnectionType.checked = true;
+/*			hideAccessInfo(1);	
+			hideApplybottom(1);*/
+		}
+		else if(getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+			getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+			getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+		{
+			text_Username.value = '<%ejGetOther(sysInfo, pppUsername)%>';
+			text_Password.value = '<%ejGetOther(sysInfo, pppPassword)%>';
+			var getBBIConnMode = '<%ejGetOther(sysInfo, BBIConnMode)%>';
+			if(getBBIConnMode == 'AlwaysOn')
+			{
+				ConnectionType[0].checked = true;
+			}
+			else if(getBBIConnMode == 'Manual')
+			{
+				ConnectionType[1].checked = true;
+			}
+			else 
+			{	//defalut
+				ConnectionType[0].checked = true;
+			}
+		}
+		else if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+				getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+				getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN)
+		{
+			text_Username.value = '<%ejGetOther(sysInfo, pppUsername)%>';
+			text_Password.value = '<%ejGetOther(sysInfo, pppPassword)%>';
+			var idleDisconnectTime = '<%ejGetOther(sysInfo, idleDisconnectTime)%>';
+			var getBBIConnMode = '<%ejGetOther(sysInfo, BBIConnMode)%>';
+			if(getBBIConnMode == 'AlwaysOn')
+			{
+				ConnectionType[0].checked = true;
+				ConnectionType1[0].checked = true;
+				ConnectionType1[0].disabled = true;
+				ConnectionType1[1].disabled = true;
+				IdleDisconnectTime.disabled = true;
+				IdleDisconnectTime.value = 5;
+			}
+			else if(getBBIConnMode == 'OnDemand')
+			{
+				ConnectionType[1].checked = true;
+				ConnectionType1[0].checked = true;
+				ConnectionType1[0].disabled = false;
+				ConnectionType1[1].disabled = false;
+				IdleDisconnectTime.disabled = false;
+				if(idleDisconnectTime == '60')
+					IdleDisconnectTime.value = 1;
+				else if(idleDisconnectTime == '180')
+					IdleDisconnectTime.value = 3;
+				else if(idleDisconnectTime == '600')
+					IdleDisconnectTime.value = 10;
+				else
+					IdleDisconnectTime.value = 5;
+			}
+			else if(getBBIConnMode == 'Manual')
+			{
+				ConnectionType[1].checked = true;
+				ConnectionType1[1].checked = true;
+				ConnectionType1[0].disabled = false;
+				ConnectionType1[1].disabled = false;
+				IdleDisconnectTime.disabled = true;
+				IdleDisconnectTime.value = 5;
+			}
+			else
+			{	//default
+				ConnectionType[1].checked = true;
+				ConnectionType1[0].checked = true;
+				ConnectionType1[0].disabled = false;
+				ConnectionType1[1].disabled = false;
+				IdleDisconnectTime.disabled = false;
+				if(idleDisconnectTime == '60')
+					IdleDisconnectTime.value = 1;
+				else if(idleDisconnectTime == '180')
+					IdleDisconnectTime.value = 3;
+				else if(idleDisconnectTime == '600')
+					IdleDisconnectTime.value = 10;
+				else
+					IdleDisconnectTime.value = 5;
+			}
+		}
+	}
+}
+function ConntypeClick() 
+{
+   with ( document.forms[0] ) { 
+    
+ 		if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+			getServiceModel == '' ||
+			getServiceModel == 'Unknown')
+		{
+		
+		}
+		else if(getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+			getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+			getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+		{
+			
+		}
+		else if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+				getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+				getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN)
+		{
+			if (ConnectionType[0].checked == true )
+			{						
+				ConnectionType1[0].disabled = true;
+				ConnectionType1[1].disabled = true;
+				IdleDisconnectTime.disabled = true;
+				IdleDisconnectTime.value = 5;
+			} 
+			else if(ConnectionType[1].checked == true)
+			{			
+				ConnectionType1[0].disabled = false;
+				ConnectionType1[1].disabled = false;
+				if(ConnectionType1[0].checked == true)
+				{
+					IdleDisconnectTime.disabled = false;
+				}
+				else if(ConnectionType1[1].checked == true)
+				{
+					IdleDisconnectTime.disabled = true;
+					IdleDisconnectTime.value = 5;
+				}
+			} 	
+		}   
+   }
+}
+
+function btnApply() {   
+   var loc = 'internet-access.cmd?';
+
+   with ( document.forms[0] ) {
+   		/*if(text_Username.value.length < 1 || text_Username.value.length >64)
+		{
+			showErr("Das Benutzername muss zwischen 1 und 64 Zeichen lang sein.");
+			return;
+		}
+		if(text_Password.value.length < 1 || text_Password.value.length >64)
+		{
+			showErr("Das Passwort muss zwischen 1 und 64 Zeichen lang sein.");
+			return;
+		}*/
+
+   		if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+			getServiceModel == '' ||
+			getServiceModel == 'Unknown')
+		{
+		
+		}
+		else if(getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+			getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+			getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+		{
+			loc += '&pppUsername=' + encodeUrl(text_Username.value);
+      		loc += '&pppPassword=' + encodeUrl(text_Password.value);
+			if (ConnectionType[0].checked == true )
+			{						
+				loc += '&ConnType=AlwaysOn';
+				loc += '&onDemandTime=0';
+			} 
+			else if (ConnectionType[1].checked == true )
+			{						
+				loc += '&ConnType=Manual';
+				loc += '&onDemandTime=0';
+			} 
+		}
+		else if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+				getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+				getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN)
+		{
+			loc += '&pppUsername=' + encodeUrl(text_Username.value);
+      		loc += '&pppPassword=' + encodeUrl(text_Password.value);
+			if (ConnectionType[0].checked == true )
+			{						
+				loc += '&ConnType=AlwaysOn';
+				loc += '&onDemandTime=0';
+			} 
+			else if (ConnectionType[1].checked == true )
+			{
+				if(ConnectionType1[0].checked == true)
+				{			
+					var ondemandtime = parseInt(IdleDisconnectTime.value)*60;
+					loc += '&ConnType=OnDemand';
+					loc += '&onDemandTime=' + ondemandtime;				
+				} 
+				else if(ConnectionType1[1].checked == true) 
+				{			
+					loc += '&ConnType=Manual';
+					loc += '&onDemandTime=0';
+				}  
+			}
+		}      
+   }
+   loc += '&sessionKey=' + sessionKey;
+   loc += '&action=btnApply';	
+   
+   var code = 'location="' + loc + '"'; 
+   fadding();  
+   eval(code);
+  
+}
+
+function bbiconnectionUp(up)
+{
+   var loc = 'internet-manual.cmd?';
+
+   with ( document.forms[0] ) {
+   		loc += '&pppUsername=' + encodeUrl(text_Username.value);
+      	loc += '&pppPassword=' + encodeUrl(text_Password.value);
+		loc += '&onDemandTime=0';
+   		if(up == 1)
+		{
+   			loc += '&bbiconnection=up';
+		}
+		else
+		{
+			loc += '&bbiconnection=down';
+		}     
+   }
+   loc += '&sessionKey=' + sessionKey;
+   loc += '&action=bbiconnectionUp';
+   
+   var code = 'location="' + loc + '"';   
+   fadding(); 
+   eval(code);
+}
+parent.document.getElementById("headerText").innerHTML="<b>Internet&nbsp;&nbsp; </b>Zugang einrichten";
+// done hiding -->
+</script>
+</head>
+
+<body onload="onload();operaResize();faddingReload();" class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabDB" value="Zugangsdaten" onclick="location.href='Internet_Access.html'"></td>
+					<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+					if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+						getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+						getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN ||
+						getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+						getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+						getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN ||
+						getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+						getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+						getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+					{
+						//document.writeln("<td><a href='Internet_OtherSettings.html'><div class='tabB'>Weitere Einstellungen</div></a></td>");
+						document.writeln("<td><input type='button' class='tabB' value='Weitere Einstellungen' onclick=\"location.href='Internet_OtherSettings.html'\"></td>");
+					}
+					</SCRIPT>
+					<td><input type="button" class="tabB" value="IP-Adressen" onclick="location.href='Internet_IP_Address.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:520px;_height:520px;" id="defaultId">	
+			<div class="left">
+			<form> 
+				<script language="JavaScript">
+				{
+					if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+					getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+					getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+					getServiceModel == '' ||
+					getServiceModel == 'Unknown')
+					{}
+					else
+					{
+						document.writeln("<div class='stepWrapper' id='accessInfo'>");
+						document.writeln("<div class='headline'>Zugangsdaten</div>");
+						document.writeln("<table width='550' class='alignment'>");
+						document.writeln("	<tr>");
+						document.writeln("		<td colspan='2'>Um eine Internetverbindung aufzubauen, benötigen Sie Ihre o2-Zugangsdaten. <br>Diese wurden Ihnen mit der Auftragsbestätigung mitgeteilt.</td >");
+						document.writeln("	</tr>");
+						document.writeln("	<tr>");
+						document.writeln("		<td width='110' border='0'><font color='#19224F'>Benutzername:</td>");						
+//						document.writeln("		<td class='setup_wizard_padding_network'></td>");
+						document.writeln("		<td width='150'><input type='text' style='width:120px;' name='text_Username' class='blue_frame' maxlength='64'></td>");							
+						document.writeln("	</tr>");
+						document.writeln("	<tr>");
+						document.writeln("		<td width='110' border='0'><font color='#19224F'>Passwort:</td>");							
+//						document.writeln("		<td class='setup_wizard_padding_network'></td>");
+						document.writeln("		<td width='150'><input type='password' style='width:120px;' name='text_Password' class='blue_frame' maxlength='64'></td>");							
+						document.writeln("	</tr>");	
+						document.writeln("</table>");
+						document.writeln("</div>");
+					}
+				}
+				</script>
+				<div class="stepWrapper">
+					<div class='headline'>Art der Internetverbindung</div>
+					<!--<table width="550">
+						<tr border="0">
+							<td width='40'><input type='radio' name='ConnectionType' onclick="ConntypeClick()"></td>
+							<td><b>Dauerhafte Verbindung (Flatrate)</b></td>
+						</tr>
+						<tr border="0">
+							<td width='40'></td>
+							<td>Ihre o2 HomeBox ist dauerhaft mit dem Internet verbunden. <br>Verwenden Sie diese Einstellung nur, wenn Sie einen Flatrate-Tarif haben.</td>
+						</tr>
+					</table>-->
+					<script language="JavaScript">
+					{
+						var getBBIConnMode = '<%ejGetOther(sysInfo, BBIConnMode)%>';
+						var getBBISessionStatus ='<%ejGetOther(sysInfo, BBISessionStatus)%>';
+						var getServiceModel ='<%ejGetOther(sysInfo, GetSM)%>';
+						var ActivatedStatus_ADSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_HANSENETULL)%>'; 
+						var ActivatedStatus_ADSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesaleTK)%>';
+						var ActivatedStatus_ADSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesalePIN)%>';
+						var ActivatedStatus_ADSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_Bitstream)%>';
+						var ActivatedStatus_ETH_SMode_ETHER='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_ETHER)%>';
+						var ActivatedStatus_ETH_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesaleTK)%>';
+						var ActivatedStatus_ETH_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesalePIN)%>';
+						var ActivatedStatus_ETH_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_Bitstream)%>';
+						var ActivatedStatus_VDSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_HANSENETULL)%>';
+						var ActivatedStatus_VDSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesaleTK)%>';
+						var ActivatedStatus_VDSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesalePIN)%>';	
+						var ActivatedStatus_VDSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_Bitstream)%>';
+						if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+							getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+							getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+							getServiceModel == '' ||
+							getServiceModel == 'Unknown')
+						{
+							document.writeln("<table width='550'>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'><input type='radio' name='ConnectionType' onclick='ConntypeClick()'></td>");
+							document.writeln("		<td><b>Ich nutze eine Flatrate</b></td>");
+							document.writeln("	</tr>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td>Ihre o2 HomeBox ist dauerhaft mit dem Internet verbunden. <br>Diese Einstellung ist Standard für Flatrate-Tarife.</td>");
+							document.writeln("	</tr>");
+							document.writeln("</table>");
+							document.writeln("<table>");
+							document.writeln("<tr border='0'>");
+							document.writeln("	<td width='40'></td>");
+							document.writeln("	<td>Mit der an Ihrem Anschluss vorliegenden Technologie sind in diesem Menü keine Einstellungen notwendig.</td>");
+							document.writeln("</tr>");
+							document.writeln("</table>");
+						}
+						else if(getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+							getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+							getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN ||
+							getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+							getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+							getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+						{
+							document.writeln("<table width='550'>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'><input type='radio' name='ConnectionType' onclick='ConntypeClick()'></td>");
+							document.writeln("		<td><b>Ich nutze eine Flatrate</b></td>");
+							document.writeln("	</tr>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td>Ihre o2 HomeBox ist dauerhaft mit dem Internet verbunden. <br>Diese Einstellung ist Standard für Flatrate-Tarife.</td>");
+							document.writeln("	</tr>");
+							document.writeln("</table>");
+							document.writeln("<table>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'><input type='radio' name='ConnectionType' onclick='ConntypeClick()'></td>");
+							document.writeln("		<td colspan='2'><b>Internetverbindung nur manuell herstellen</td>");
+							document.writeln("	</tr>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td colspan='2'>Empfohlene Einstellung, wenn Sie nicht permanent mit dem Internet verbunden sein möchten.</td>");
+							document.writeln("	</tr>");
+							document.writeln("</table>");
+							document.writeln("<table>");
+							if(getBBIConnMode == 'Manual' && getBBISessionStatus == '1')
+							{
+								document.writeln("	<tr border='0'>");
+								document.writeln("		<td width='40'></td>");
+								<!--document.writeln("		<td width='140'><a href='#' class='buttonStyle'><div class='button' onClick='bbiconnectionUp(0)'>Trennen</div></a></td>"); -->	
+								//document.writeln("		<td width='140'><a href='#' onclick='showWait();bbiconnectionUp(0)'><img src='images1/diconnect.gif'></img></a></td>");	
+								document.writeln("		<td width='140'><input type='button' class='button' value='Trennen' onclick='showWait();bbiconnectionUp(0)'></td>");	
+								document.writeln("	</tr>");
+							}
+							else if(getBBIConnMode == 'Manual')
+							{
+								document.writeln("	<tr border='0'>");
+								document.writeln("		<td width='40'></td>");
+								//document.writeln("		<td width='140'><a href='#' class='buttonStyle'><div class='button' onClick='showWait();bbiconnectionUp(1)'>Verbinden</div></a></td>");
+								document.writeln("		<td width='140'><input type='button' class='button' value='Verbinden' onclick='showWait();bbiconnectionUp(1)'></td>");
+								document.writeln("	</tr>");
+							}	
+							document.writeln("</table>");
+						}
+						else if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+							getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+							getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN)
+						{
+							document.writeln("<table width='550'>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'><input type='radio' name='ConnectionType' onclick='ConntypeClick()'></td>");
+							document.writeln("		<td><b>Dauerhafte Verbindung</b></td>");
+							document.writeln("	</tr>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td>Ihre o2 HomeBox ist dauerhaft mit dem Internet verbunden. <br>Verwenden Sie diese Einstellung nur, wenn Sie einen Flatrate-Tarif haben.</td>");
+							document.writeln("	</tr>");
+							document.writeln("</table>");
+							document.writeln("<table id='timeBasedInfo'>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'><input type='radio' name='ConnectionType' onclick='ConntypeClick()'></td>");
+							document.writeln("		<td><b>Zeitbasierte Verbindung</td>");
+							document.writeln("	</tr>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td>Wenn Sie nicht permanent mit dem Internet verbunden sein möchten, so wählen Sie bitte diese Einstellung. Sie können einstellen, ob nach Aufbau der Internetverbindung diese nach einer bestimmten Zeit wieder getrennt werden soll oder, ob Sie eine Verbindung nur manuell aufbauen.</td>");
+							document.writeln("	</tr>");
+							document.writeln("</table>");
+							document.writeln("<table id='onDemandInfo'>	");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td width='40'><input type='radio' name='ConnectionType1' onclick='ConntypeClick()'></td>");
+							document.writeln("		<td><b>Internetverbindung automatisch nach ");
+							document.writeln("			<select class='blue_frame' style='width:60px' name='IdleDisconnectTime'>");
+							document.writeln("				<option value='1'>1</option>");
+							document.writeln("				<option value='3'>3</option>");
+							document.writeln("				<option value='5'>5</option>");
+							document.writeln("				<option value='10'>10</option>");
+							document.writeln("			</select>");
+							document.writeln("			Minuten Nichtnutzung trennen.</td>");
+							document.writeln("	</tr>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td>Ihre o2 HomeBox stellt bei einer Anfrage an das Internet automatisch eine Online-Verbindung her und die Verbindung wird bei Nichtnutzung (kein Internetverkehr) automatisch nach der angegebenen Zeit getrennt.</td>");
+							document.writeln("	</tr>");
+							document.writeln("</table>");
+							document.writeln("<table>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td width='40'><input type='radio' name='ConnectionType1' onclick='ConntypeClick()'></td>");
+							document.writeln("		<td colspan='2'><b>Internetverbindung nur manuell herstellen</td>");
+							document.writeln("	</tr>");
+							document.writeln("	<tr border='0'>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td width='40'></td>");
+							document.writeln("		<td colspan='2'>Empfohlene Einstellung für optimale Kostenkontrolle bei zeitbasierten Tarifen: Internetverbindung manuell über die Bedienoberfläche herstellen oder trennen.</td>");
+							document.writeln("	</tr>");
+							document.writeln("</table>");
+							document.writeln("<table>");
+							if(getBBIConnMode == 'Manual' && getBBISessionStatus == '1')
+							{
+								document.writeln("	<tr border='0'>");
+								document.writeln("		<td width='40'></td>");
+								document.writeln("		<td width='40'></td>");
+								//document.writeln("		<td width='140'><a href='#' class='buttonStyle'><div class='button' onClick='showWait();bbiconnectionUp(0)'>Trennen</div></a></td>");		
+								document.writeln("		<td width='140'><input type='button' class='button' value='Trennen' onclick='showWait();bbiconnectionUp(0)'></td>");
+								document.writeln("	</tr>");
+							}
+							else if(getBBIConnMode == 'Manual')
+							{
+								document.writeln("	<tr border='0'>");
+								document.writeln("		<td width='40'></td>");
+								document.writeln("		<td width='40'></td>");
+								//document.writeln("		<td width='140'><a href='#' class='buttonStyle'><div class='button' onClick='showWait();bbiconnectionUp(1)'>Verbinden</div></a></td>");
+								document.writeln("		<td width='140'><input type='button' class='button' value='Verbinden' onclick='showWait();bbiconnectionUp(1)'></td>");	
+								document.writeln("	</tr>");
+							}		
+							document.writeln("</table>");
+						}
+					
+					}
+					</script>				
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<!--<div id='help' name='Zugansdaten'>-->
+				<script type="text/javascript">
+					if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+								getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+								getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+								getServiceModel == '' ||
+								getServiceModel == 'Unknown')
+					{
+						document.writeln("<div id='help' name='Zugansdaten_single'>");
+					}
+					else if(getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+								getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+								getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN ||
+								getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+								getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+								getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+					{
+						document.writeln("<div id='help' name='Zugansdaten_VDSL_ETH'>");
+					}
+					else if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+								getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+								getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN)
+					{
+						document.writeln("<div id='help' name='Zugansdaten_ADSL'>");
+					}		
+					showHelp();
+					document.writeln("</div>");
+				</script>
+			</div>
+	  	</div><!-- end class="bg_body_auto2"-->
+		<div class="bg_bottom_bar">
+			<script type="text/javascript">
+					if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+						getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+						getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+						getServiceModel == '' ||
+						getServiceModel == 'Unknown')
+					{
+					}
+					else
+					{
+						document.writeln("<div id='applybottom' class='button_center'><input type='button' class='button' value='Speichern' onclick='showWait();btnApply()'></div>");
+					}
+			</script>
+			
+		</div>
+	</div>
+</body>
+</html>

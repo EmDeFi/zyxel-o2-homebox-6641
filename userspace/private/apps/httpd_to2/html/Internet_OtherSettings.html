@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Internet Access Setup.html</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="./css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="./TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="./TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="./TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="./TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" TYPE="text/javascript">
+var defaultRange = 4;
+var enblBBIScheduleRule = '<%ejGetOther(sysInfo, enblBBIScheduleRule)%>';
+var enblPPPoEPassThrough = '<%ejGetOther(sysInfo, enblPPPoEPassThrough)%>';
+var currBBIScheduleRang = '<%ejGetOther(sysInfo, currBBIScheduleRange)%>';
+var getServiceModel ='<%ejGetOther(sysInfo, GetSM)%>';
+var ActivatedStatus_ADSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_HANSENETULL)%>'; 
+var ActivatedStatus_ADSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_ADSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesalePIN)%>';
+var ActivatedStatus_ADSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_Bitstream)%>';
+var ActivatedStatus_ETH_SMode_ETHER='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_ETHER)%>';
+var ActivatedStatus_ETH_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesaleTK)%>';
+var ActivatedStatus_ETH_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesalePIN)%>';
+var ActivatedStatus_ETH_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_Bitstream)%>';
+var ActivatedStatus_VDSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_HANSENETULL)%>';
+var ActivatedStatus_VDSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_VDSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesalePIN)%>';	
+var ActivatedStatus_VDSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_Bitstream)%>';
+//var idleDisconnectTime = '<%ejGetOther(sysInfo, idleDisconnectTime)%>';
+var getBBIConnMode = '<%ejGetOther(sysInfo, BBIConnMode)%>';
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+function hideBBIDisconnectionTable(hide) {
+   var status = '';
+
+   if ( hide == 1 )
+      status = 'none';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+   {  
+      document.getElementById('bbiDisconnectionTitle').style.display = status;
+	  document.getElementById('bbiDisconnectionTable').style.display = status;
+   }
+   else {
+      if (document.layers == false)  // IE4
+	  { 
+         document.all.bbiDisconnectionTitle.style.display = status;
+		 document.all.bbiDisconnectionTable.style.display = status;
+	  }
+   }
+}
+function hidePassthroughTable(hide) {
+   var status = '';
+
+   if ( hide == 1 )
+      status = 'none';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+   {  
+      document.getElementById('passthroughTitle').style.display = status;
+	  document.getElementById('passthroughTable').style.display = status;
+   }
+   else {
+      if (document.layers == false)  // IE4
+	  { 
+         document.all.passthroughTitle.style.display = status;
+		 document.all.passthroughTable.style.display = status;
+	  }
+   }
+}
+function onload()
+{
+	with ( document.forms[0] ) 
+	{
+		if(enblBBIScheduleRule == "TRUE")
+		{
+			bbiDisconnectionEnbl.checked = true;
+			bbiDisconnectionRange.disabled = false;
+			bbiDisconnectionRange.value = parseInt(currBBIScheduleRang);
+		}
+		else
+		{
+			bbiDisconnectionEnbl.checked = false;
+			bbiDisconnectionRange.disabled = true;
+			bbiDisconnectionRange.value = 4;
+		}
+		
+		if(enblPPPoEPassThrough == "TRUE")
+		{		
+			passThroughCheck.checked = true;
+		}
+		else
+		{
+			passThroughCheck.checked = false;
+		}
+/*
+		if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+			getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream)
+		{
+			hidePassthroughTable(1);
+			hideBBIDisconnectionTable(1);	
+		}
+		else
+		{
+			hidePassthroughTable(0);
+			hideBBIDisconnectionTable(0);
+		}
+*/		
+		if(getBBIConnMode == 'AlwaysOn')
+		{
+			bbiDisconnectionEnbl.disabled = false;
+		}
+		else
+		{
+			bbiDisconnectionEnbl.disabled = true;
+		}
+	}
+}
+function bbiDisconnectionEnblClick()
+{
+	with ( document.forms[0] ) 
+	{
+		if(bbiDisconnectionEnbl.checked == true)
+		{
+			bbiDisconnectionRange.disabled = false;
+			if(currBBIScheduleRang == '0')
+				bbiDisconnectionRange.value = 4;
+			else
+				bbiDisconnectionRange.value = parseInt(currBBIScheduleRang);
+		}
+		else
+		{
+			bbiDisconnectionRange.disabled = true;
+			bbiDisconnectionRange.value = 4;
+		}
+	}
+}
+function btnSave()
+{
+	var loc = 'internet-othersettings.cmd?';
+	with ( document.forms[0] )
+	{
+		if(bbiDisconnectionEnbl.checked == true)
+		{
+			loc += '&bbiDisconnectionEnbl=TRUE';
+			loc += '&bbiDisconnectionRange=' + bbiDisconnectionRange.value;
+	 	}
+		else
+		{
+			loc += '&bbiDisconnectionEnbl=FALSE';
+	 	}
+		
+		if(passThroughCheck.checked == true)
+		{
+			loc += '&passThroughCheck=TRUE';
+	 	}
+		else
+		{
+			loc += '&passThroughCheck=FALSE';
+		}
+		
+	}
+	loc += '&sessionKey=' + sessionKey;
+	loc += '&action=btnSave';	
+	
+	var code = 'location="' + loc + '"';  
+	fadding(); 
+	eval(code);
+}
+  parent.document.getElementById("headerText").innerHTML="<b>Internet&nbsp;&nbsp; </b>Zugang einrichten";
+</SCRIPT>
+
+</head>
+
+<body onload="onload();operaResize();faddingReload();" class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabB" value="Zugangsdaten" onclick="location.href='Internet_Access.html'"></td>
+					<td><input type='button' class='tabDB' value='Weitere Einstellungen' onclick="location.href='Internet_OtherSettings.html'"></td>
+					<td><input type="button" class="tabB" value="IP-Adressen" onclick="location.href='Internet_IP_Address.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:510px;_height:510px;" id="defaultId">
+	  		<div class="left">
+			<form>
+				<div class="stepWrapper">
+					<div class='headline'>Weitere Einstellungen</div>
+						<div id='passthroughTitle' class='subhead'>PPPoE</div>
+						<table class='myTable black' width='530' id='passthroughTable'>
+							<tr>
+								<td width='30' align='center'><input type='checkbox' checked name='passThroughCheck'></td>
+								<td>PPPoE Pass Through aktivieren</td>
+							</tr>
+						</table>
+						<div id='bbiDisconnectionTitle' class='subhead'>Automatische Zwangstrennung</div>
+						<table class='myTable black' width='530' cellspaing='0' id='bbiDisconnectionTable'>
+							<tr>
+								<td width='30' align='center'><input type='checkbox' name='bbiDisconnectionEnbl' onclick='bbiDisconnectionEnblClick()'></td>
+								<td >Zeitpunkt der automatischen Zwangstrennung vorgeben:</td>
+								<td>
+									<select class='blue_frame' style='width:80px' name='bbiDisconnectionRange'>
+										<option value='1'>00 - 01</option>
+										<option value='2'>01 - 02</option>
+										<option value='3'>02 - 03</option>
+										<option value='4'>03 - 04</option>
+										<option value='5'>04 - 05</option>
+										<option value='6'>05 - 06</option>
+										<option value='7'>06 - 07</option>
+										<option value='8'>07 - 08</option>
+										<option value='9'>08 - 09</option>
+										<option value='10'>09 - 10</option>
+										<option value='11'>10 - 11</option>
+										<option value='12'>11 - 12</option>
+										<option value='13'>12 - 13</option>
+										<option value='14'>13 - 14</option>
+										<option value='15'>14 - 15</option>
+										<option value='16'>15 - 16</option>
+										<option value='17'>16 - 17</option>
+										<option value='18'>17 - 18</option>
+										<option value='19'>18 - 19</option>
+										<option value='20'>19 - 20</option>
+										<option value='21'>20 - 21</option>
+										<option value='22'>21 - 22</option>
+										<option value='23'>22 - 23</option>
+										<option value='24'>23 - 00</option>
+									</select>
+								</td>
+								<td>Uhr</td>
+							</tr>
+						</table>					
+					</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Weitere'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<!--<div class="button_center" onclick="showWait();btnSave()"><a href="#"><img src="images1/apply.gif"></img></a></div> -->
+			<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();btnSave()"></div>
+		</div>
+	</div>
+</body>
+</html>

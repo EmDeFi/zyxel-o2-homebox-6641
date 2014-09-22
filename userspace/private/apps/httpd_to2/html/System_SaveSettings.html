@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<style type="text/css">
+.hiddenfile{
+position:absolute;
+text-align: right;
+-moz-opacity:0 ;          
+cursor:pointer;
+height:28px;
+width:300px;
+opacity:0;
+filter:alpha(opacity=0);
+outline: none;
+}
+</style>
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+function backupClick() {
+   //var loc = 'backuppartialsettings.conf';
+   var loc = 'konfiguration.conf';
+
+
+   var code = 'location="' + loc + '"';
+   eval(code);
+}
+var progress = 0;
+function isInProgress() {
+
+	with ( document.forms[1])
+	{ 
+		if(filename.value == "")
+		{
+			//alert("no configuration file or invalid configuration file is selected.");
+			showErr("Es wurde keine bzw. eine ungültige Konfigurationsdatei ausgewählt.");
+			return false;
+		}
+	}
+	
+   if ( progress == 0 )  {
+      progress = 1;
+      return true;
+   }
+   <!--alert('Updating settings is in progress and the router will reboot. Please wait for a minute.');-->
+   //alert('Update-Einstellungen im Gange ist und der Router wird neu gestartet. Bitte warten Sie eine Minute.');
+//   showErr('Update-Einstellungen im Gange ist und der Router wird neu gestartet. Bitte warten Sie eine Minute.');
+//	showErr('Die Einstellungen werden aktualisiert und die HomeBox neu gestartet. Bitte warten Sie.');
+   	showErr('Die Einstellungen werden aktualisiert und die o2 HomeBox neu gestartet. Bitte warten Sie.');
+   return false;
+}
+  parent.document.getElementById("headerText").innerHTML="<b>System&nbsp;&nbsp; </b>Einstellungen sichern";
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onLoad="operaResize();">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+					<div class="headline">Konfiguration speichern</div>
+					<table width="477" class="alignment">
+						<tr>
+							<td>Sie können die Konfiguration der o2 HomeBox speichern.</td>
+					  	</tr>
+						<tr>
+						  	<td><a onclick="backupClick()" href="#"><img src="images1/apply.gif"></img></a></td>
+					  	</tr>
+					</table>
+				</div>
+			</form>
+			<form method='post' ENCTYPE='multipart/form-data' action='uploadsettings.cgi' onSubmit='return isInProgress();'>
+				<div class="stepWrapper">
+					<div class="headline">Konfiguration laden</div>
+					<table class="alignment">
+					  	<tr>
+							<td colspan="3">Wählen Sie die Konfigurationsdatei aus.</td>
+					  	</tr>
+					  	<tr>
+							<td width="120" class="bold">Konfiguration:</td>
+							<td width="120">
+								<input class="hiddenfile" type="file" name="filename" id="upload" onchange="document.getElementById('textfield').value=this.value.substr(this.value.lastIndexOf('\\')+1)" accept=".conf" ondblclick="this.click();"/>
+								<input type="text" id="textfield" class="blue_frame" style="width:150px; height:25px; line-height:25px;" readonly="true"/>
+							</td>
+							<td><a onclick="document.getElementById('upload').click()" href="#"><img src="images1/selectFile.gif"></img></a></td>
+							<!--<td><a onclick="document.getElementById('upload').click()" href="#"><img src="images1/selectFile.gif"></img></a><input type="file" name="filename" id="upload" onchange="document.getElementById('textfield').value=this.value" accept=".conf"/></td>-->
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+							<td><a onclick="document.getElementById('go').click()" href="#"><img src="images1/load.gif"></img></a><input type="submit" id="go" style="display:none"/></td>
+					  	</tr>
+					</table>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Einstellungen'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar"></div>
+	</div>
+</body>
+<SCRIPT LANGUAGE="JavaScript">
+function detectBrowser(){
+	var sAgent = navigator.userAgent.toLowerCase();
+	this.isIE = (sAgent.indexOf("msie")!=-1); //IE6.0-7
+	this.isFF = (sAgent.indexOf("firefox")!=-1);//firefox
+	this.isSa = (sAgent.indexOf("safari")!=-1);//safari
+	this.isOp = (sAgent.indexOf("opera")!=-1);//opera
+	this.isNN = (sAgent.indexOf("netscape")!=-1);//netscape
+	this.isCh = (sAgent.indexOf("chrome")!=-1);//chrome
+	this.isMa = this.isIE;//marthon
+	this.isOther = (!this.isIE && !this.isFF && !this.isSa && !this.isOp && !this.isNN && !this.isSa);//unknown Browser
+}
+var oBrowser = new detectBrowser();
+if (oBrowser.isIE) { 
+	document.getElementById("upload").style.zIndex = "99";
+}
+else
+{
+	document.getElementById("upload").style.zIndex = "-1";
+}
+</SCRIPT>
+</html>

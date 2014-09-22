@@ -1,0 +1,510 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+
+var IncomingDevicelist = '<%ejGetVoice(IncomingDeviceList)%>';
+var IncomingDevice = IncomingDevicelist.split(" ");
+
+var FXSname = new Array(2);
+var FXSCW = new Array(2);
+var FXSIU = new Array(2);
+
+var count1 = 0;
+var count2 = 1;
+for(count1 = 0; count1 < 2; count1++)
+{
+	eval("var FXS"+count2+"=IncomingDevice["+count1+"].split(',')");
+	eval("FXSname["+count1+"]=FXS"+count2+"[0]");
+	eval("FXSCW["+count1+"]=FXS"+count2+"[1]");
+	eval("FXSIU["+count1+"]=FXS"+count2+"[2]");
+	count2++;
+}
+
+var ISDNname = new Array(8);
+var ISDNID = new Array(8);
+count2 = 1;
+var count3 = 0;
+for(count1 = 2; count1 < 10; count1++)
+{
+	eval("var ISDN"+count2+"=IncomingDevice["+count1+"].split(',')");
+	eval("ISDNname["+count3+"]=ISDN"+count2+"[0]");
+	eval("ISDNID["+count3+"]=ISDN"+count2+"[1]");
+	count2++;
+	count3++;
+}
+
+var DECTname = new Array(6);
+var DECTCW = new Array(6);
+var DECTRG = new Array(6);
+count2 = 1;
+count3 = 0;
+for(count1 = 10; count1 < 16; count1++)
+{
+	eval("var DECT"+count2+"=IncomingDevice["+count1+"].split(',')");
+	eval("DECTname["+count3+"]=DECT"+count2+"[0]");
+	eval("DECTCW["+count3+"]=DECT"+count2+"[1]");
+	eval("DECTRG["+count3+"]=DECT"+count2+"[2]");
+	count2++;
+	count3++;
+}
+
+var IncomingAccountlist = '<%ejGetVoice(IncomingAccountList)%>';
+var IncomingAccount = IncomingAccountlist.split(" ");
+
+if(IncomingAccount[0]!='')
+{
+	for(count1= 0; count1 < IncomingAccount.length; count1++)
+	{
+		eval("var Account"+count1+"=IncomingAccount["+count1+"].split(';')");	
+		if(eval("Account"+count1+"[2]")!="")
+		{
+			eval("var RefList"+count1+"=Account"+count1+"[2].split(',')");
+		}
+		else
+		{
+			eval("var RefList"+count1+"=''");
+		}	
+		eval("var varName"+count1+"='UseDevice0_"+count1+"'");
+	}
+}
+
+var numberOfDevice = 2 ;
+for(count1 = 0; count1 < FXSname.length; count1++)
+{
+	if(FXSIU[count1] == "True")
+	{
+		numberOfDevice++;
+	}
+}
+for(count1 = 0; count1 < ISDNname.length; count1++)
+{
+	if(ISDNname[count1] != "")
+	{
+		numberOfDevice++;
+	}
+}
+for(count1 = 0; count1 < DECTname.length; count1++)
+{
+	if(DECTname[count1] != "")
+	{
+		numberOfDevice++;
+	}
+}
+
+
+function Apply(current_view)
+{
+	with(document.forms[0]){		
+		var DeviceCount = 0;
+		var tmpDeviceCount = 0;
+		var callPhyList = '';		
+	
+		/* call watting list*/		
+			
+			for(DeviceCount=0;DeviceCount < FXSname.length; DeviceCount++)
+			{
+				if(FXSIU[DeviceCount] == "True")
+				{
+					if(eval('checkboxA_'+DeviceCount+'.checked'))
+					{
+						if(eval('callPhyList==""'))
+						{
+							eval('callPhyList+="'+(DeviceCount+1)+'"');
+						}else{
+							eval('callPhyList+=",'+(DeviceCount+1)+'"');
+						}
+					}
+				}
+			}
+		
+			tmpDeviceCount = FXSname.length;
+			var ISDNCount = 0;
+				
+			for(;DeviceCount < (ISDNname.length+tmpDeviceCount); DeviceCount++)
+			{
+				if(ISDNname[ISDNCount] != "")
+				{
+				/*
+					if(eval('checkboxA_'+DeviceCount+'.checked'))
+					{
+						if(eval('callPhyList==""'))
+						{
+							eval('callPhyList+="'+(tmpDeviceCount+(1+parseInt(ISDNID[ISDNCount])))+'"');
+						}else{
+							eval('callPhyList+=",'+(tmpDeviceCount+(1+parseInt(ISDNID[ISDNCount])))+'"');
+						}
+					}		
+				*/
+				}
+				ISDNCount++;
+			}	
+		
+			tmpDeviceCount = tmpDeviceCount + ISDNname.length;
+			var DECTCount = 0;
+		
+			for(;DeviceCount < (DECTname.length+tmpDeviceCount); DeviceCount++)
+			{
+				if(DECTname[DECTCount] != "")
+				{
+					if(eval('checkboxA_'+DeviceCount+'.checked'))
+					{
+						if(eval('callPhyList==""'))
+						{
+							eval('callPhyList+="'+(tmpDeviceCount+(parseInt(DECTRG[DECTCount])))+'"');
+						}else{
+							eval('callPhyList+=",'+(tmpDeviceCount+(parseInt(DECTRG[DECTCount])))+'"');
+						}
+					}					
+				}
+				DECTCount++;
+			}
+			
+		
+		
+		/* caculator PhyReferenceList */
+		if(IncomingAccount[0]!='')
+		{
+			for(var count=0; count < IncomingAccount.length; count++)
+			{
+				if(eval("Account"+count+"[0]")!="")
+				{
+					DeviceCount = 0;
+					tmpDeviceCount = 0;
+				
+					eval('var PhyReferenceList'+count+'=""');
+					
+					for(;DeviceCount < FXSname.length; DeviceCount++)
+					{
+						if(FXSIU[DeviceCount] == "True")
+						{
+							if(eval('checkbox'+count+'_'+DeviceCount+'.checked'))
+							{
+								if(eval('PhyReferenceList'+count+'==""'))
+								{
+									eval('PhyReferenceList'+count+'+="'+(DeviceCount+1)+'"');
+								}else{
+									eval('PhyReferenceList'+count+'+=",'+(DeviceCount+1)+'"');
+								}
+							}
+						}
+					}			
+					tmpDeviceCount = FXSname.length;			
+					
+					ISDNCount = 0;
+					for(;DeviceCount < (ISDNname.length+tmpDeviceCount); DeviceCount++)
+					{
+						if(ISDNname[ISDNCount] != "")
+						{
+							if(eval('checkbox'+count+'_'+DeviceCount+'.checked'))
+							{
+								if(eval('PhyReferenceList'+count+'==""'))
+								{
+									eval('PhyReferenceList'+count+'+="'+(tmpDeviceCount+(1+parseInt(ISDNID[ISDNCount])))+'"');
+								}else{
+									eval('PhyReferenceList'+count+'+=",'+(tmpDeviceCount+(1+parseInt(ISDNID[ISDNCount])))+'"');
+								}
+							}					
+						}
+						ISDNCount++;
+					}	
+				
+					tmpDeviceCount = tmpDeviceCount + ISDNname.length;
+					
+					DECTCount = 0;			
+					for(;DeviceCount < (DECTname.length+tmpDeviceCount); DeviceCount++)
+					{
+						if(DECTname[DECTCount] != "")
+						{
+							if(eval('checkbox'+count+'_'+DeviceCount+'.checked'))
+							{
+
+								if(eval('PhyReferenceList'+count+'==""'))
+								{
+									eval('PhyReferenceList'+count+'+="'+(tmpDeviceCount+(parseInt(DECTRG[DECTCount])))+'"');
+								}else{
+									eval('PhyReferenceList'+count+'+=",'+(tmpDeviceCount+(parseInt(DECTRG[DECTCount])))+'"');
+								}
+							}
+						}
+						DECTCount++;
+					}
+				}
+			}
+		}
+		
+		var loc = 'voicecallapply.cmd?'; 
+		loc += 'action=PhyReferenceListApply'
+		loc += '&currentview='+current_view;
+		if(IncomingAccount[0]!='')
+		{
+			for(count = 0; count < IncomingAccount.length; count++)
+			{				
+					loc += '&'+eval('varName'+count)+'='+eval('PhyReferenceList'+count);				
+			}
+		}
+		loc += '&CallWaitingList=' + callPhyList;
+		loc += '&sessionKey='+sessionkey;
+		var code = 'location="' + loc + '"';
+		//alert(code);
+		fadding();
+		eval(code);
+		
+	}
+}
+
+function printInternalTable()
+{
+	with(document.forms[0]){
+		
+		//the first is NULL
+		var offset=0;
+
+		document.writeln('<table class="myTable font12" width="530" border="0" >');
+		document.writeln('<tr class="bold">');
+		document.writeln('<td width="110">&nbsp;</td>');
+		for(var count=0; count < IncomingAccount.length; count++)
+		{
+			if(count == 0)
+			{
+				document.writeln('<td>Rufnummern</td>');
+			}else
+			{
+				document.writeln('<td width="70" ></td>');
+			}
+		}
+		document.writeln('</tr>');
+		document.writeln('<tr class="bold">');
+		document.writeln('<td ROWSPAN="'+numberOfDevice+'">');
+		document.writeln('<div border="0" style="width:190px; height:'+parseInt((numberOfDevice)*24)+'px;">'); 
+		document.writeln('<table class="font12" border="0" cellpadding ="0" width="70">');
+		document.writeln('<tr><td>&nbsp;</td></tr>');
+		
+		for(var DeviceOfFXS = 0 ;DeviceOfFXS < FXSname.length; DeviceOfFXS++)
+		{			
+			if(FXSIU[DeviceOfFXS] == "True")
+			{
+				document.writeln('<tr>');
+				document.writeln('<td>'+FXSname[DeviceOfFXS]+'</td>');
+				document.writeln('</tr>');
+			}
+		}	 
+	
+		for(var DeviceOfISDN = 0 ;DeviceOfISDN < ISDNname.length ;DeviceOfISDN++)
+		{
+			if(ISDNname[DeviceOfISDN] != "")
+			{
+				document.writeln('<tr>');
+				document.writeln('<td>'+ISDNname[DeviceOfISDN]+'</td>');
+				document.writeln('</tr>');
+			}
+		}
+	
+		for(var DeviceOfDECT = 0 ;	DeviceOfDECT < DECTname.length; DeviceOfDECT++)
+		{	
+			if(DECTname[DeviceOfDECT] != "")
+			{
+				document.writeln('<tr>');
+				document.writeln('<td >'+DECTname[DeviceOfDECT]+'</td>');
+				document.writeln('</tr>');
+			}
+		}		
+		
+		//document.writeln('<tr></tr>');		
+		document.writeln('</table>');
+		document.writeln('</div>');
+		document.writeln('</td>');
+
+		document.writeln('<td ROWSPAN="'+parseInt(numberOfDevice)+'" COLSPAN="'+parseInt(IncomingAccount.length+1)+'">'); 
+		document.writeln('<div border="0" style="width:335px; height:'+parseInt((numberOfDevice)*24)+'px; overflow:auto; padding-bottom: 0px;" >'); 
+		document.writeln('<table class="font12" border="0" cellpadding ="0">');
+		document.writeln('<tr>');
+		document.writeln('<td>Anklopfen&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+		if(IncomingAccount[0]!='')
+		{
+			for( count = 0; count < IncomingAccount.length; count++)
+			{	
+				eval("var Account=Account"+count+"[0]");
+				if(Account!="(null)")
+				{
+						document.writeln('<td>00'+Account+'&nbsp;&nbsp;&nbsp;&nbsp;</td>');
+			}
+		}
+		}
+		document.writeln('</tr>');		
+		
+		for(var DeviceOfFXS = 0 ;DeviceOfFXS < FXSname.length; DeviceOfFXS++)
+		{			
+			if(FXSIU[DeviceOfFXS] == "True")
+			{
+				document.writeln('<tr>');
+				document.writeln('<td><input type="checkbox" name="checkboxA_'+DeviceOfFXS+'"></td>');
+				if(FXSCW[DeviceOfFXS] == 'on')
+				{
+					eval('checkboxA_'+DeviceOfFXS+'.checked=true;');
+				}				
+
+				if(IncomingAccount[0]!='')
+				{
+					for(count=0; count <  IncomingAccount.length; count++)
+					{
+						if((eval("Account"+count+"[0]")!="")&&(eval("Account"+count+"[0]")!="(null)"))
+						{
+							document.writeln('<td><input type="checkbox" name="checkbox'+count+'_'+DeviceOfFXS+'"></td>');
+
+							/* Search match device */
+							for(var check=0;check<eval('RefList'+count+'.length');check++)
+							{
+								if(eval('RefList'+count+'['+check+']') != "")
+								{
+									if(("all" == eval('RefList'+count+'['+check+']')) ||
+									((DeviceOfFXS+1) == eval('RefList'+count+'['+check+']')))
+									{
+										eval('checkbox'+count+'_'+DeviceOfFXS+'.checked=true;');
+									}
+								}
+							}
+						}
+					}
+				}
+				document.writeln('</tr>');
+			}
+		}
+		offset = FXSname.length;
+	
+		for(var DeviceOfISDN = 0 ;DeviceOfISDN < ISDNname.length; DeviceOfISDN++)
+		{	
+			if(ISDNname[DeviceOfISDN] != "")
+			{
+				document.writeln('<tr>');
+				document.writeln('<td><input type="checkbox" checked="checked" value="" disabled ></td>');
+
+				if(IncomingAccount[0]!='')
+				{
+					for(count=0; count <  IncomingAccount.length; count++)
+					{
+						if((eval("Account"+count+"[0]")!="")&&(eval("Account"+count+"[0]")!="(null)"))
+						{
+							document.writeln('<td><input type="checkbox" name="checkbox'+count+'_'+(DeviceOfISDN+offset)+'"></td>');
+
+							/* Search match device */
+							for(var check=0;check<eval('RefList'+count+'.length');check++)
+							{
+								if(eval('RefList'+count+'['+check+']') != "")
+								{
+									if(("all" == eval('RefList'+count+'['+check+']')) ||
+									((parseInt(ISDNID[DeviceOfISDN])+offset)+1) == eval('RefList'+count+'['+check+']'))
+									{
+									eval('checkbox'+count+'_'+(DeviceOfISDN+offset)+'.checked=true;');
+									}
+								}
+							}
+						}
+					}			
+				}
+				document.writeln('</tr>');
+			}
+		}
+	
+		offset = (ISDNname.length+offset);
+			
+		for(var DeviceOfDECT = 0 ;	DeviceOfDECT < DECTname.length; DeviceOfDECT++)
+		{	
+			if(DECTname[DeviceOfDECT] != "")
+			{			
+				var devID = parseInt(DECTRG[DeviceOfDECT]);
+				document.writeln('<tr>');
+				document.writeln('<td><input type="checkbox" name="checkboxA_'+(DeviceOfDECT+offset)+'"></td>');
+				if(DECTCW[devID-1] == 'on')
+				{
+					eval('checkboxA_'+(DeviceOfDECT+offset)+'.checked=true;');
+				}
+				
+				if(IncomingAccount[0]!='')
+				{
+					for(count=0; count <  IncomingAccount.length; count++)
+					{
+						if((eval("Account"+count+"[0]")!="")&&(eval("Account"+count+"[0]")!="(null)"))
+						{
+							document.writeln('<td><input type="checkbox" name="checkbox'+count+'_'+(DeviceOfDECT+offset)+'"></td>');
+
+							/* Search match device */
+							for(var check=0;check<eval('RefList'+count+'.length');check++)
+							{
+								if(eval('RefList'+count+'['+check+']') != "")
+								{
+									if(("all" == eval('RefList'+count+'['+check+']')) ||
+									(devID+offset) == eval('RefList'+count+'['+check+']'))
+									{
+										eval('checkbox'+count+'_'+(DeviceOfDECT+offset)+'.checked=true;');
+									}
+								}
+							}
+						}
+					}
+				}
+				document.writeln('</tr>'); 
+			}
+		}		
+		
+		
+		document.writeln('</table>'); 
+		document.writeln('</div>');
+		document.writeln('</td>');
+		document.writeln('</tr>');
+		//document.writeln('<tr></tr>');		
+		document.writeln('</table>');
+	}
+}
+ parent.document.getElementById("headerText").innerHTML="<b>Telefonie&nbsp;&nbsp; </b>Rufnummernplan";
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onLoad='operaResize();faddingReload();'>
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabB" value="Interne Rufnummern" onclick="location.href='Telephony_InternalNumbers.html'"></td>
+					<td><input type='button' class='tabDB' value='Eingehende Anrufe' onclick="location.href='Telephony_IncomingCalls.html'"></td>
+					<td><input type='button' class='tabB' value='Ausgehende Anrufe' onclick="location.href='Telephony_OutgoingCalls.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:400px;_height:400px;" id="defaultId">	
+			<div class="left">
+			<form>				
+				<div class="stepWrapper">
+				<div class='subhead'>Rufnummernplan</div>
+				<script language="javascript">
+					printInternalTable()
+				</SCRIPT>					  				  
+				</div>	
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Eingehende'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();Apply('Telephony_IncomingCalls.html')"></div>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+#
+# Makefile for the Broadcom NAND MTD
+#
+
+obj-$(CONFIG_MTD_BRCMNAND)		+=  bcm63xx-nand.o brcmnand_base.o brcmnand_bbt.o
+## obj-$(CONFIG_MTD_BRCMNAND_EDU)		+= edu.o
+obj-$(CONFIG_MTD_BRCMNAND_CORRECTABLE_ERR_HANDLING)	+= brcmnand_cet.o
+EXTRA_CFLAGS	+= -I $(TOPDIR)/include/asm-generic -I$(INC_BRCMDRIVER_PUB_PATH)/$(BRCM_BOARD) -I$(INC_BRCMSHARED_PUB_PATH)/$(BRCM_BOARD) -DINC_NAND_FLASH_DRIVER=$(INC_NAND_FLASH_DRIVER)
+
+ifeq ($(strip $(ZYXEL_OBM_IMAGE_DEFAULT)), y)
+EXTRA_CFLAGS += -DZYXEL_OBM_IMAGE_DEFAULT
+endif
+
+ifneq ($(strip $(CONFIG_BUILD_MTS_NAND_FLASH_SUPPORT)),)
+EXTRA_CFLAGS += -DMTS_NAND_FLASH_SUPPORT
+endif
+

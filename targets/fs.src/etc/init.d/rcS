@@ -1,0 +1,23 @@
+#! /bin/sh
+
+PATH=/sbin:/bin
+export PATH
+
+mount -t proc proc /proc
+/bin/mount -a
+#/sbin/inetd
+mkdir /var/tmp
+mkdir /var/etc
+mkdir /var/etc/smb
+mkdir /var/tmp/smbvar
+cp /etc/samba/* /var/etc/smb
+
+mkdir /var/etc
+mkdir /var/etc/ppp
+mkdir /var/etc/ppp/chat
+
+cp /etc/ppp/* /var/etc/ppp
+cp /etc/ppp/chat/* /var/etc/ppp/chat
+rm -rf /firmware/fw
+mkdir -p /firmware/fw
+rm -rf /firmware/fw/upload

@@ -1,0 +1,632 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="javascript">
+<!-- hide
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+var wlConfigDone = '<%ejGetWl(wlConfigDone)%>';
+var wlConfigDone5G = '<%ejGetWl(wlConfigDoneExtWl)%>';
+var wpaPskKey = '<%ejGetWl(wlWpaPsk)%>';
+var WscMode   = '<%ejGetWl(wl_wsc_mode)%>';
+var mode = '<%ejGetWl(wlAuthMode)%>';
+var wepkey = '<%ejGetWl(wlKey1)%>';
+var wep = '<%ejGetWl(wlWep)%>';
+var wepkeybit = '<%ejGetWl(wlKeyBit)%>';
+var WscCfgMethod = '<%ejGetWl(wlWscCfgMethod)%>';
+var WscDevPin    = '<%ejGetWl(wlWscDevPin)%>';
+var nmode = '<%ejGetWl(wlNmode)%>'; 
+var nreqd = '<%ejGetWl(wlNReqd)%>';
+var nmode5G = '<%ejGetWl(wlNmodeExtWl)%>'; 
+var nreqd5G = '<%ejGetWl(wlNReqdExtWl)%>';
+var enbl5G = '<%ejGetWl(wlEnbl_wl0v0ExtWl)%>';
+var enbl = '<%ejGetWl(wlEnbl_wl0v0)%>';
+var hide = '<%ejGetWl(wlHide_wl0v0)%>';
+var hide5G = '<%ejGetWl(wlHide_wl0v0ExtWl)%>';
+var wpamodetemp = 3;
+var settingwaitFlag = 1;
+var bottonlock=0;
+function disableTimer(){
+	settingwaitFlag=0;
+}
+function checkNumberKey(Key) {
+ var ret = false;
+	re=/^[a-zA-Z0-9!@#~%\-+=,$%^&*()_{}\[\]\\<>?\/.`'":;|]*$/;
+	//re=/^[öäüß]*$/;
+	if (!re.test(Key))
+		ret=false;
+	else
+		ret=true;	
+		
+	return ret;	
+		
+}
+function CmdLink(){
+	  var loc = 'HomeGroup_WLAN_Advance.cmd?action=view';
+      var code = 'location="' + loc + '"';
+   eval(code);
+}
+function WPAselect(choice){
+	wpamodetemp=choice.value;
+	if(choice.selectedIndex!=0){
+		if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) && ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+			showErr('802.11 n/ac unterstützen nur noch AES im WPA2 Modus.');/*WPA/WPA2 in high speed mode*/
+		}
+		else if((nmode=="auto") && (nreqd=="1") && (enbl=="1")){
+			showErr('802.11 n/ac unterstützen nur noch AES im WPA2 Modus.');/*WPA/WPA2 in high speed mode*/
+		}	
+		else if((nmode5G=="auto") && (nreqd5G=="1") && (enbl5G=="1") ){
+			showErr('802.11 n/ac unterstützen nur noch AES im WPA2 Modus.');/*WPA/WPA2 in high speed mode*/
+		}
+	}
+}
+function hideforWPSselected(hidden) {
+      if ( hidden == 1) {
+	    //WPAclick();
+        //document.forms[0].Encryption[0].checked=true;
+		//document.forms[0].Encryption[1].checked=false;
+		//document.forms[0].Encryption[2].checked=false;
+		document.forms[0].Encryption[1].disabled=true;
+		//document.forms[0].Encryption[2].disabled=true;
+      } else {
+	  	//WPAclick();
+		document.forms[0].Encryption[0].disabled=false;
+		if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) || ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) )
+			document.forms[0].Encryption[1].disabled=true;  
+		else	
+        	document.forms[0].Encryption[1].disabled=false;
+		document.forms[0].Encryption[2].disabled=false;      
+      }
+     
+}
+function WPSclick(cb)
+{
+	if(cb.checked){
+		hideforWPSselected(1);
+		document.forms[0].WPAmode.length = 2;
+		document.forms[0].WPAmode[0] = new Option("WPA2 (AES)", "0");
+		document.forms[0].WPAmode[1] = new Option("WPA / WPA2", "2");
+		if(wpamodetemp==0)
+			document.forms[0].WPAmode.selectedIndex=0;
+		else if	(wpamodetemp==2)
+			document.forms[0].WPAmode.selectedIndex=1;
+		
+	}
+	else{
+		hideforWPSselected(0);
+		if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) || ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+			document.forms[0].WPAmode.length = 2;
+			document.forms[0].WPAmode[0] = new Option("WPA2 (AES)", "0");
+			document.forms[0].WPAmode[1] = new Option("WPA / WPA2", "2");
+			if(wpamodetemp==0)
+				document.forms[0].WPAmode.selectedIndex=0;
+			else if	(wpamodetemp==2)
+				document.forms[0].WPAmode.selectedIndex=1;
+		}
+		else{	
+			document.forms[0].WPAmode.length = 3;
+			document.forms[0].WPAmode[0] = new Option("WPA2 (AES)", "0");
+			document.forms[0].WPAmode[1] = new Option("WPA (TKIP)", "1");
+			document.forms[0].WPAmode[2] = new Option("WPA / WPA2", "2");
+			if(wpamodetemp==0)
+				document.forms[0].WPAmode.selectedIndex=0;
+			else if(wpamodetemp==1)
+				document.forms[0].WPAmode.selectedIndex=1;
+			else if(wpamodetemp==2)
+				document.forms[0].WPAmode.selectedIndex=2;
+		}
+	}
+}
+function WPAclick()
+{
+	if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) || ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) || document.forms[0].wlWscMode.checked){
+		document.forms[0].WPAmode.length = 2;
+		document.forms[0].WPAmode[0] = new Option("WPA2 (AES)", "0");
+		document.forms[0].WPAmode[1] = new Option("WPA / WPA2", "2");
+		if(wpamodetemp==0)
+			document.forms[0].WPAmode.selectedIndex=0;
+		else if	(wpamodetemp==2)
+			document.forms[0].WPAmode.selectedIndex=1;
+		}
+	else{	
+		document.forms[0].WPAmode.length = 3;
+		document.forms[0].WPAmode[0] = new Option("WPA2 (AES)", "0");
+		document.forms[0].WPAmode[1] = new Option("WPA (TKIP)", "1");
+		document.forms[0].WPAmode[2] = new Option("WPA / WPA2", "2");
+		if(wpamodetemp==0)
+			document.forms[0].WPAmode.selectedIndex=0;
+		else if(wpamodetemp==1)
+			document.forms[0].WPAmode.selectedIndex=1;
+		else if(wpamodetemp==2)
+			document.forms[0].WPAmode.selectedIndex=2;
+		}
+
+	document.forms[0].Encryption[0].checked=true;
+	if(hide=="1" || hide5G=="1"){
+		document.forms[0].wlWscMode.checked=false;
+		document.forms[0].wlWscMode.disabled=true;
+	}
+	else
+		document.forms[0].wlWscMode.disabled=false;  
+	document.forms[0].WPAmode.disabled=false;
+	document.forms[0].WPAkey.disabled=false;
+	showhide("WPASET",1);
+	showhide("WEPSET",0);
+
+}
+function WEPclick()
+{
+	document.forms[0].Encryption[1].checked=true;
+	document.forms[0].wlWscMode.checked=false;
+	document.forms[0].wlWscMode.disabled=true;
+	document.forms[0].WPAmode.disabled=true;
+	document.forms[0].WPAkey.disabled=true;
+	document.forms[0].WEPstr.disabled=false;
+	document.forms[0].WEPkey.disabled=false;
+	showhide("WEPSET",1);
+	showhide("WPASET",0);
+	if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) && ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+		showErr('802.11 n/ac unterstützen kein WEP mehr. Eine Aktivierung würde zu einer Reduzierung der Geschwindigekeit führen.');
+	}
+	else if((nmode=="auto") && (nreqd=="1") && (enbl=="1")){
+		showErr('802.11 n/ac unterstützen kein WEP mehr. Eine Aktivierung würde zu einer Reduzierung der Geschwindigekeit führen.');
+	}	
+	else if((nmode5G=="auto") && (nreqd5G=="1") && (enbl5G=="1") ){
+		showErr('802.11 n/ac unterstützen kein WEP mehr. Eine Aktivierung würde zu einer Reduzierung der Geschwindigekeit führen.');
+	}
+	
+	if ((mode == "psk2") || (mode == "psk") || (mode == "psk psk2")){
+		if(mode == "psk2")/*WPA2*/
+			wpamodetemp=0;
+		else if (mode == "psk")/*WPA*/
+			wpamodetemp=1;
+		else
+			wpamodetemp=2;
+	}
+		
+}
+function Openclick()
+{
+	if(hide=="1" || hide5G=="1"){
+		document.forms[0].wlWscMode.checked=false;
+		document.forms[0].wlWscMode.disabled=true;
+	}
+	else
+		document.forms[0].wlWscMode.disabled=false;   
+	document.forms[0].Encryption[2].checked=true;
+	//document.forms[0].wlWscMode.checked=false;
+	//document.forms[0].wlWscMode.disabled=true;
+	document.forms[0].WPAmode.disabled=true;
+	document.forms[0].WPAkey.disabled=true;
+	if ((mode == "psk2") || (mode == "psk") || (mode == "psk psk2")){
+		if(mode == "psk2")/*WPA2*/
+			wpamodetemp=0;
+		else if (mode == "psk")/*WPA*/
+			wpamodetemp=1;
+		else
+			wpamodetemp=2;
+	}
+	showhide("WPASET",0);
+	showhide("WEPSET",0);
+}
+function isValidWPAPskKey(val) {
+   var ret = false;
+   var len = val.length;
+   var maxSize = 64;
+   var minSize = 8;
+
+   if ( len >= minSize && len < maxSize )
+      ret = true;
+   else if ( len == maxSize ) {
+      for ( i = 0; i < maxSize; i++ )
+         if ( isHexaDigit(val.charAt(i)) == false )
+            break;
+      if ( i == maxSize )
+         ret = true;
+   } else
+      ret = false;
+
+   return ret;
+}
+function settingwaitmakeRequest(url) {
+    if (window.XMLHttpRequest) { // Mozilla [11], Safari,...
+        http_request = new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject) { // IE
+        http_request = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    // Callback Function
+    http_request.onreadystatechange = settingwaitalertContents;
+    http_request.open('GET', url, true);
+    http_request.send(null);
+}
+function settingwaitalertContents() {
+    if (http_request.readyState == 4) {
+        if (http_request.status == 200) {
+			var partHttp_request = http_request.responseText.split('|');
+			showWait();
+			if(partHttp_request[2]=='1' && partHttp_request[3]=='1'){		
+				settingwaitFlag=0;
+				faddingWlReload();
+				showHelp();
+				bottonlock=0;
+			}
+			
+        }
+    }
+}
+function settingwait()
+{
+	if(settingwaitFlag == 1)
+	{   
+		t=setTimeout(function(){settingwait()},1000);
+		settingwaitmakeRequest('updateWlDFS.html');
+	}
+}
+function frmLoad()
+{
+	if(isIE || isOpera || isSafari){
+		document.forms[0].WPAmode.style.width = "154px";
+		document.forms[0].WEPstr.style.width = "154px";
+	}
+if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) || ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) )
+	document.forms[0].Encryption[1].disabled=true;  
+ if (WscMode == "enabled"){
+	document.forms[0].wlWscMode.checked=true;
+  	hideforWPSselected(1);
+	document.forms[0].WPAmode.length = 2;
+	document.forms[0].WPAmode[0] = new Option("WPA2 (AES)", "0");
+	document.forms[0].WPAmode[1] = new Option("WPA / WPA2", "2");
+ }
+ else{
+ 	document.forms[0].wlWscMode.checked=false;
+}
+	
+ document.forms[0].WPAkey.value = wpaPskKey;
+ document.forms[0].WEPkey.value = wepkey;
+ if ((mode == "psk2") || (mode == "psk") || (mode == "psk psk2")){
+ 	WPAclick();
+	if(mode == "psk2"){
+		document.forms[0].WPAmode.selectedIndex=0;/*WPA2*/
+		wpamodetemp=0;
+	}
+	else if (mode == "psk"){
+		document.forms[0].WPAmode.selectedIndex=1;/*WPA*/
+		wpamodetemp=1;
+		if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) && ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+			showErr('802.11 n/ac unterstützt WPA(TKIP) nicht mehr.');
+		}
+		else if((nmode=="auto") && (nreqd=="1") && (enbl=="1")){
+			showErr('802.11 n/ac unterstützt WPA(TKIP) nicht mehr.');
+		}	
+		else if((nmode5G=="auto") && (nreqd5G=="1") && (enbl5G=="1") ){
+			showErr('802.11 n/ac unterstützt WPA(TKIP) nicht mehr.');
+		}
+	}
+	else{
+		if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) || ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1"))|| document.forms[0].wlWscMode.checked )
+			document.forms[0].WPAmode.selectedIndex=1;/*WPA/WPA2*/
+		else
+			document.forms[0].WPAmode.selectedIndex=2;/*WPA/WPA2*/
+		wpamodetemp=2;	
+		if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) && ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+			showErr('802.11 n/ac unterstützen nur noch AES im WPA2 modus');
+		}
+		else if((nmode=="auto") && (nreqd=="1") && (enbl=="1")){
+			showErr('802.11 n/ac unterstützen nur noch AES im WPA2 modus');
+		}	
+		else if((nmode5G=="auto") && (nreqd5G=="1") && (enbl5G=="1") ){
+			showErr('802.11 n/ac unterstützen nur noch AES im WPA2 modus');
+		}
+	}
+ }
+ else if(mode == "open"){
+ 	if (wep == "enabled"){/*WEP*/
+		WEPclick();
+		if (wepkeybit == "1"){
+		document.forms[0].WEPstr.selectedIndex=1;/*64bit*/
+		}
+		else{
+		document.forms[0].WEPstr.selectedIndex=0;/*128bit*/
+		}
+ 	}
+ 	else/*Without encryption*/
+ 		Openclick();
+ }
+ if(hide=="1" || hide5G=="1"){
+		document.forms[0].wlWscMode.checked=false;
+		document.forms[0].wlWscMode.disabled=true;
+ }	
+ 
+if(wlConfigDone!='1' || wlConfigDone5G!='1'){
+	bottonlock=1;
+	fadding();
+	showWait();
+	settingwait();
+}
+else{
+    faddingWlReload();
+	showHelp();
+	bottonlock=0;
+}
+}
+
+function btnApply() {
+ var loc = 'HomeGroup_WLAN_Security.wlto2?';
+ /*Jayden add for alice WLAN GUI*/
+ var locext='HomeGroup_WLAN_Security.wlto2?';
+ var getothersessionkey;
+ getothersessionkey = '&sessionKey=' + sessionKey;
+ if(bottonlock==0){
+ disableTimer();
+ with ( document.forms[0] ) {
+   if(Encryption[0].checked == true){/**WPA mode*/
+   		var WPAvalue;
+		
+   		if(WPAmode.value == 0){/*WPA2*/
+   			loc += 'wlAuthMode=psk2';
+			locext += 'wlAuthMode=psk2';
+			loc += '&wlWpa=aes';
+			locext += '&wlWpa=aes';
+		}else if(WPAmode.value == 1){/*WPA*/
+			loc += 'wlAuthMode=psk';
+			locext += 'wlAuthMode=psk';
+			loc += '&wlWpa=tkip';
+			locext += '&wlWpa=tkip';	
+		}else{/*WPA/WPA2*/
+			loc += 'wlAuthMode=psk psk2';
+			locext += 'wlAuthMode=psk psk2';
+			loc += '&wlWpa=tkip+aes';
+			locext += '&wlWpa=tkip+aes';	
+		}
+		
+		 WPAvalue = WPAkey.value;
+		 if(WPAkey.value==''){
+		 	showErr('Der Schlüssel darf nur aus den Zeichen [0-9], [a-z], [A-Z], [!@#~%-+=,$%^&*()_{}[]\\<>?/.`:\';\"|] bestehen und muss 8 - 63 Zeichen lang sein.');
+			return;
+		 }
+		 if(checkNumberKey(WPAvalue) == false ){
+			showErr('Der Schlüssel darf nur aus den Zeichen [0-9], [a-z], [A-Z], [!@#~%-+=,$%^&*()_{}[]\\<>?/.`:\';\"|] bestehen.');
+			return;
+		}
+         if ( isValidWPAPskKey(WPAvalue) == false ) {
+		 	showErr('Der Schlüssel darf nur aus den Zeichen [0-9], [a-z], [A-Z], [!@#~%-+=,$%^&*()_{}[]\\<>?/.`:\';\"|] bestehen und muss 8 - 63 Zeichen lang sein.');
+            //alert('WPA Schlussel zwischen 8 und 63 Zeichen');
+            return;
+         }
+		 loc += '&wlWpaGtkRekey=1800';
+		 locext += '&wlWpaGtkRekey=1800';
+         loc += '&wlWpaPsk=' + encodeUrl(WPAkey.value);
+		 locext += '&wlWpaPsk=' + encodeUrl(WPAkey.value);
+		 loc += '&wlWep=disabled';
+		 locext += '&wlWep=disabled';
+   }
+   else if(Encryption[1].checked == true){/*WEP mode*/
+   		var WEPvalue = WEPkey.value;
+   		loc += 'wlAuthMode=open';
+		locext += 'wlAuthMode=open';
+		loc += '&wlWpaGtkRekey=0';
+		locext += '&wlWpaGtkRekey=0';
+		loc += '&wlWep=enabled';
+		locext += '&wlWep=enabled';
+		loc += '&wlKeyIndex=1';
+		locext += '&wlKeyIndex=1';
+		loc += '&wlKeyBit='+WEPstr[WEPstr.selectedIndex].value;
+		locext += '&wlKeyBit='+WEPstr[WEPstr.selectedIndex].value;
+		 if ( (WEPvalue == '') && (Encryption[1].checked == true)) {
+			 if ( WEPstr[WEPstr.selectedIndex].value == "0" ) 
+			 	showErr('Bitte geben Sie 13 ASCII Zeichen oder 26 Hexadezimalzahlen fur einen 128-Bit-WEP-Schlussel.');
+			 else
+			 	 showErr('Bitte geben Sie 5 ASCII Zeichen oder 10 Hexadezimalzahlen fur einen 64-Bit-WEP-Schlussel.');
+            //alert('Schlussel kann nicht leer sein.');
+            return;
+         }
+		 
+		 if ( WEPvalue != '' ) {
+		 	if(checkNumberKey(WEPvalue) == false ){
+				showErr('Der Schlüssel darf nur aus den Zeichen [0-9], [a-z], [A-Z], [!@#~%-+=,$%^&*()_{}[]\\<>?/.`:\';\"|] bestehen.');
+				return;
+			}
+            if ( WEPstr[WEPstr.selectedIndex].value == "0" ) {
+               if ( isValidKey(WEPvalue, 13) == false ) {
+			   	  showErr('Bitte geben Sie 13 ASCII Zeichen oder 26 Hexadezimalzahlen fur einen 128-Bit-WEP-Schlussel.');
+                  //alert('Ungültig. Bitte geben Sie 13 ASCII Zeichen oder 26 Hexadezimalzahlen fur einen 128-Bit-WEP-Schlussel.');
+                  return;
+               }
+            } else {
+               if ( isValidKey(WEPvalue, 5) == false ) {
+			      showErr('Bitte geben Sie 5 ASCII Zeichen oder 10 Hexadezimalzahlen fur einen 64-Bit-WEP-Schlussel.');
+                  //alert('Ungültig. Bitte geben Sie 5 ASCII Zeichen oder 10 Hexadezimalzahlen fur einen 64-Bit-WEP-Schlussel.');
+                  return;
+               }
+            }
+         }
+		loc += '&wlKey1=' + encodeUrl(WEPkey.value);
+		locext += '&wlKey1=' + encodeUrl(WEPkey.value);
+   }
+   else{/*open mode*/
+   		loc += 'wlAuthMode=open';
+		locext += 'wlAuthMode=open';
+		loc += '&wlWep=disabled';
+		locext += '&wlWep=disabled';
+		loc += '&wlWpaGtkRekey=0';
+		locext += '&wlWpaGtkRekey=0';
+   }
+   
+   if(wlWscMode.checked == true){
+   		if(WPAmode.value == 1){/*WPA*/
+			showErr('WPS 2.0 unterstützt kein WPA mehr, bitte wählen Sie WPA2.');
+			return;
+		}
+   		loc += '&wl_wsc_mode=enabled';
+		/*Push Button*/
+		loc += '&wlWscCfgMethod=pbc';
+		loc += '&wl_config_state=1';
+		loc += '&wl_wsc_reg=enabled';
+		locext += '&wl_wsc_mode=enabled';
+		/*Push Button*/
+		locext += '&wlWscCfgMethod=pbc';
+		locext += '&wl_config_state=1';
+		locext += '&wl_wsc_reg=enabled';
+			//loc += '&wlWscConfig=client-pin-reset';
+			//loc += '&wlWscAuthoStaMac=';
+			//loc += '&wsc_force_restart=n';
+			/*loc += '&wlWscConfig=ap-pin';
+
+        	loc += '&wsc_proc_status=0';
+            loc += '&wsc_method=1';
+            loc += '&wsc_config_command=1';
+ 
+            loc += '&wsc_config_state=0';
+            loc += '&wsc_force_restart=y';*/
+			
+   }
+   else{
+   		loc += '&wl_wsc_mode=disabled';
+		locext += '&wl_wsc_mode=disabled';
+   }
+   
+ }
+ 
+   loc += '&wlAuth=0';
+   locext += '&wlAuth=0';
+   //loc += '&wlWscVer2=disabled';
+   //locext += '&wlWscVer2=disabled';
+   loc += '&wlConfigDone=0';
+   locext += '&wlConfigDone=0';
+   loc += '&wlnoAcsNeed2G=0';
+   locext += '&wlnoAcsNeed5G=0';
+   loc += getothersessionkey;
+   locext += getothersessionkey;
+   var code = 'location="' + loc +'&SplitDefaultExt=/webs/'+locext+ '"';
+   /*alert('252');*/
+   fadding();
+   eval(code);
+   }
+   else{
+   	return;
+   }
+}
+ parent.document.getElementById("headerText").innerHTML="<b>Heimnetz&nbsp;&nbsp;</b> WLAN";
+// done hiding -->
+</script>
+<body onbeforeunload="disableTimer()" onLoad='frmLoad();operaResize();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabB" value="Basisstationen" onclick="location.href='wlBsMngr.cmd?action=view'"></td>
+					<td><input type="button" class="tabDB" value="Verschlüsselung" onclick="location.href='HomeGroup_WLAN_Security.html'"></td>
+					<td><input type="button" class="tabB" value="Nachtschaltung" onclick="location.href='wlSchedulerMngr.cmd?action=view'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:570px;_height:570px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+					<div class="headline">WLAN-Basisstation verschlüsseln</div>
+					<table width="550" class="alignment">
+						<tr>
+							Eine Umschaltung der Verschlüsselung ist nur bei ausgeschaltetem WPS möglich.<p>Legen Sie den Modus für die WLAN-Verschlüsselung fest und geben Sie einen Schlüssel ein. Bitte beachten Sie, dass Sie damit den auf der Geräteunterseite angegebenen WPA-Schlüssel überschreiben. Der WLAN-Standard 802.11ac setzt WPA2 als Verschlüsselung voraus.</p>
+						</tr>
+					</table>	
+					<table width="550" class="alignment">	
+						<tr>
+						  <div id=WPA>
+						  <td width="30" ><input type="radio" id="Encryption" name="Encryption" value="on" onclick="WPAclick()" ></td>
+						  <td>WPA Verschlüsselung verwenden</td>
+						  </div>
+						</tr>
+						<tr>
+						  <div id=WEP>
+						  <td width="30" ><input type="radio" id="Encryption" name="Encryption" value="on"  onclick="WEPclick()"></td>
+						  <td>WEP Verschlüsselung verwenden (nicht empfohlen)</td>
+						  </div>
+						</tr>
+						<tr>
+						  <div id=open>
+						  <td width="30" ><input type="radio" id="Encryption" name="Encryption" value="on"  onclick="Openclick()"></td>
+						  <td>Ohne Verschlüsselung (nicht empfohlen)</td>
+						  </div>
+						</tr>
+					</table>
+				</div>
+				<div id= "WPASET" style="display:none">
+				<div class="stepWrapper">
+					<div class="headline">WPA Verschlüsselung </div>
+					<table class="alignment">
+						<tr>
+							<td width="310">WPA Modus:</td>
+							<td>
+								<select name="WPAmode" size="1" id="Combobox1" class="blue_frame" style="width:152px" onchange="WPAselect(this)" ;>
+								</select>
+						  	</td>
+						</tr>
+						<tr>
+							<td>WPA Schlüssel zwischen 8 und 63 Zeichen:</td>
+							<td>
+								<input type="text" class="blue_frame" style="width:150px" id="Editbox1"  name="WPAkey" maxlength="63">
+							</td>
+						</tr>
+					</table>
+			  	</div>
+				</div>
+				<div id= "WEPSET" style="display:none">
+				<div class="stepWrapper">
+				<div class="headline">WEP Verschlüsselung</div>
+				<table class="alignment">
+						<tr>
+							<td width="265">Encryption Strength:</td>
+							<td>
+								<select name="WEPstr" size="1" id="Combobox1" class="blue_frame" style="width:152px">
+									<option seleted value="0">128-bit</option>
+									<option value="1">64-bit</option>
+								</select>
+						  	</td>
+						</tr>
+						<tr>
+							<td>WEP Schlüssel :</td>
+							<td>
+								<input type="text" class="blue_frame" style="width:150px" id="Editbox1"  name="WEPkey" >
+							</td>
+						</tr>
+					</table>
+				</div>
+				</div>
+				<div id="WPSSET">
+			  	<div class="stepWrapper">
+					<div class="headline">WPS - Wi-Fi Protected Setup</div>
+					<table class="alignment">
+						<tr>
+							<td width="30"><input type="checkbox"  id="checkbox1"  name="wlWscMode" onclick="WPSclick(this)"></td>
+							<td>WPS aktivieren (Push-Button-Methode)</td>		
+						</tr>
+					</table>				
+				</div>	
+			  	</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Verschlusselung'>
+				<script type="text/javascript">
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();btnApply()"></div>
+		</div>
+	</div>
+</body>
+</html>

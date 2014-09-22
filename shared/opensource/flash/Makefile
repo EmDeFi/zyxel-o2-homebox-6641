@@ -1,0 +1,68 @@
+
+ifeq ($(CONFIG_MIPS_BRCM),y)
+
+# Linux
+
+obj-y		+= flash_api.o flash_common.o
+
+ifeq ($(strip $(BRCM_CHIP)),6368)
+INC_CFI_FLASH_DRIVER=1
+INC_SPI_FLASH_DRIVER=1
+endif
+ifeq ($(strip $(BRCM_CHIP)),6816)
+INC_CFI_FLASH_DRIVER=1
+INC_SPI_FLASH_DRIVER=1
+endif
+ifeq ($(strip $(BRCM_CHIP)),6362)
+INC_CFI_FLASH_DRIVER=0
+INC_SPI_FLASH_DRIVER=1
+endif
+ifeq ($(strip $(BRCM_CHIP)),6328)
+INC_CFI_FLASH_DRIVER=0
+INC_SPI_FLASH_DRIVER=1
+endif
+ifeq ($(strip $(BRCM_CHIP)),6318)
+INC_CFI_FLASH_DRIVER=0
+INC_SPI_FLASH_DRIVER=1
+endif
+ifeq ($(strip $(BRCM_CHIP)),63268)
+INC_CFI_FLASH_DRIVER=0
+INC_SPI_FLASH_DRIVER=1
+endif
+
+ifeq ($(strip $(INC_CFI_FLASH_DRIVER)),1)
+obj-y		+= cfiflash.o
+endif
+ifeq ($(strip $(INC_SPI_FLASH_DRIVER)),1)
+obj-y		+= spiflash.o
+endif
+
+ifneq ($(strip $(CONFIG_BUILD_MTS_NAND_FLASH_SUPPORT)),)
+#start __MTS__, RaynorChung: Support 963268 nand flash, patch form SVN#3597 on http://svn.zyxel.com.tw/svn/CPE_SW1/BCM96368/trunk/P-870HA/branches/cht/fttb8/4.11 
+# __Verizon__, zongyue
+ifeq ($(strip $(INC_NAND_FLASH_DRIVER)),1)
+obj-y		+= nandflash.o
+EXTRA_CFLAGS += -I$(INC_BRCMSHARED_PRIV_PATH)/$(BRCM_BOARD) -I$(INC_BRCMDRIVER_PRIV_PATH)/$(BRCM_BOARD) -DCFG_RAMAPP
+endif
+#end __MTS__, RaynorChung: Support 963268 nand flash, patch form SVN#3597 on http://svn.zyxel.com.tw/svn/CPE_SW1/BCM96368/trunk/P-870HA/branches/cht/fttb8/4.11 
+
+EXTRA_CFLAGS += -DCONFIG_BCM9$(BRCM_CHIP) -I$(INC_BRCMDRIVER_PUB_PATH)/$(BRCM_BOARD) -I$(INC_BRCMSHARED_PUB_PATH)/$(BRCM_BOARD) -DINC_CFI_FLASH_DRIVER=$(INC_CFI_FLASH_DRIVER) -DINC_SPI_FLASH_DRIVER=$(INC_SPI_FLASH_DRIVER) -DINC_NAND_FLASH_DRIVER=$(INC_NAND_FLASH_DRIVER)
+EXTRA_CFLAGS += -DMTS_NAND_FLASH_SUPPORT
+else
+EXTRA_CFLAGS += -DCONFIG_BCM9$(BRCM_CHIP) -I$(INC_BRCMDRIVER_PUB_PATH)/$(BRCM_BOARD) -I$(INC_BRCMSHARED_PUB_PATH)/$(BRCM_BOARD) -DINC_CFI_FLASH_DRIVER=$(INC_CFI_FLASH_DRIVER) -DINC_SPI_FLASH_DRIVER=$(INC_SPI_FLASH_DRIVER)
+endif
+
+
+# Image Default, __CHT__, MitraStar Curtis, 20111124.
+ifeq ($(strip $(ZYXEL_OBM_IMAGE_DEFAULT)), y)
+EXTRA_CFLAGS += -DZYXEL_OBM_IMAGE_DEFAULT
+endif
+
+ifeq ($(strip $(BUILD_MSTC_FWUP_FROM_FLASH)), y)
+EXTRA_CFLAGS += -DMSTC_FWUP_FROM_FLASH
+endif
+
+endif
+
+
+

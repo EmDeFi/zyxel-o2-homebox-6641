@@ -1,0 +1,57 @@
+.info
+{
+	color:#19224F;
+	font-family:Arial;
+	font-size:15px;
+}
+</style>
+<style type="text/css">
+.test
+{
+ 	vertical-align:text-top;
+	color:#005896;
+	font-weight:bold;
+	font-family:Arial;
+	font-size:15px;
+}
+a.term:link
+{
+	outline: none;
+	vertical-align:text-top;
+	font-family:Arial;
+	font-size:15px;
+   color: #005896;
+   text-decoration: none;
+}
+a.term:visited
+{
+	outline:none;
+	vertical-align:text-top;
+	font-family:Arial;
+	font-size:15px;
+   color: #005896;
+   text-decoration: none;
+}
+a.term:active
+{
+	outline:none;
+	vertical-align:text-top;
+	font-family:Arial;
+	font-size:15px;
+   color: #19224F;
+   text-decoration: none;
+}
+a.term:hover
+{
+	outline:none;
+	vertical-align:text-top;
+	font-weight:bold;
+	font-family:Arial;
+	font-size:15px;
+   color: #19224F;
+   font-weight: bold;
+   text-decoration: none;
+}
+body {  
+      overflow:hidden; 
+    }  

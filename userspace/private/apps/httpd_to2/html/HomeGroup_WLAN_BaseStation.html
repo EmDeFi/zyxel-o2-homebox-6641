@@ -1,0 +1,1533 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--<meta HTTP-EQUIV='refresh' CONTENT="40;url='http://192.168.1.1/HomeGroup_WLAN_BaseStationrefresh.wl?wlRefresh=0';charset=utf-8">-->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="javascript">
+/*<meta http-equiv="Content-Type" content="text/html; charset=big5" />*/
+//var wlRadioOn='<%ejGetWl(wlRadioOn)%>';
+//var wlRadioOn5G='<%ejGetWl(wlRadioOnExtWl)%>';
+var imageLoading="images1/animation_32x32.gif";
+var CanUseWl2G='<%ejGetWl(wlRadioOn)%>';
+var CanUseWl5G='<%ejGetWl(wlRadioOnExtWl)%>';
+var wlConfigDone = '<%ejGetWl(wlConfigDone)%>';
+var wlConfigDone5G = '<%ejGetWl(wlConfigDoneExtWl)%>';
+var wlWPSStateBeforeHide = '<%ejGetWl(wlWPSStateBeforeHide)%>';
+var WscMode = '<%ejGetWl(wlWscMode)%>';
+var mode = '<%ejGetWl(wlAuthMode)%>';
+var wep = '<%ejGetWl(wlWep)%>';
+var ChangeStateByHighPriorityAction = '<%ejGetWl(wlChangeStateByHighPriorityAction)%>';
+var getothersessionkey = '<%ejGetOther(sessionKey)%>';
+var GlobalSwitch = '<%ejGetWl(wlGlobalSwitch)%>';
+var ssid5G = '<%ejGetWl(wlSsid_wl0v0ExtWl)%>';
+var enbl5G = '<%ejGetWl(wlEnblUserConfigExtWl)%>';
+//var CanUseWl5G = '<%ejGetWl(wlEnbl_wl0v0ExtWl)%>';
+//var CanUseWl2G = '<%ejGetWl(wlEnbl_wl0v0)%>';
+var hide5G = '<%ejGetWl(wlHide_wl0v0ExtWl)%>';
+var Channel5G = '<%ejGetWl(wlChannelExtWl)%>';
+var Channel = '<%ejGetWl(wlChannel)%>';
+var wlCurrentChannel = '<%ejGetWl(wlCurrentChannel)%>';
+var wlCurrentChannel5G = '<%ejGetWl(wlCurrentChannelExtWl)%>';
+var TxPowerPrct = '<%ejGetWl(wlTxPwrPcnt)%>';
+var TxPowerPrct5G = '<%ejGetWl(wlTxPwrPcntExtWl)%>';
+var ssid = '<%ejGetWl(wlSsid_wl0v0)%>';
+var enbl = '<%ejGetWl(wlEnblUserConfig)%>';
+var hide = '<%ejGetWl(wlHide_wl0v0)%>';
+var apIsolation= '<%ejGetWl(wlAPIsolation_wl0v0)%>';
+var maxAssoc = '<%ejGetWl(wlMaxAssoc_wl0v0)%>';
+var disableWme = '<%ejGetWl(wlDisableWme_wl0v0)%>';
+var enableWmf = '<%ejGetWl(wlEnableWmf_wl0v0)%>';
+var wlRefresh = '<%ejGetWl(wlRefreshExtWl)%>';
+var band = '<%ejGetWl(wlBand)%>';
+var nbwcap = '<%ejGetWl(wlNBwCap)%>'; 
+var nbwcap5G = '<%ejGetWl(wlNBwCapExtWl)%>';
+var supportMbss = '<%ejGetWl(wlSupportMbss)%>'
+var wme = '<%ejGetWl(wlWme)%>';
+var wmf = '<%ejGetWl(wlHasWmf)%>';
+var wlInfo = '<%ejGetWl(wlInfo)%>';
+var pattern_1ssid = /1ssid/i;
+var globalmaxassoc= '<%ejGetWl(wlGlobalMaxAssoc)%>';
+var WscVer2 = '<%ejGetWl(wlWscVer2)%>';
+var enableUre = '<%ejGetWl(wlEnableUre)%>';
+var chanimstate = '<%ejGetWl(wlChanImState)%>';
+var chanimstate5G = '<%ejGetWl(wlChanImStateExtWl)%>';
+var nmode = '<%ejGetWl(wlNmode)%>'; 
+var nmode5G = '<%ejGetWl(wlNmodeExtWl)%>'; 
+var nreqd = '<%ejGetWl(wlNReqd)%>';
+var nreqd5G = '<%ejGetWl(wlNReqdExtWl)%>';
+var gmode = '<%ejGetWl(wlgMode)%>';
+var currbw = '<%ejGetWl(wlCurrentBw)%>';
+var currbw5G = '<%ejGetWl(wlCurrentBwExtWl)%>';
+var wlACmodeonly = '<%ejGetWl(wlACmodeonlyExtWl)%>';
+var wlVhtMode = '<%ejGetWl(wlVhtModeExtWl)%>';
+var isNoACSneed2G='<%ejGetWl(wlnoAcsNeed)%>';
+var isNoACSneed5G='<%ejGetWl(wlnoAcsNeedExtWl)%>';
+var curr_bw = parseInt(currbw);
+var curr_bw5G = parseInt(currbw5G);
+var curr_bw_str = "";
+var curr_bw_str5G = "";
+var globalstate=2; //no global switch button
+var Channel5Gselect=0;
+var settingwaitFlag = 1;
+var bottonlock=0;
+var wlmodeSelectindex2G=0;
+var wlmodeSelectindex5G=0;
+var wlnoAcsNeed2G = false;
+var wlnoAcsNeed5G = false;
+var bottonlock=0;
+if((enbl=="1") && (enbl5G=="0")){
+	if(CanUseWl2G=="1")
+		globalstate="0";/*global off*/
+	else
+		globalstate="1";/*global on*/
+		
+}
+else if((enbl=="0") && (enbl5G=="1")){
+	if(CanUseWl5G=="1")
+		globalstate="0";/*global off*/
+	else
+		globalstate="1";/*global on*/
+}
+else if((enbl=="1") && (enbl5G=="1")){
+	if(CanUseWl2G=="1"||CanUseWl5G=="1") 
+		globalstate="0";/*global off*/
+	else
+		globalstate="1";/*global on*/
+}
+else{
+	globalstate='2';
+}
+if(curr_bw == 2)
+   curr_bw_str = "20";
+else if (curr_bw == 3)
+    curr_bw_str = "40";
+else if (curr_bw == 4)
+    curr_bw_str = "80";
+else if (curr_bw == 1)
+    curr_bw_str = "10";    
+
+if(curr_bw5G == 2)
+   curr_bw_str5G = "20";
+else if (curr_bw5G == 3)
+    curr_bw_str5G = "40";
+else if (curr_bw5G == 4)
+    curr_bw_str5G = "80";
+else if (curr_bw5G == 1)
+    curr_bw_str5G = "10";    
+		
+if ( wlRefresh == '1' ) {
+   var code = 'location="HomeGroup_WLAN_BaseStationrefresh.wl?wlRefresh=0"';
+   eval(code);  
+}
+function Wlan24GChangeCheck(){
+	var ret = false;
+	 with ( document.forms[0] ) {
+	 	if((wlSsid.value!=ssid)||(TxPowerPrct!=wlTxPower.options[wlTxPower.selectedIndex].value)||
+		((wlHide.checked==true&&(hide=='0'||hide5G=='0'))||(wlHide.checked==false&&(hide=='1'||hide5G=='1')))){	
+			ret=true;
+			wlnoAcsNeed2G=true;
+		}
+		if(Channel!=wlChannel.options[wlChannel.selectedIndex].value){
+			ret=true;	
+			wlnoAcsNeed2G=false;
+		}
+		if((enbl=='1'&&wlEnbl.checked==false)||(enbl=='0'&&wlEnbl.checked==true)){		
+			ret=true;
+			wlnoAcsNeed2G=false;
+		}
+		if(wlmodeSelectindex2G!=WLANmode.selectedIndex){	
+			ret=true;
+			wlnoAcsNeed2G=false;
+		}
+				
+	}
+ 	
+	return ret;
+}
+function Wlan5GChangeCheck(){
+	var ret = false;
+	 with ( document.forms[0] ) {
+		 if((wlSsid5G.value!=ssid5G)||
+		 (TxPowerPrct5G!=wlTxPower5G.options[wlTxPower5G.selectedIndex].value)||
+		 ((wlHide.checked==true&&(hide=='0'||hide5G=='0'))||(wlHide.checked==false&&(hide=='1'||hide5G=='1')))){	
+			ret=true;	
+			wlnoAcsNeed5G=true;
+		}
+		if((enbl5G=='1'&&wlEnbl5G.checked==false)||(enbl5G=='0'&&wlEnbl5G.checked==true)){
+			ret=true;	
+			wlnoAcsNeed5G=false;
+		}
+		if(Channel5G!=wlChannel5G.options[wlChannel5G.selectedIndex].value){
+			ret=true;	
+			wlnoAcsNeed5G=false;
+		}
+		
+		if(wlmodeSelectindex5G!=WLANmode5G.selectedIndex){		
+			ret=true;	
+			wlnoAcsNeed5G=false;				
+		}
+	}
+ 	
+	return ret;
+}
+function disableTimer(){
+	updateFlag=0;
+	settingwaitFlag=0;
+}
+function checkssid(ssid) {
+ var ret = false;
+	re=/^[a-zA-Z0-9!@#~%\-+=,$%^&*()_+{}\[\]\\<>?\/.`'":;!]*$/;
+	//re=/^[öäüß]*$/;
+	if (!re.test(ssid))
+		ret=false;
+	else
+		ret=true;	
+		
+	return ret;	
+		
+}
+function CmdLink(){
+	  var loc = 'HomeGroup_WLAN_Advance.cmd?action=view';
+      var code = 'location="' + loc + '"';
+  	  eval(code);
+}
+function hideWlSecInfo(hidden) {
+       
+      if ( hidden == 1) {
+        document.forms[0].WLANmode.disabled = 1;
+        document.forms[0].wlChannel.disabled = 1;     
+		document.forms[0].wlTxPower.disabled = 1;   
+      } else {
+         document.forms[0].WLANmode.disabled = 0;
+         document.forms[0].wlChannel.disabled = 0;   
+		 document.forms[0].wlTxPower.disabled = 0;      
+      }
+}
+function hideWlSecInfo5G(hidden) {
+       
+      if ( hidden == 1) {
+        document.forms[0].WLANmode5G.disabled = 1;
+        document.forms[0].wlChannel5G.disabled = 1;     
+		document.forms[0].wlTxPower5G.disabled = 1      
+      } else {
+         document.forms[0].WLANmode5G.disabled = 0;
+         document.forms[0].wlChannel5G.disabled = 0;   
+		 document.forms[0].wlTxPower5G.disabled = 0;             
+      }
+}
+
+function wlHideClick(cb){
+	if (cb.checked){
+		if((WscMode == "enabled")){
+			alert("Wenn Sie die SSID der Basisstation verbergen wird die WPS Funktion deaktiviert.");
+			return;
+		}
+	}
+}
+function wlSecCbClick(cb) {
+   if (cb.checked){
+      hideWlSecInfo(0);}
+   else{
+      hideWlSecInfo(1);}
+   if(cb.checked == 0){
+   		document.forms[0].wlSsid.readOnly=true;
+   		if(document.forms[0].wlEnbl5G.checked ==0)
+			document.forms[0].wlHide.disabled =1;	
+		else
+			document.forms[0].wlHide.disabled =0;
+   }
+   else{
+   		document.forms[0].wlHide.disabled =0;
+   		document.forms[0].wlSsid.readOnly=false;
+	}
+}
+function wlSecCbClick5G(cb) {
+   if (cb.checked){
+      hideWlSecInfo5G(0);}
+   else{
+      hideWlSecInfo5G(1);}
+   if(cb.checked == 0){
+   		document.forms[0].wlSsid5G.readOnly=true;
+   		if(document.forms[0].wlEnbl.checked ==0)
+			document.forms[0].wlHide.disabled =1;	
+   }
+   else{
+   		document.forms[0].wlHide.disabled =0;
+   		document.forms[0].wlSsid5G.readOnly=false;
+	}
+}
+function ChannelSelected(){
+	for(i=0;i<document.forms[0].wlChannel.options.length;i++){
+		if(Channel==document.forms[0].wlChannel.options[i].value)
+			document.forms[0].wlChannel.options[i].selected =true;
+	}
+	for(i=0;i<document.forms[0].wlChannel5G.options.length;i++){
+		if(Channel5G==document.forms[0].wlChannel5G.options[i].value)
+			document.forms[0].wlChannel5G.options[i].selected =true;
+	}
+}
+function TxPowerSelected(){
+	for(i=0;i<document.forms[0].wlTxPower.options.length;i++){
+		if(TxPowerPrct==document.forms[0].wlTxPower.options[i].value)
+			document.forms[0].wlTxPower.options[i].selected =true;
+	}
+	for(i=0;i<document.forms[0].wlTxPower5G.options.length;i++){
+		if(TxPowerPrct5G==document.forms[0].wlTxPower5G.options[i].value)
+			document.forms[0].wlTxPower5G.options[i].selected =true;
+	}
+}
+function updateCurChannel()
+{
+	  var chanimstate_str = "";
+	  var chanimstate_str5G = "";
+      if (chanimstate == "0")
+         chanimstate_str = " (interference: acceptable)";
+      else
+         chanimstate_str = " (interference: severe)";
+		 
+	  if (chanimstate5G == "0")
+         chanimstate_str5G = " (interference: acceptable)";
+      else
+
+         chanimstate_str5G = " (interference: severe)";
+	if (document.getElementById){  // DOM3 = IE5, NS6
+	if(Channel==0){
+		if(wlConfigDone=='1'){
+			if(CanUseWl2G=="1")
+				document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + wlCurrentChannel;
+			else	
+				document.getElementById("CurChannel").innerHTML = " Momentan genutzt: -";	
+		}
+		else{
+			if(CanUseWl2G=="1"){
+				if(isNoACSneed2G!='1')
+					document.getElementById("CurChannel").innerHTML = " Momentan genutzt:Scannen... ";	
+				else
+					document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + wlCurrentChannel;	
+			}
+			else	
+				document.getElementById("CurChannel").innerHTML = " Momentan genutzt: -";	
+		}
+	}
+	else{	
+		if(CanUseWl2G=="1")
+			document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + Channel;
+		else		
+			document.getElementById("CurChannel").innerHTML = " Momentan genutzt: -";	
+	}
+		
+	if(Channel5G==0){
+		if(wlConfigDone5G=='1'){
+			if(CanUseWl5G=='1')
+				document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + wlCurrentChannel5G;	
+			else	
+				document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: -";	
+		}
+		else{
+			if(CanUseWl5G=='1'){
+				if(isNoACSneed5G!='1')
+					document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt:Scannen... ";	
+				else
+					document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + wlCurrentChannel5G;
+			}
+			else		
+				document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: -";
+		}		
+	}
+	else{
+		if(CanUseWl5G=='1')
+			document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + Channel5G;
+		else	
+			document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: -";	
+	}	
+	//document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + wlCurrentChannel5G;		 
+	}
+   	else {
+      	if (document.layers == false){ // IE4
+		if(Channel==0)
+            document.all.CurChannel.innerHTML = " Momentan genutzt: " + wlCurrentChannel;
+		else	
+			document.all.CurChannel.innerHTML = " Momentan genutzt: " + Channel;
+			
+		if(Channel5G==0)	
+			document.all.CurChannel5G.innerHTML = " Momentan genutzt: " + wlCurrentChannel5G;
+		else	
+			document.all.CurChannel5G.innerHTML = " Momentan genutzt: " + Channel5G;
+			document.all.CurChannel5G.innerHTML = " Momentan genutzt: " + wlCurrentChannel5G;	
+		}
+    }
+}
+/*function BandWidthSelected(){
+	for(i=0;i<document.forms[0].wlNBwCap.options.length;i++){
+	if(nbwcap == document.forms[0].wlNBwCap.options[i].value)
+			document.forms[0].wlNBwCap.options[i].selected =true;
+	}
+	for(i=0;i<document.forms[0].wlNBwCap5G.options.length;i++){
+	if(nbwcap5G == document.forms[0].wlNBwCap5G.options[i].value)
+			document.forms[0].wlNBwCap5G.options[i].selected =true;
+	}
+}*/
+/*function ChannelList(a){					
+    if (a) { 
+		document.forms[0].wlChannel.options.length = 14;
+        document.forms[0].wlChannel[10] = new Option("10", "10");
+		document.forms[0].wlChannel[11] = new Option("11", "11");
+		document.forms[0].wlChannel[12] = new Option("12", "12");
+		document.forms[0].wlChannel[13] = new Option("13", "13");
+    }
+	else{
+		document.forms[0].wlChannel.options.length = 10;
+	}
+}*/
+function WLANModeSelect()
+{
+	if(nmode == "auto")
+	{
+		if(nreqd == '1'){
+			document.forms[0].WLANmode.options[0].selected = true;/*802.11n*/
+			wlmodeSelectindex2G=0;
+		}
+		else{
+			document.forms[0].WLANmode.options[1].selected=true;/*802.11bgn*/
+			wlmodeSelectindex2G=1;
+		}
+	}
+	else
+	{
+	
+		if(gmode == '0'){
+			document.forms[0].WLANmode.options[4].selected=true;/*802.11b*/
+			wlmodeSelectindex2G=4;
+		}
+		else if	(gmode == '4'){
+			document.forms[0].WLANmode.options[3].selected=true;/*802.11g*/
+			wlmodeSelectindex2G=3;		
+		}
+		else{
+			document.forms[0].WLANmode.options[2].selected=true;/*802.11bg*/	
+			wlmodeSelectindex2G=2;
+		}
+	}
+}
+function WLAN5GModeSelect()
+{
+	if(nmode5G == "auto")
+	{
+		if(nbwcap5G == "3"){
+			if(wlACmodeonly == "1"){
+				document.forms[0].WLANmode5G.options[1].selected = true;/*802.11ac-only*/
+				wlmodeSelectindex5G=1;
+			}
+			else{
+				document.forms[0].WLANmode5G.options[0].selected = true;/*802.11acn*/
+				wlmodeSelectindex5G=0;
+			}
+		}
+		else{
+			document.forms[0].WLANmode5G.options[2].selected=true;/*802.11n*/
+			wlmodeSelectindex5G=2;
+		}
+	}
+	else{
+		document.forms[0].WLANmode5G.options[3].selected=true;/*802.11a*/
+		wlmodeSelectindex5G=3;	
+	}
+}
+/*function ModeToChannel()
+{
+	 with ( document.forms[0] ) {
+	 if((WLANmode.selectedIndex==1)||(WLANmode.selectedIndex==2)||(WLANmode.selectedIndex==3)||(WLANmode.selectedIndex==4))
+	 	ChannelList(1);
+	else
+		ChannelList(1);
+	 }
+	
+}*/
+function ModeToChannel5G()
+{
+     Channel5Gselect=document.forms[0].wlChannel5G.options[document.forms[0].wlChannel5G.selectedIndex].value;
+	 with ( document.forms[0] ) {
+		 if(WLANmode5G.selectedIndex==3)
+			ChannelList5G20M();/*802.11a*/
+		else if(WLANmode5G.selectedIndex==2)
+			ChannelList5G40M();/*802.11n*/
+		else
+			ChannelList5G80M();/*802.11ac/n,802.11ac only*/
+		
+		document.forms[0].wlChannel5G.options[0].selected =true;	
+		for(i=0;i<document.forms[0].wlChannel5G.options.length;i++){
+			if(Channel5Gselect==document.forms[0].wlChannel5G.options[i].value)
+				document.forms[0].wlChannel5G.options[i].selected =true;
+		}	
+	 }
+}
+function ChannelList5G20M()
+{
+
+	document.forms[0].wlChannel5G.length = 17;
+	document.forms[0].wlChannel5G[0] = new Option("Auto", "0");
+	document.forms[0].wlChannel5G[1] = new Option("36", "36");
+	document.forms[0].wlChannel5G[2] = new Option("40", "40");
+	document.forms[0].wlChannel5G[3] = new Option("44", "44");
+	document.forms[0].wlChannel5G[4] = new Option("48", "48");
+	document.forms[0].wlChannel5G[5] = new Option("52 (DFS)", "52");
+	document.forms[0].wlChannel5G[6] = new Option("56 (DFS)", "56");
+	document.forms[0].wlChannel5G[7] = new Option("60 (DFS)", "60");
+    document.forms[0].wlChannel5G[8] = new Option("64 (DFS)", "64");
+	document.forms[0].wlChannel5G[9] = new Option("100 (DFS)", "100");
+	document.forms[0].wlChannel5G[10] = new Option("104 (DFS)", "104");
+	document.forms[0].wlChannel5G[11] = new Option("108 (DFS)", "108");
+	document.forms[0].wlChannel5G[12] = new Option("112 (DFS)", "112");
+	document.forms[0].wlChannel5G[13] = new Option("116 (DFS)", "116");
+	document.forms[0].wlChannel5G[14] = new Option("132 (DFS)", "132");
+	document.forms[0].wlChannel5G[15] = new Option("136 (DFS)", "136");
+    document.forms[0].wlChannel5G[16] = new Option("140 (DFS)", "140");	
+}
+function ChannelList5G40M()
+{
+
+	document.forms[0].wlChannel5G.length = 15;
+	document.forms[0].wlChannel5G[0] = new Option("Auto", "0");
+	document.forms[0].wlChannel5G[1] = new Option("36", "36");
+	document.forms[0].wlChannel5G[2] = new Option("40", "40");
+	document.forms[0].wlChannel5G[3] = new Option("44", "44");
+	document.forms[0].wlChannel5G[4] = new Option("48", "48");
+	document.forms[0].wlChannel5G[5] = new Option("52 (DFS)", "52");
+	document.forms[0].wlChannel5G[6] = new Option("56 (DFS)", "56");
+	document.forms[0].wlChannel5G[7] = new Option("60 (DFS)", "60");
+	document.forms[0].wlChannel5G[8] = new Option("64 (DFS)", "64");
+	document.forms[0].wlChannel5G[9] = new Option("100 (DFS)", "100");
+	document.forms[0].wlChannel5G[10] = new Option("104 (DFS)", "104");
+	document.forms[0].wlChannel5G[11] = new Option("108 (DFS)", "108");
+	document.forms[0].wlChannel5G[12] = new Option("112 (DFS)", "112");
+	document.forms[0].wlChannel5G[13] = new Option("132 (DFS)", "132");
+	document.forms[0].wlChannel5G[14] = new Option("136 (DFS)", "136");
+	
+}
+function ChannelList5G80M()
+{
+	
+	document.forms[0].wlChannel5G.length = 13;
+	document.forms[0].wlChannel5G[0] = new Option("Auto", "0");
+	document.forms[0].wlChannel5G[1] = new Option("36", "36");
+	document.forms[0].wlChannel5G[2] = new Option("40", "40");
+	document.forms[0].wlChannel5G[3] = new Option("44", "44");
+	document.forms[0].wlChannel5G[4] = new Option("48", "48");
+	document.forms[0].wlChannel5G[5] = new Option("52 (DFS)", "52");
+	document.forms[0].wlChannel5G[6] = new Option("56 (DFS)", "56");
+	document.forms[0].wlChannel5G[7] = new Option("60 (DFS)", "60");
+	document.forms[0].wlChannel5G[8] = new Option("64 (DFS)", "64");
+	document.forms[0].wlChannel5G[9] = new Option("100 (DFS)", "100");
+	document.forms[0].wlChannel5G[10] = new Option("104 (DFS)", "104");
+	document.forms[0].wlChannel5G[11] = new Option("108 (DFS)", "108");
+	document.forms[0].wlChannel5G[12] = new Option("112 (DFS)", "112");
+}
+function settingwaitmakeRequest(url) {
+    if (window.XMLHttpRequest) { // Mozilla [11], Safari,...
+        http_request = new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject) { // IE
+        http_request = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    // Callback Function
+    http_request.onreadystatechange = settingwaitalertContents;
+    http_request.open('GET', url, true);
+    http_request.send(null);
+}
+function settingwaitalertContents() {
+    if (http_request.readyState == 4) {
+        if (http_request.status == 200) {
+			var partHttp_request = http_request.responseText.split('|');
+			countdownvar=partHttp_request[0];
+			wlCurrentChannel5Gupdate=partHttp_request[1];
+			showWait();
+			if(partHttp_request[2]!='1' || partHttp_request[3]!='1'){
+				if(CanUseWl2G=='1' && CanUseWl5G=='1'){
+					if(partHttp_request[2]!='1'){/*config done?*/
+						if(Channel==0){
+							if(isNoACSneed2G!='1')/*check if 2.4G ACS need*/
+								document.getElementById("CurChannel").innerHTML = " Momentan genutzt:Scannen... ";	
+							else
+								document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + partHttp_request[4];
+						}
+						else{	
+								document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + Channel;
+						}
+					}
+					else
+						document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + partHttp_request[4];
+					if(partHttp_request[3]!='1'){/*config done?*/
+						if(Channel5G==0){
+							if(isNoACSneed5G!='1')/*check if 5G ACS need*/
+								document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt:Scannen... ";
+							else
+								document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + partHttp_request[1];				
+						}
+						else{	
+								document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + Channel5G;
+						}
+					}
+					else
+						document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + partHttp_request[1];
+				}
+				else if(CanUseWl2G!='1' && CanUseWl5G=='1' ){
+					if(partHttp_request[3]!='1'){/*config done?*/
+						if(Channel5G==0){
+							if(isNoACSneed5G!='1')/*check if 5G ACS need*/
+								document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt:Scannen... ";
+							else
+								document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + partHttp_request[1];				
+						}
+						else{	
+								document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + Channel5G;
+						}
+					}
+					else
+						document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + partHttp_request[1];
+				}
+				else if(CanUseWl2G=='1' && CanUseWl5G!='1'){
+					if(partHttp_request[2]!='1'){/*config done?*/
+						if(Channel==0){
+							if(isNoACSneed2G!='1')/*check if 2.4G ACS need*/
+								document.getElementById("CurChannel").innerHTML = " Momentan genutzt:Scannen... ";	
+							else
+								document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + partHttp_request[4];
+						}
+						else{	
+								document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + Channel;
+						}
+					}
+					else
+						document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + partHttp_request[4];
+				}
+			}
+			else{			
+				settingwaitFlag=0;
+				showHelp();
+				bottonlock=0;
+				//if(CanUseWl5G=='1')
+					updateStatus();
+			}
+			
+        }
+    }
+}
+function settingwait()
+{
+	if(settingwaitFlag == 1)
+	{   
+		t=setTimeout(function(){settingwait()},1000);
+		settingwaitmakeRequest('updateWlDFS.html');
+	}
+}
+function frmLoad() {
+	if(mode == "open"){
+ 		if (wep == "enabled"){/*WEP*/
+			if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) && ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+				showErr('802.11 n/ac unterstützen kein WEP mehr. Eine Aktivierung würde zu einer Reduzierung der Geschwindigekeit führen.');
+			}
+			else if((nmode=="auto") && (nreqd=="1") && (enbl=="1")){
+				showErr('802.11 n/ac unterstützen kein WEP mehr. Eine Aktivierung würde zu einer Reduzierung der Geschwindigekeit führen.');
+			}
+			else if((nmode5G=="auto") && (nreqd5G=="1") && (enbl5G=="1") ){
+				showErr('802.11 n/ac unterstützen kein WEP mehr. Eine Aktivierung würde zu einer Reduzierung der Geschwindigekeit führen.');
+			}
+		}
+   }
+   else if(mode == "psk"){
+   			if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) && ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+				showErr('802.11 n/ac unterstützt WPA(TKIP) nicht mehr.');
+			}	
+			else if((nmode=="auto") && (nreqd=="1") && (enbl=="1")){
+				showErr('802.11 n/ac unterstützt WPA(TKIP) nicht mehr.');
+			}
+			else if((nmode5G=="auto") && (nreqd5G=="1") && (enbl5G=="1") ){
+				showErr('802.11 n/ac unterstützt WPA(TKIP) nicht mehr.');
+			}
+   }
+    else if(mode == "psk psk2"){
+   			if( ((nmode=="auto") && (nreqd=="1") && (enbl=="1")) && ((nmode5G=="auto") &&(nreqd5G=="1")&& (enbl5G=="1")) ){
+				showErr('802.11 n/ac unterstützen nur noch AES im WPA2 Modus.');
+			}	
+			else if((nmode=="auto") && (nreqd=="1") && (enbl=="1")){
+				showErr('802.11 n/ac unterstützen nur noch AES im WPA2 Modus.');
+			}
+			else if((nmode5G=="auto") && (nreqd5G=="1") && (enbl5G=="1") ){
+				showErr('802.11 n/ac unterstützen nur noch AES im WPA2 Modus.');
+			}
+   }
+   
+   with ( document.forms[0] ) {
+    if((hide5G=='1')||(hide=='1'))
+		wlHide.checked=true;
+	 /* wlchannel5G.options[wlChannel5G.selectedIndex].selected = true;*/
+	    setCheck(wlEnbl, enbl);
+
+	  if((curr_bw_str == "20")||(curr_bw_str == "40")){/*20M and 40M*/
+		 	document.forms[0].wlChannel.options.length = 14;
+        	document.forms[0].wlChannel[10] = new Option("10", "10");
+			document.forms[0].wlChannel[11] = new Option("11", "11");
+			document.forms[0].wlChannel[12] = new Option("12", "12");
+			document.forms[0].wlChannel[13] = new Option("13", "13");
+		 }
+      if ( enbl == '1' ) {
+         hideWlSecInfo(0);
+      } else {
+         hideWlSecInfo(1);
+      }
+      //remove wlDisableWme (Disable WMM Advertise) from webui if the product does not use MBSS driver</td>      
+	        
+      wlSsid.value = ssid;
+	  wlSsid5G.value = ssid5G;
+	  setCheck(wlEnbl5G, enbl5G);
+	
+	  if ( enbl5G == '1' ) {
+         hideWlSecInfo5G(0);
+      } else {
+         hideWlSecInfo5G(1);
+      }
+	 
+   		
+	}
+	if (( enbl != '1' )&&( enbl5G != '1' ))
+		 document.forms[0].wlHide.disabled =1;
+	if(enbl != '1')	 
+		 document.forms[0].wlSsid.readOnly=true;
+	if(enbl5G != '1')		
+		document.forms[0].wlSsid5G.readOnly=true; 
+
+	if(nbwcap5G=="3")
+		ChannelList5G80M();
+	else if	(nbwcap5G=="1")
+		ChannelList5G40M();
+	else
+		ChannelList5G20M();
+
+	updateCurChannel();
+	ChannelSelected();
+
+	TxPowerSelected();
+	//BandWidthSelected();
+
+	//ChannelList();
+	WLANModeSelect();
+	WLAN5GModeSelect();
+	//if(Channel5G!="36"&&Channel5G!="40"&&Channel5G!="44"&&Channel5G!="48")
+
+		//if(CanUseWl5G=='1' || CanUseWl2G=='1'){
+			if(wlConfigDone!='1' || wlConfigDone5G!='1'){
+				bottonlock=1;
+				showWait();
+				settingwait();
+			}
+			else{
+				showHelp();
+				bottonlock=0;
+				updateStatus();
+			}
+		/*}else{	
+		    showHelp();
+			bottonlock=0;
+		}*/
+		
+		if((enbl=="1" && CanUseWl2G=="0" && ChangeStateByHighPriorityAction=="0") && (enbl5G=="1" && CanUseWl5G=="0" && ChangeStateByHighPriorityAction =="0")){
+		alert("Die WLAN-Basisstation wurde von der Nachtschaltung deaktiviert. Eventuell sind noch aktive Clients entsprechend der Nachtschaltung verbunden.");											  
+	}
+	else if(enbl=="1" && CanUseWl2G=="0" && ChangeStateByHighPriorityAction=="0"){
+		alert("Die WLAN-Basisstation wurde von der Nachtschaltung deaktiviert. Eventuell sind noch aktive Clients entsprechend der Nachtschaltung verbunden.");
+	}
+	else if(enbl5G=="1" && CanUseWl5G=="0" && ChangeStateByHighPriorityAction =="0"){
+		alert("Die WLAN-Basisstation wurde von der Nachtschaltung deaktiviert. Eventuell sind noch aktive Clients entsprechend der Nachtschaltung verbunden.");
+	}
+	
+}
+function btnApplyforglobalswitchoff(){
+   if(bottonlock==0){
+   	   disableTimer();
+	   var loc = 'HomeGroup_WLAN_BaseStation.wlglobalbutton?';
+	   /*Jayden add for alice WLAN GUI*/
+	   /*do Global off*/
+	   loc += 'wlGlobalSwitch=0';
+	   loc += '&wlRadioOn=0';
+	   loc += '&wlRadioOnExtWl=0';
+	   loc += '&sessionKey='+ getothersessionkey;
+	   var code = 'location="' + loc + '"';
+	   fadding();
+	   eval(code);
+  }
+  else
+  	return;
+}
+function btnApplyforglobalswitchon(){
+if(bottonlock==0){
+disableTimer();
+  var loc = 'HomeGroup_WLAN_BaseStation.wlglobalbutton?';
+   loc += 'wlGlobalSwitch=1';
+   if(enbl=="1")
+   		loc += '&wlRadioOn=1';
+   else
+   		loc += '&wlRadioOn=0';
+	
+   if(enbl5G=="1")
+   		loc += '&wlRadioOnExtWl=1';
+   else
+   		loc += '&wlRadioOnExtWl=0';	
+
+   loc += '&sessionKey='+ getothersessionkey;
+   var code = 'location="' + loc + '"';
+   fadding();
+   eval(code);
+  }
+  else
+  	return;
+}
+function btnApply() {
+if(bottonlock==0){
+	disableTimer();
+   var loc = 'HomeGroup_WLAN_BaseStation.wlto2?';
+   /*Jayden add for alice WLAN GUI*/
+   var locext='HomeGroup_WLAN_BaseStation.wlto2?';
+   /*if(invalidCheck())
+      return;*/
+   var assocNum =1;
+   var wl5Gchannel=0;
+   var securitychange=0;
+   with ( document.forms[0] ) {
+    var wlan24Gchange=Wlan24GChangeCheck();
+	 var wlan5Gchange=Wlan5GChangeCheck();
+   if(mode == "psk" ||(mode == "open" && wep == "enabled"))//WPA or WEP in n only,set to WPA2
+   {
+   
+   		if(WLANmode.selectedIndex==0 && wlEnbl.checked==true){//2.4G  n-only or 5G not 802.11a mode
+			securitychange=1;	
+			wlan24Gchange=true;
+			wlan5Gchange=true;
+			alert("2,4 GHz-Basisstation: Um 802.11n zu nutzen wird die Verschlüsselung jetzt auf WPA2 (AES) geändert. Sie müssen jetzt auch an ihrem WLAN client  WPA2 (AES) einstellen.");	
+		}
+		if(WLANmode5G.selectedIndex!=3 && wlEnbl5G.checked == true ){	
+			securitychange=1;	
+			wlan24Gchange=true;
+			wlan5Gchange=true;
+			alert("5 GHz-Basisstation: Um 802.11n oder 802.11ac zu nutzen wird die Verschlüsselung jetzt auf WPA2 (AES) geändert. Sie müssen jetzt auch an ihrem WLAN client  WPA2 (AES) einstellen.");
+		}
+   }
+ 	 loc += 'wlSsidIdx=0';
+	  if(wlan24Gchange==false){
+	  	loc += '&wl24Gchange=0';/*2.4G setting are not changed*/
+	  }
+	  else{
+	  	if(wlnoAcsNeed2G)
+			loc += '&wlnoAcsNeed2G=0';
+	  }
+      if ( wlEnbl.checked == false ) {
+		
+	  	loc += '&wlRadioOn=0';
+         loc += '&wlEnbl=0';
+		 loc += '&wlEnblUserConfig=0';
+		 if(wlHide.checked == true){
+         	loc += '&wlHide=1'; 
+		 	loc += '&wl_wsc_mode=disabled'; 
+			if(hide == "0"){/*ssid hiden from disable to enable*/
+				if(WscMode == "enabled")
+					loc += '&wlWPSStateBeforeHide=1'; 
+				else	
+					loc += '&wlWPSStateBeforeHide=0'; 
+			}
+		 } 
+		 else{/*wlHide.checked == false*/
+		 	loc += '&wlHide=0'; 
+			if(hide == "1"){/*ssid hiden from enable to disable*/
+				if(wlWPSStateBeforeHide == "1"){
+					if((mode == "psk")||(mode == "open" && wep == "enabled")){/*WPS 2.0 don't support WPA and WEP*/
+						loc += '&wl_wsc_mode=disabled';
+					}
+					else{
+						if(wlWPSStateBeforeHide == "1"){
+							loc += '&wl_wsc_mode=enabled';
+							/*Push Button*/
+							loc += '&wlWscCfgMethod=pbc';
+							loc += '&wl_config_state=1';
+							loc += '&wl_wsc_reg=enabled';
+						}
+						else
+							loc += '&wl_wsc_mode=disabled';
+					}
+				}
+			}
+		 }
+		   
+         loc += '&wlSsid=' + encodeUrl(ssid);
+      } else {
+	  	/*if(wlHide.checked==true){
+	      if((WscMode == "enabled")){
+			showErr("Basisstation SSID verbergen aktivieren, konnen WPS nicht funktionieren");
+			return;
+		  }
+	    }*/
+         if ( wlSsid.value == '' ) {
+		 	showErr('Der  Name des Funknetzes muss zwischen 1 und 32 Zeichen lang sein.');
+            //alert('SSID darf nicht leer sein.');
+            return;
+         }
+         var str = new String();
+         str = wlSsid.value;
+         if ( str.length > 32 ) {
+		 	showErr('Der  Name des Funknetzes muss zwischen 1 und 32 Zeichen lang sein.');
+            //alert('SSID "' + wlSsid.value + '" sollte nicht langer als 32 Zeichen.');
+            return;
+         }
+         if ( isNaN(assocNum) == true || assocNum <= 0 || assocNum > globalmaxassoc ) {
+		 	showErr('Max Clients "' + wlMaxAssoc.value + '" should be between 1 and "' + globalmaxassoc);
+            //alert('Max Clients "' + wlMaxAssoc.value + '" should be between 1 and "' + globalmaxassoc);
+            return;
+         } 
+		 if(checkssid(wlSsid.value) == false ){
+		 	showErr('Der Name des Funknetzes darf nur aus den Zeichen [0-9], [a-z] und [A-Z] bestehen.');
+			return;
+		 }
+		 //loc += '&wlCountry=' + country;
+		 loc += '&wlTxPwrPcnt=' + wlTxPower.options[wlTxPower.selectedIndex].value;
+		 loc += '&wlChannel=' + wlChannel.options[wlChannel.selectedIndex].value;
+		 /*20130410 with global switch*/
+         //loc += '&wlEnbl=1';
+		 loc +='&wlEnbl=1' ;
+		 if(GlobalSwitch==1){
+		 	loc +='&wlRadioOn=1';
+		 }
+		 else{
+		 	loc +='&wlRadioOn=0';
+		 }
+		 loc += '&wlEnblUserConfig=1';
+		 //loc += '&wlNBwCap=' + wlNBwCap.options[wlNBwCap.selectedIndex].value;
+		/* if (wlNBwCap.selectedIndex == 0) //20M
+		 	loc += '&wlNCtrlsb=' + 0;
+		 else
+		 	loc += '&wlNCtrlsb=-1';//40M*/
+         if(wlHide.checked == true){
+         	loc += '&wlHide=1'; 
+		 	loc += '&wl_wsc_mode=disabled'; 
+			if(hide == "0"){/*ssid hiden from disable to enable*/
+				if(WscMode == "enabled")
+					loc += '&wlWPSStateBeforeHide=1'; 
+				else	
+					loc += '&wlWPSStateBeforeHide=0'; 
+			}
+		 } 
+		 else{/*wlHide.checked == false*/
+		 	loc += '&wlHide=0'; 
+			if(hide == "1"){/*ssid hiden from enable to disable*/
+				if(wlWPSStateBeforeHide == "1"){
+					if((mode == "psk")||(mode == "open" && wep == "enabled")){/*WPS 2.0 don't support WPA and WEP*/
+						loc += '&wl_wsc_mode=disabled';
+					}
+					else{
+						if(wlWPSStateBeforeHide == "1"){
+							loc += '&wl_wsc_mode=enabled';
+							/*Push Button*/
+							loc += '&wlWscCfgMethod=pbc';
+							loc += '&wl_config_state=1';
+							loc += '&wl_wsc_reg=enabled';
+						}
+						else
+							loc += '&wl_wsc_mode=disabled';
+					}
+				}
+			}
+		 }
+         loc += '&wlSsid=' + encodeUrl(wlSsid.value);
+	  if(WLANmode.selectedIndex==4){/*802.11b*/
+	 	loc += '&wlNmode=off';
+		loc += '&wlNReqd=0';
+		loc += '&wlPreambleType=short';
+		//loc += '&wlBasicRate=12';
+		loc += '&wlgMode=0';
+		loc += '&wlProtection=off';
+		loc += '&wlNCtrlsb=0';/*20M side band*/
+		loc += '&wlNBwCap=0';/*20M*/
+		loc += '&wlNProtection=off';
+		loc += '&wlVhtMode=0';
+		//loc += '&wlObssCoex=1';/*OBSS enable*/
+	 }else if(WLANmode.selectedIndex==3){/*802.11g*/
+	 	loc += '&wlNmode=off';
+		loc += '&wlNReqd=0';
+		//loc += '&wlPreambleType=short';
+		//loc += '&wlBasicRate=wifi2';
+		//loc += '&wlBasicRate=default';
+		loc += '&wlgMode=4';
+		loc += '&wlRate=0'; /*Jayden test*/
+		loc += '&wlProtection=off';
+		loc += '&wlNCtrlsb=0';/*20M side band*/
+		loc += '&wlNBwCap=0';/*20M*/
+		loc += '&wlNProtection=off';
+		loc += '&wlVhtMode=0';
+		//loc += '&wlObssCoex=1';/*OBSS enable*/
+	 }else if(WLANmode.selectedIndex==2){/*802.11bg*/
+	 	loc += '&wlNmode=off';
+		loc += '&wlNReqd=0';
+		loc += '&wlPreambleType=long';
+		loc += '&wlgMode=1';
+		loc += '&wlProtection=auto';
+		loc += '&wlNCtrlsb=0';/*20M side band*/
+		loc += '&wlNBwCap=0';/*20M*/	
+		loc += '&wlNProtection=off';
+		loc += '&wlVhtMode=0';
+		//loc += '&wlObssCoex=1';	/*OBSS enable*/
+	  }else if(WLANmode.selectedIndex==0){/*802.11n*/
+	 	loc += '&wlNmode=auto';
+		loc += '&wlNReqd=1';
+		if(wlChannel.options[wlChannel.selectedIndex].value>9)
+			loc += '&wlNCtrlsb=1';/*40M upper side band*/
+		else
+			loc += '&wlNCtrlsb=-1';/*40M lower side band*/
+		loc += '&wlNBwCap=1';/*40M*/
+		loc += '&wlNProtection=off';
+	    loc += '&wlObssCoex=0';/*OBSS disable*/
+		loc += '&wlVhtMode=0';
+	 }else if(WLANmode.selectedIndex==1){/*802.11bgn*/
+	 	loc += '&wlNmode=auto';
+		loc += '&wlNReqd=0';
+       //	loc += '&wlNCtrlsb=0';/*20M side band*/
+		//loc += '&wlNBwCap=0';/*20M*/
+		if(wlChannel.options[wlChannel.selectedIndex].value>9)
+			loc += '&wlNCtrlsb=1';/*40M upper side band*/
+		else
+			loc += '&wlNCtrlsb=-1';/*40M lower side band*/
+		loc += '&wlNBwCap=1';/*40M*/	
+		loc += '&wlNProtection=auto';
+		loc += '&wlObssCoex=0';/*OBSS disable*/
+		loc += '&wlVhtMode=0';
+	 }else{
+		loc += '&wlNmode=auto';
+		loc += '&wlNReqd=0';
+        loc += '&wlNCtrlsb=0';/*20M side band*/
+		loc += '&wlNBwCap=0';/*20M*/
+		loc += '&wlNProtection=auto';
+		loc += '&wlVhtMode=0';
+	}
+    }
+	if(securitychange==1){
+			loc += '&wlAuthMode=psk2';
+			loc += '&wlWpa=aes';
+			loc += '&wlWep=disabled';
+	}  
+	 /*Jayden test*/
+	 loc += '&wlConfigDone=0';
+	 loc += '&wlBasicRate=default';
+	 loc += '&wlBand=2';
+
+	  /*Jayden test*/
+
+   }
+   loc += '&wlSyncNvram=1';
+  loc += '&sessionKey='+ getothersessionkey;
+ /*Jayden add for alice WLAN GUI*/
+   with ( document.forms[0] ) {
+      locext += 'wlSsidIdx=0';
+	 if(wlan5Gchange==false)
+	  	locext += '&wl5Gchange=0';/*5G setting are not changed*/
+	 else{
+	  	if(wlnoAcsNeed5G)
+			locext += '&wlnoAcsNeed5G=0';
+	  }	
+		
+      if ( wlEnbl5G.checked == false ) {
+         locext += '&wlEnbl=0';
+		 locext += '&wlRadioOn=0';
+		 locext += '&wlEnblUserConfig=0';
+         if(wlHide.checked == true){
+         	locext += '&wlHide=1'; 
+		 	locext += '&wl_wsc_mode=disabled'; 
+			if(hide == "0"){/*ssid hiden from disable to enable*/
+				if(WscMode == "enabled")
+					locext += '&wlWPSStateBeforeHide=1'; 
+				else	
+					locext += '&wlWPSStateBeforeHide=0'; 
+			}
+		 } 
+		 else{/*wlHide.checked == false*/
+		 	locext += '&wlHide=0'; 
+			if(hide == "1"){/*ssid hiden from enable to disable*/
+				if(wlWPSStateBeforeHide == "1"){
+					if((mode == "psk")||(mode == "open" && wep == "enabled")){/*WPS 2.0 don't support WPA and WEP*/
+						locext += '&wl_wsc_mode=disabled';
+					}
+					else{
+						if(wlWPSStateBeforeHide == "1"){
+							locext += '&wl_wsc_mode=enabled';
+							/*Push Button*/
+							locext += '&wlWscCfgMethod=pbc';
+							locext += '&wl_config_state=1';
+							locext += '&wl_wsc_reg=enabled';
+						}
+						else
+							locext += '&wl_wsc_mode=disabled';
+					}
+				}
+			}
+		 }   
+         locext += '&wlSsid=' + encodeUrl(ssid5G);
+      } else {
+	  if ( wlSsid5G.value == '' ) {
+	  		showErr('Der  Name des Funknetzes muss zwischen 1 und 32 Zeichen lang sein.');
+            //alert('SSID darf nicht leer sein.');
+            return;
+         }
+         var str5G = new String();
+         str5G = wlSsid5G.value;
+         if ( str5G.length > 32 ) {
+		 	showErr('Der  Name des Funknetzes muss zwischen 1 und 32 Zeichen lang sein.');
+            //alert('SSID "' + wlSsid5G.value + '" sollte nicht langer als 32 Zeichen.');
+            return;
+         }
+		  if(checkssid(wlSsid5G.value) == false ){
+		 	showErr('Der Name des Funknetzes darf nur aus den Zeichen [0-9], [a-z] und [A-Z] bestehen.');
+			return;
+		 }
+         if ( isNaN(assocNum) == true || assocNum <= 0 || assocNum > globalmaxassoc ) {
+		 	showErr('Max Clients "' + wlMaxAssoc.value + '" should be between 1 and "' + globalmaxassoc);
+            //alert('Max Clients "' + wlMaxAssoc.value + '" should be between 1 and "' + globalmaxassoc);
+            return;
+         } 
+		 locext += '&wlTxPwrPcnt=' + wlTxPower5G.options[wlTxPower5G.selectedIndex].value;
+		 locext += '&wlChannel=' + wlChannel5G.options[wlChannel5G.selectedIndex].value;
+		  /*20130410 with global switch*/
+         //locext += '&wlEnbl=1';
+		 locext +='&wlEnbl=1' ;
+		 if(GlobalSwitch==1){
+		 	locext +='&wlRadioOn=1';
+		 }
+		 else{
+		 	locext +='&wlRadioOn=0';
+		 }
+		 locext += '&wlEnblUserConfig=1';
+		 wl5Gchannel=wlChannel5G.options[wlChannel5G.selectedIndex].value;
+		 //locext += '&wlNBwCap=' + wlNBwCap5G.options[wlNBwCap5G.selectedIndex].value;
+		/* if (wlNBwCap5G.selectedIndex == 0) //20M
+		 	locext += '&wlNCtrlsb=' + 0;
+		 else if (wlNBwCap5G.selectedIndex == 1)//40M
+		 	locext += '&wlNCtrlsb=-1';*/
+         if(wlHide.checked == true){
+         	locext += '&wlHide=1'; 
+		 	locext += '&wl_wsc_mode=disabled'; 
+			if(hide == "0"){/*ssid hiden from disable to enable*/
+				if(WscMode == "enabled")
+					locext += '&wlWPSStateBeforeHide=1'; 
+				else	
+					locext += '&wlWPSStateBeforeHide=0'; 
+			}
+		 } 
+		 else{/*wlHide.checked == false*/
+		 	locext += '&wlHide=0'; 
+			if(hide == "1"){/*ssid hiden from enable to disable*/
+				if(wlWPSStateBeforeHide == "1"){
+					if((mode == "psk")||(mode == "open" && wep == "enabled")){/*WPS 2.0 don't support WPA and WEP*/
+						locext += '&wl_wsc_mode=disabled';
+					}
+					else{
+						if(wlWPSStateBeforeHide == "1"){
+							locext += '&wl_wsc_mode=enabled';
+							/*Push Button*/
+							locext += '&wlWscCfgMethod=pbc';
+							locext += '&wl_config_state=1';
+							locext += '&wl_wsc_reg=enabled';
+						}
+						else
+							locext += '&wl_wsc_mode=disabled';
+					}
+				}
+			}
+		 }   
+         locext += '&wlSsid=' + encodeUrl(wlSsid5G.value);
+	  if(WLANmode5G.selectedIndex==1){/*802.11ac only*/
+	  	locext += '&wlNmode=auto';
+		locext += '&wlNReqd=1';
+		//locext += '&wlPreambleType=long';
+		locext += '&wlBasicRate=default';
+		//locext += '&wlgMode=1';
+		//locext += '&wlProtection=auto';
+		locext += '&wlNBwCap=3';/*80M*/
+		locext += '&wlNProtection=off';
+		locext += '&wlObssCoex=1';
+		locext += '&wlACmodeonly=1';
+		locext += '&wlVhtMode=1';
+	  }else if(WLANmode5G.selectedIndex==0){/*802.11acn*/
+	  	locext += '&wlNmode=auto';
+		locext += '&wlNReqd=1';
+		//locext += '&wlPreambleType=long';
+		locext += '&wlBasicRate=default';
+		//locext += '&wlgMode=1';
+		//locext += '&wlProtection=auto';
+		locext += '&wlNBwCap=3';/*80M*/
+		locext += '&wlNProtection=off';
+		locext += '&wlObssCoex=1';
+		locext += '&wlACmodeonly=0';
+		locext += '&wlVhtMode=1';
+	  }else if(WLANmode5G.selectedIndex==2){/*802.11n*/
+	    locext += '&wlNmode=auto';
+		locext += '&wlNReqd=1';
+		//locext += '&wlPreambleType=long';
+		locext += '&wlBasicRate=default';
+		//locext += '&wlgMode=1';
+		locext += '&wlNProtection=off';
+		//locext += '&wlProtection=auto';
+		if((wl5Gchannel==40)||(wl5Gchannel==48)||(wl5Gchannel==56)||(wl5Gchannel==64)||(wl5Gchannel==104)||(wl5Gchannel==112)||(wl5Gchannel==120)||(wl5Gchannel==128)||(wl5Gchannel==136))
+			locext += '&wlNCtrlsb=1';/*40M upper side band*/
+		else
+			locext += '&wlNCtrlsb=-1';/*40M lower side band*/
+		locext += '&wlNBwCap=1';/*40M*/
+		locext += '&wlObssCoex=0';
+		locext += '&wlACmodeonly=0';
+		locext += '&wlVhtMode=0';
+	  }else if(WLANmode5G.selectedIndex==3){/*802.11a*/
+	    locext += '&wlNmode=off';
+		locext += '&wlNReqd=0';
+		//locext += '&wlPreambleType=short';
+		locext += '&wlBasicRate=default';
+		//locext += '&wlgMode=1';
+		//locext += '&wlProtection=auto';
+		locext += '&wlNProtection=auto';
+		locext += '&wlNCtrlsb=0';/*20M side band*/
+		locext += '&wlNBwCap=0';/*20M*/		
+		locext += '&wlObssCoex=1';
+		locext += '&wlACmodeonly=0';
+		locext += '&wlVhtMode=0';
+	  }else{/*802.11acn*/
+	  	locext += '&wlNmode=auto';
+		locext += '&wlNReqd=1';
+		//locext += '&wlPreambleType=long';
+		locext += '&wlBasicRate=default';
+		//locext += '&wlgMode=1';
+		//locext += '&wlProtection=auto';
+		locext += '&wlNProtection=off';
+		locext += '&wlNBwCap=3';/*80M*/	  
+		locext += '&wlObssCoex=1';
+		locext += '&wlACmodeonly=0';
+		locext += '&wlVhtMode=1';
+	  }
+	  
+   }
+	if(securitychange==1){
+			locext += '&wlAuthMode=psk2';
+			locext += '&wlWpa=aes';
+			locext += '&wlWep=disabled';
+    }	  
+   locext += '&wlMode=ap';
+   locext += '&wlNMcsidx=-1';
+   locext += '&wlBand=1';
+   locext += '&wlConfigDone=0';
+   locext += '&wlSyncNvram=1';
+   locext += '&sessionKey='+ getothersessionkey;
+   /*var code = 'location="' + loc + '"';*/
+   var code = 'location="' + loc +'&SplitDefaultExt=/webs/'+locext+ '"';
+   fadding();
+   eval(code);
+   
+}
+}
+else
+	return;
+}
+ parent.document.getElementById("headerText").innerHTML="<b>Heimnetz&nbsp;&nbsp;</b> WLAN";
+</script>
+</head>
+
+<body onbeforeunload="disableTimer()" onLoad='frmLoad();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<!--<td><a href="HomeGroup_WLAN_BaseStation.html"><div class="tabDB">Basisstationen</div></a></td>
+					<td><a href="HomeGroup_WLAN_Security.html"><div class="tabB">Verschlüsselung</div></a></td>
+					<td><a href="HomeGroup_WLAN_Scheduler.html"><div class="tabB">Nachtschaltung</div></a></td> -->
+					<td><input type="button" class="tabDB" value="Basisstationen" onclick="location.href='HomeGroup_WLAN_BaseStation.html'"></td>
+					<td><input type="button" class="tabB" value="Verschlüsselung" onclick="location.href='HomeGroup_WLAN_Security.html'"></td>
+					<td><input type="button" class="tabB" value="Nachtschaltung" onclick="location.href='HomeGroup_WLAN_Scheduler.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:530px;_height:530px;" id="defaultId">
+			<form> 
+				<div class="stepWrapper">
+					<div class="headline">WLAN-Basisstationen</div>
+					<script language="javascript">
+					{
+						if (globalstate =='1'){
+						   	document.writeln("<table  width='540' id='globalon' class='alignment'>");
+							document.writeln("<tr>");
+							document.writeln("<td ><div id='GlobalWord'>");
+							document.writeln("Hier haben Sie die Möglichkeit, die WLAN-Funktion entsprechend der gesetzten Einstellung ein- bzw. auszuschalten. Die Funktion entspricht dem WLAN-Taster auf Ihrer o2 HomeBox.");
+							document.writeln("</div></td>");
+							document.writeln("<td><div id='GlobalButton'>");
+							//document.writeln("<a href='#'  onClick='btnApplyforglobalswitchon()'><img src='images1/WLAN.jpg'></img></a>");
+							document.writeln("<input type='button' class='button' value='Einschalten' onclick='btnApplyforglobalswitchon()'>");
+							document.writeln("</div></td>");
+							document.writeln("</tr>");
+							document.writeln("</table>");
+						}else if(globalstate =='0'){
+							document.writeln("<table  width='540' id='globaloff' class='alignment'>");
+							document.writeln("<tr>");
+							document.writeln("<td><div id='GlobalWord'>");
+							document.writeln("Hier haben Sie die Möglichkeit, die WLAN-Funktion entsprechend der gesetzten Einstellung ein- bzw. auszuschalten. Die Funktion entspricht dem WLAN-Taster auf Ihrer o2 HomeBox.");
+							document.writeln("</div></td>");
+							document.writeln("<td><div id='GlobalButton'>");
+							//document.writeln("<a href='#'  onClick='btnApplyforglobalswitchoff()'><img src='images1/WLAN_deakt.jpg'></img></a>");
+							document.writeln("<input type='button' class='button' value='Ausschalten' onclick='btnApplyforglobalswitchoff()'>");
+							document.writeln("</div></td>");
+							document.writeln("</tr>");
+							document.writeln("</table>");
+						}
+						else{
+							document.writeln("<table  width='540' id='globaloff' class='alignment'>");
+							document.writeln("<tr>");
+							document.writeln("<td><div id='GlobalWord'>");
+							document.writeln("Hier haben Sie die Möglichkeit, die WLAN-Funktion entsprechend der gesetzten Einstellung ein- bzw. auszuschalten. Die Funktion entspricht dem WLAN-Taster auf Ihrer o2 HomeBox.");
+							document.writeln("</div></td>");
+							document.writeln("<td><div id='GlobalButton'>");
+							//document.writeln("<a href='#'  onClick='btnApplyforglobalswitchoff()'><img src='images1/WLAN_deakt.jpg'></img></a>");
+							document.writeln("<input type='button' class='button' value='Einschalten' style='color:gray' disabled='disabled'>");
+							document.writeln("</div></td>");
+							document.writeln("</tr>");
+							document.writeln("</table>");
+						}
+					}
+					</script>
+					<table width="550" class="myTable">
+						<tr class="bold">
+							<td colspan="2">2,4 GHz-Basisstation</td>
+							<td colspan="2" >5 GHz-Basisstation</td>
+						</tr>
+						<tr>
+							<td colspan="2"><input type="checkbox" name='wlEnbl' onClick='wlSecCbClick(this)'>&nbsp;&nbsp;&nbsp;&nbsp;aktivieren</td>
+							<td colspan="2"><input type="checkbox" name='wlEnbl5G' onClick='wlSecCbClick5G(this)'>&nbsp;&nbsp;&nbsp;&nbsp;aktivieren</td>
+						</tr>
+						<tr>
+							<td colspan="2">Name des Funknetzes (SSID):</td>
+							<td colspan="2" >Name des Funknetzes (SSID):</td>
+						</tr>
+						<tr>
+							<td colspan="2"><input type="text"class="blue_frame" name='wlSsid' style="width:200px" maxlength="32"></td>
+							<td colspan="2"><input type="text"class="blue_frame" name='wlSsid5G' style="width:200px" maxlength="32"></td>
+						</tr>
+						<tr>
+							<td height="15" colspan="4"></td>
+						</tr>
+						<tr>
+							<td colspan="4"><input type="checkbox" name='wlHide' onClick='wlHideClick(this)' >&nbsp;Bei allen Basisstationen SSID verbergen
+							</td>
+						</tr>
+						<tr>
+							<td height="15" colspan="4"></td>
+						</tr>
+						<tr>
+							<td colspan="2">WLAN-Modus:</td>
+							<td colspan="2">WLAN-Modus:</td>
+						</tr>
+						<tr>
+							<td colspan="2"><select class="blue_frame" name="WLANmode" style="width:200px">
+									<option value="1">802.11n (300 Mbit/s)</option>
+									<option value="2">802.11b/g/n (300 Mbit/s)</option>
+									<option value="3">802.11b/g (54 Mbit/s)</option>
+									<option value="4">802.11g (54 Mbit/s)</option>
+									<option value="5">802.11b (11 Mbit/s)</option>
+								</select>							</td>
+							<td colspan="2"><select class="blue_frame" name="WLANmode5G" style="width:200px" onchange="ModeToChannel5G()">
+							        <option value="1">802.11n/ac (1.3 Gbit/s)</option>
+									<option value="2">802.11ac (1.3 Gbit/s)</option>
+									<option value="3">802.11n (450Mbit/s)</option>
+									<option value="4">802.11a (54Mbit/s)</option>
+								</select>							</td>
+						</tr>
+						<tr>
+							<td width="100">Funkkanal</td>
+							<td>
+								<select name="wlChannel" size="1" id="Combobox2" class="blue_frame" style="width:96px">
+							<option selected value="0">Auto</option>
+									<option value="1">1</option>
+								  	<option value="2">2</option>
+								  	<option value="3">3</option>
+								  	<option value="4">4</option>
+								  	<option value="5">5</option>
+								  	<option value="6">6</option>
+								  	<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+									<option value="10">10</option>
+								  	<option value="11">11</option>
+									<option value="12">12</option>
+									<option value="13">13</option>
+							</select>
+							</td>
+							<td width="100">Funkkanal</td>
+							<td>
+							  <select name="wlChannel5G" size="1" id="select2" class="blue_frame" style="width:96px">
+                              </select>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+						<tr>
+						  <td colspan="2"><div id="CurChannel">Momentan genutzt:</div></td>
+						  <td colspan="2"><div id="CurChannel5G">Momentan genutzt:</div></td>
+						</tr>
+						<tr>
+							<td width="100">Sendeleistung</td>
+							<td>
+								&nbsp;&nbsp;&nbsp;&nbsp;<select name="wlTxPower" size="1" id="Combobox3" class="blue_frame"  style="width:80px">
+									<option selected value="100">100 %</option>									
+									<option value="80">50 %</option>
+									<option value="60">25 %</option>	
+									<option value="40">12 %</option>																	
+									<option value="20">6 %</option>
+								</select>
+							</td>
+							<td width="100">Sendeleistung</td>
+							<td>
+								&nbsp;&nbsp;&nbsp;&nbsp;<select name="wlTxPower5G" size="1" id="Combobox3" class="blue_frame" style="width:80px">
+									<option selected value="100">100 %</option>									
+									<option value="80">50 %</option>
+									<option value="60">25 %</option>	
+									<option value="40">12 %</option>																	
+									<option value="20">6 %</option>
+								</select>							
+							</td>
+						</tr>
+						<tr>
+							<td height="30" colspan="4"></td>
+						</tr>
+					</table>
+				</div>
+			</form>
+			<div id='help' name='Basisstation'>
+			<script type="text/javascript">
+			</script>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<!--<div class="button_center"><a href="#" onClick="showWait();btnApply()"><img src="images1/apply.gif"></img></a></div> -->
+			<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();btnApply()"></div>
+		</div>
+	</div>
+
+</body>
+<script language="JavaScript">
+var http_request = false;
+var updateFlag = 1;
+var l2UpdateTimes = 0;
+var DslUpdateTimes = 0;
+var detectionUpdateTimes = 0;
+var countdownvar=0;
+var countdownFlag=1;
+var showwaitingFlag=1;
+var wlCurrentChannel5Gupdate=0;
+
+function makeRequest(url) {
+    if (window.XMLHttpRequest) { // Mozilla [11], Safari,...
+        http_request = new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject) { // IE
+        http_request = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    // Callback Function
+    http_request.onreadystatechange = alertContents;
+    http_request.open('GET', url, true);
+    http_request.send(null);
+}
+function alertContents() {
+    if (http_request.readyState == 4) {
+        if (http_request.status == 200) {
+			var partHttp_request = http_request.responseText.split('|');
+				if(partHttp_request[6]=="1")
+					CanUseWl5G='1';
+				else
+					CanUseWl5G='0';
+					
+				if(partHttp_request[5]=="1")
+					CanUseWl2G='1';
+				else
+					CanUseWl2G='0';	
+					
+				if((enbl=="1") && (enbl5G=="0")){
+					if(CanUseWl2G=="1"){
+						globalstate="0";/*global off*/
+						GlobalSwitch="1";/*For GUI apply,GUI apply can't change wlan state which is changed by Global Button*/				
+					}
+					else{
+						globalstate="1";/*global on*/
+						GlobalSwitch="0";/*For GUI apply,GUI apply can't change wlan state which is changed by Global Button*/	
+					}
+						
+				}
+				else if((enbl=="0") && (enbl5G=="1")){
+					if(CanUseWl5G=="1"){
+						globalstate="0";/*global off*/
+						GlobalSwitch="1";/*For GUI apply,GUI apply can't change wlan state which is changed by Global Button*/	
+					}
+					else{
+						globalstate="1";/*global on*/
+						GlobalSwitch="0";/*For GUI apply,GUI apply can't change wlan state which is changed by Global Button*/	
+					}
+				}
+				else if((enbl=="1") && (enbl5G=="1")){
+					if(CanUseWl2G=="1"||CanUseWl5G=="1"){ 
+						globalstate="0";/*global off*/
+						GlobalSwitch="1";/*For GUI apply,GUI apply can't change wlan state which is changed by Global Button*/	
+					}	
+					else{
+						globalstate="1";/*global on*/
+						GlobalSwitch="0";/*For GUI apply,GUI apply can't change wlan state which is changed by Global Button*/	
+					}
+				}
+				else{
+					globalstate='2';
+				}	
+				if(globalstate=='1'){
+				document.getElementById("GlobalWord").innerHTML = " Hier haben Sie die Möglichkeit, die WLAN-Funktion entsprechend der gesetzten Einstellung ein- bzw. auszuschalten. Die Funktion entspricht dem WLAN-Taster auf Ihrer o2 HomeBox.";	
+				//document.getElementById("GlobalButton").innerHTML ="<a href='#'  onClick='btnApplyforglobalswitchon()'><img src='images1/WLAN.jpg'></img></a>";
+				document.getElementById("GlobalButton").innerHTML ="<input type='button' class='button' value='Einschalten' onclick='btnApplyforglobalswitchon()'>";
+				}
+				else if(globalstate =='0'){
+				document.getElementById("GlobalWord").innerHTML = " Hier haben Sie die Möglichkeit, die WLAN-Funktion entsprechend der gesetzten Einstellung ein- bzw. auszuschalten. Die Funktion entspricht dem WLAN-Taster auf Ihrer o2 HomeBox.";	
+				//document.getElementById("GlobalButton").innerHTML ="<a href='#'  onClick='btnApplyforglobalswitchoff()'><img src='images1/WLAN_deakt.jpg'></img></a>";
+				document.getElementById("GlobalButton").innerHTML ="<input type='button' class='button' value='Ausschalten' onclick='btnApplyforglobalswitchoff()'>";
+				}
+				if(partHttp_request[0]!="NonCAC"){
+					if(CanUseWl5G=='1'){
+						//document.getElementById("CurChannel5G").innerHTML="Validierung: "+partHttp_request[0]+" secs";
+						document.getElementById("CurChannel5G").innerHTML="Validierung:<img src='images1/animation_32x32.gif'></img>";
+						//document.getElementById("CurChannel5G").src=imageLoading;
+					}
+					else
+						document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: -";	
+				}
+				else{
+					if(CanUseWl5G=='1')
+						document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: " + partHttp_request[1];
+					else
+						document.getElementById("CurChannel5G").innerHTML = " Momentan genutzt: -";		
+				}
+				if(CanUseWl2G=='1')
+					document.getElementById("CurChannel").innerHTML = " Momentan genutzt: " + partHttp_request[4];
+				else
+					document.getElementById("CurChannel").innerHTML = " Momentan genutzt: -";
+		}
+    }
+ }
+function updateStatus()
+{
+	if(updateFlag == 1)
+	{
+		t=setTimeout(function(){updateStatus()},1000);
+		makeRequest('updateWlDFS.html');	
+	}
+}
+</script>
+</html>
+

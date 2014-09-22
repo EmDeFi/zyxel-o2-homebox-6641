@@ -1,0 +1,420 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Setup Wizard</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="JavaScript">
+var protectStatus = '<%ejGetOther(protectstatus,ProtectEnable)%>';
+var getBBIActivated = '<%ejGetOther(sysInfo, isBBIActivated)%>';
+var getActivated ='<%ejGetOther(sysInfo, activated)%>';
+var getL2DiscoveryStatus = '<%ejGetOther(sysInfo, l2DiscoveryStatus)%>';
+var getDslLinkStatus= '<%ejGetOther(sysInfo, DslStatus)%>';
+//var getDslConnection='<%ejGetOther(sysInfo, wanAddr)%>';
+var getServiceModel ='<%ejGetOther(sysInfo, GetSM)%>'; 
+var imageOK="images1/yes.jpg";
+var imageErr="images1/no.jpg";
+var imageLoading="images1/animation_32x32.gif";
+var ActivatedStatus_ADSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_HANSENETULL)%>'; 
+var ActivatedStatus_ADSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_ADSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesalePIN)%>';
+var ActivatedStatus_ADSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_Bitstream)%>';
+var ActivatedStatus_ETH_SMode_ETHER='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_ETHER)%>';
+var ActivatedStatus_ETH_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesaleTK)%>';
+var ActivatedStatus_ETH_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesalePIN)%>';
+var ActivatedStatus_ETH_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_Bitstream)%>';
+var ActivatedStatus_VDSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_HANSENETULL)%>';
+var ActivatedStatus_VDSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_VDSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesalePIN)%>';	
+var ActivatedStatus_VDSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_Bitstream)%>';
+function disableTimer(){
+	updateFlag=0;
+}
+function hideDslStatusInfo(hide) {
+   var status = '';
+
+   if ( hide == 1 )
+      status = 'none';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+      document.getElementById('dslStatusInfo').style.display = status;
+   else {
+      if (document.layers == false) // IE4
+         document.all.dslStatusInfo.style.display = status;
+   }
+}
+function hideDetectionStatusInfo(hide) {
+   var status = '';
+
+   if ( hide == 1 )
+      status = 'none';
+   if (document.getElementById)  // DOM3 = IE5, NS6
+      document.getElementById('detectionStatusInfo').style.display = status;
+   else {
+      if (document.layers == false) // IE4
+         document.all.detectionStatusInfo.style.display = status;
+   }
+}
+function status()
+{	
+	hideDslStatusInfo(1);
+	hideDetectionStatusInfo(1);
+	if( getL2DiscoveryStatus != '') /*Check whether the DSL cable is connected or not*/
+	{
+		document.getElementById("l2DiscoveryStatus").src=imageOK;
+		document.getElementById("l2Discovery").innerHTML="Das DSL-Kabel wurde korrekt angeschlossen.";
+		document.getElementById("l2DiscoveryStatusColor").color="008000";
+		hideDslStatusInfo(0);
+		
+		if( getDslLinkStatus == "Up")
+		{
+			document.getElementById("DslStatus").src=imageOK;
+			document.getElementById("Dsl").innerHTML="Die DSL-Verbindung wurde erfolgreich hergestellt.";
+			document.getElementById("DslStatusColor").color="008000";
+			hideDetectionStatusInfo(0);
+			
+			if( getServiceModel != '' && getServiceModel != 'Unknown')
+			{
+				if(getActivated != 'TRUE' &&
+					(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+					 getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+					 getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+					 getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+					 getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+					 getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK))
+					{
+						document.getElementById("detectionStatus").src=imageErr;
+						document.getElementById("detection").innerHTML="Das Netz wurde nicht erkannt.";
+						document.getElementById("detectionStatusColor").color="#B0232A";
+						updateStatus();
+					}
+					else
+					{
+						document.getElementById("detectionStatus").src=imageOK;
+						document.getElementById("detection").innerHTML="Das Netz wurde erfolgreich erkannt, bitte drücken Sie nun den 'Weiter'-Button.";
+						document.getElementById("detectionStatusColor").color="008000";
+						next_button.href="Einrichtungsassistent.cmd";
+					}	
+			}
+			else if(getServiceModel == 'Unknown')
+			{
+				document.getElementById("detectionStatus").src=imageErr;
+				document.getElementById("detection").innerHTML="Das Netz wurde nicht erkannt.";
+				document.getElementById("detectionStatusColor").color="#B0232A";
+			}
+			else
+			{
+				document.getElementById("detectionStatus").src=imageErr;
+				document.getElementById("detection").innerHTML="Das Netz wurde nicht erkannt.";
+				document.getElementById("detectionStatusColor").color="#B0232A";
+				updateStatus();
+			}
+		}
+		else
+		{
+			document.getElementById("DslStatus").src=imageErr;
+			document.getElementById("Dsl").innerHTML="Nicht verbunden.";
+			document.getElementById("DslStatusColor").color="#B0232A";
+			updateStatus();
+//			setTimeout("self.location.reload();",20000);
+		}	
+	}
+	else
+	{
+		document.getElementById("l2DiscoveryStatus").src=imageErr;
+		document.getElementById("l2Discovery").innerHTML="Bitte überprüfen Sie die Verkabelung Ihrer o2 HomeBox.";
+		document.getElementById("l2DiscoveryStatusColor").color="#B0232A";
+		updateStatus();
+//		setTimeout("self.location.reload();",20000);
+	}
+	
+	if(protectStatus == 1)
+	{
+		parent.hideKennwort(1);
+	}
+	else
+	{
+		parent.hideKennwort(0);
+	}
+	if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+		getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+		getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+		getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+		getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+		getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+		getActivated == 'TRUE')
+	{
+		parent.hideZugangsPIN(1);
+	}
+	else
+	{
+		parent.hideZugangsPIN(0);
+	}
+	if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+		getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+		getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+		getBBIActivated == '1')
+	{
+		parent.hideZugangsdaten(1);
+	}
+	else
+	{
+		parent.hideZugangsdaten(0);
+	}
+	
+	
+	
+}
+parent.setBoldofMenu('Startseite');
+parent.document.getElementById("headerText").innerHTML="<b>Einrichtungsassistent&nbsp;&nbsp;</b> Startseite";
+</script>
+</head>
+<body onbeforeunload="disableTimer()" onLoad='status();operaResize()' class="body_no_scroll">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form> 	
+				<div class="stepWrapper">				
+					<div class="headline">o2 HomeBox Einrichtung</div>				
+					<table class="alignment">
+						<tr border="0">
+							<td border="0">Der Einrichtungsassistent führt Sie in den nächsten Schritten durch die Einrichtung der o2 HomeBox. Sie schalten dabei die o2 HomeBox zur Nutzung frei und richten Ihren Internetzugang ein. Schließen Sie dazu das DSL-Kabel an und warten auf die erfolgreiche Anschlusserkennung anhand der nachfolgenden Statusmeldungen. Klicken Sie danach auf den "Weiter"-Button.</td>
+						</tr>
+					</table>
+					<table class="alignment" width="580">
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+						<tr>
+							<td width="360" border="0"><b><font color='#19224F'>Status der Aktivierung</font></b></td>
+							<td width="200" border="0"><img id='l2DiscoveryStatus' class="setup_wizard_padding_l2DiscoveryStatus"></td>
+						</tr>
+						<tr>
+							<td colspan='2' border="0"><font color="#19224F" face="Arial">Hinweis: </font><font id='l2DiscoveryStatusColor'><span id='l2Discovery'></span></font></td>							
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
+					<table id='dslStatusInfo' class="alignment" width="580">
+						<tr>
+							<td width="360" border="0"><b><font  color="#19224F">Status der DSL-Verbindung</font></b></td>
+							<td width="200" border="0"><img id='DslStatus'  class='setup_wizard_padding_DSLStatus'></td>		
+						</tr>	
+						<tr>							
+							<td colspan='2' border='0'><font color='#19224F' face='Arial'>Hinweis: </font><font id='DslStatusColor'><span id='Dsl'></span></font></td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+						</tr>
+					</table>
+					<table id='detectionStatusInfo' class="alignment" width="580">
+						<tr>
+							<td width="360" border="0"><b><font  color="#19224F">Status der Erkennung des Zugangsnetzes</font></b></td>
+							<td width="200" border="0"><img id='detectionStatus' class="setup_wizard_padding_detection" /></td>
+						</tr>
+						<tr>
+							<td colspan='2' border="0"><font color="#19224F" face="Arial">Hinweis: </font><font id='detectionStatusColor'><span id='detection'></span></font></td>				
+						</tr>							
+			  	  	</table>
+					</br>
+					</br>
+				</div>	
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Startseite'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_2" id='nextbutton'><a href="#" onclick="window.location.reload()"><img src='images1/update.gif'></a>&nbsp;&nbsp;&nbsp;</img><a id='next_button'><img src='images1/more.gif'></img></a></div>	
+	  	</div>
+	</div><!-- end class="content_right"-->
+</body>
+<script language="JavaScript">
+var http_request = false;
+var updateFlag = 1;
+var l2UpdateTimes = 0;
+var DslUpdateTimes = 0;
+var detectionUpdateTimes = 0;
+function makeRequest(url) {
+    if (window.XMLHttpRequest) { // Mozilla [11], Safari,...
+        http_request = new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject) { // IE
+        http_request = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    // Callback Function
+    http_request.onreadystatechange = alertContents;
+    http_request.open('GET', url, true);
+    http_request.send(null);
+}
+function alertContents() {
+    if (http_request.readyState == 4) {
+        if (http_request.status == 200) {
+			var partHttp_request = http_request.responseText.split('|');
+//            alert(partHttp_request[0]+' '+partHttp_request[1]+''+partHttp_request[2]);
+			if(partHttp_request[0] == 'ADSL' ||
+			   partHttp_request[0] == 'ADSL_J' ||
+			   partHttp_request[0] == 'VDSL' ||
+			   partHttp_request[0] == 'ETH')
+			{
+				if(document.getElementById("l2DiscoveryStatus").src.indexOf(imageErr) > -1 && partHttp_request[0] != 'ETH')
+				{
+					document.getElementById("l2DiscoveryStatus").src=imageLoading;
+					document.getElementById("l2Discovery").innerHTML="&#220;berpr&#252;fung l&#228;uft ...";
+					document.getElementById("l2DiscoveryStatusColor").color="#B0232A";
+				}
+				else
+				{
+					document.getElementById("l2DiscoveryStatus").src=imageOK;
+					document.getElementById("l2Discovery").innerHTML="Das DSL-Kabel wurde korrekt angeschlossen.";
+					document.getElementById("l2DiscoveryStatusColor").color="008000";
+					hideDslStatusInfo(0);
+					if( partHttp_request[1] == "Up")
+					{
+						document.getElementById("DslStatus").src=imageOK;
+						document.getElementById("Dsl").innerHTML="Die DSL-Verbindung wurde erfolgreich hergestellt.";
+						document.getElementById("DslStatusColor").color="008000";
+						hideDetectionStatusInfo(0);
+						
+						if( partHttp_request[2] != '' && partHttp_request[2] != 'Unknown')
+						{	
+							if(partHttp_request[2] == ActivatedStatus_ADSL_SMode_Bitstream ||
+								partHttp_request[2] == ActivatedStatus_ETH_SMode_Bitstream ||
+								partHttp_request[2] == ActivatedStatus_VDSL_SMode_Bitstream ||
+								getBBIActivated == '1')
+							{
+								document.getElementById("detectionStatus").src=imageOK;
+								document.getElementById("detection").innerHTML="Das Netz wurde erfolgreich erkannt, bitte drücken Sie nun den 'Weiter'-Button.";
+								document.getElementById("detectionStatusColor").color="008000";
+								parent.hideZugangsdaten(1);
+								next_button.href="Einrichtungsassistent.cmd";
+								updateFlag = 0;
+							}
+							else if(partHttp_request[2] == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+								partHttp_request[2] == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+								partHttp_request[2] == ActivatedStatus_ETH_SMode_ETHER ||
+								partHttp_request[2] == ActivatedStatus_ETH_SMode_WholesaleTK ||
+								partHttp_request[2] == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+								partHttp_request[2] == ActivatedStatus_VDSL_SMode_WholesaleTK)
+							{
+								parent.hideZugangsPIN(1);
+								if(partHttp_request[3] == '1')
+								{
+									document.getElementById("detectionStatus").src=imageOK;
+									document.getElementById("detection").innerHTML="Das Netz wurde erfolgreich erkannt, bitte drücken Sie nun den 'Weiter'-Button.";
+									document.getElementById("detectionStatusColor").color="008000";
+									next_button.href="Einrichtungsassistent.cmd";
+									updateFlag = 0;
+								}
+								else
+								{
+									if(document.getElementById("detectionStatus").src.indexOf(imageLoading) > -1)
+									{}
+									else
+									{
+										document.getElementById("detectionStatus").src=imageLoading;
+									}
+									document.getElementById("detection").innerHTML="&#220;berpr&#252;fung l&#228;uft ...";
+									document.getElementById("detectionStatusColor").color="#B0232A";
+									detectionUpdateTimes++;
+								}
+							}
+							else
+							{	
+								/* PIN base*/
+								if(partHttp_request[3] == '1')
+								{
+									parent.hideZugangsPIN(1);
+								}
+								document.getElementById("detectionStatus").src=imageOK;
+								document.getElementById("detection").innerHTML="Das Netz wurde erfolgreich erkannt, bitte drücken Sie nun den 'Weiter'-Button.";
+								document.getElementById("detectionStatusColor").color="008000";
+								next_button.href="Einrichtungsassistent.cmd";
+								updateFlag = 0;
+							}
+							
+						}
+						else if(partHttp_request[2] == 'Unknown')
+						{
+							document.getElementById("detectionStatus").src=imageErr;
+							document.getElementById("detection").innerHTML="Das Netz wurde nicht erkannt.";
+							document.getElementById("detectionStatusColor").color="#B0232A";
+							updateFlag = 0;
+						}
+						else
+						{
+							if(document.getElementById("detectionStatus").src.indexOf(imageLoading) > -1)
+							{}
+							else
+							{
+								document.getElementById("detectionStatus").src=imageLoading;
+							}
+							document.getElementById("detection").innerHTML="&#220;berpr&#252;fung l&#228;uft ...";
+							document.getElementById("detectionStatusColor").color="#B0232A";
+							detectionUpdateTimes++;
+						}
+					}
+					else
+					{
+						if(document.getElementById("DslStatus").src.indexOf(imageLoading) > -1)
+						{}
+						else
+						{
+							document.getElementById("DslStatus").src=imageLoading;
+						}
+						document.getElementById("Dsl").innerHTML="&#220;berpr&#252;fung l&#228;uft ...";
+						document.getElementById("DslStatusColor").color="#B0232A";
+						DslUpdateTimes++;
+					}
+				}
+			}
+			else
+			{
+				document.getElementById("l2DiscoveryStatus").src=imageErr;
+				document.getElementById("l2Discovery").innerHTML="Bitte überprüfen Sie die Verkabelung Ihrer o2 HomeBox.";
+				document.getElementById("l2DiscoveryStatusColor").color="#B0232A";
+				hideDslStatusInfo(1);
+				hideDetectionStatusInfo(1);
+				l2UpdateTimes++;
+			}
+        }
+    }
+}
+function updateStatus()
+{
+	if(l2UpdateTimes>20 || DslUpdateTimes>20 || detectionUpdateTimes>20)
+	{
+		updateFlag = 0;
+		if(DslUpdateTimes>20)
+		{
+			document.getElementById("DslStatus").src=imageErr;
+			document.getElementById("Dsl").innerHTML="Nicht verbunden.";
+			document.getElementById("DslStatusColor").color="#B0232A";
+		}
+		else if(detectionUpdateTimes>20)
+		{
+			document.getElementById("detectionStatus").src=imageErr;
+			document.getElementById("detection").innerHTML="Das Netz wurde nicht erkannt.";
+			document.getElementById("detectionStatusColor").color="#B0232A";
+		}
+	}
+	if(updateFlag == 1)
+	{
+		t=setTimeout(function(){updateStatus()},3000);
+		makeRequest('updateSetupWizardStatus.html');	
+	}
+}
+</script>
+</html>

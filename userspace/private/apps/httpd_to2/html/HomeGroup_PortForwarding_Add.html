@@ -1,0 +1,460 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+var ethIp = '<%ejGet(ethIpAddress)%>';
+var ethMask = '<%ejGet(ethSubnetMask)%>';
+var mask = ethMask.split('.');
+var lan = ethIp.split('.');
+
+TOTAL_APP = 5
+var usedName = "";
+
+var v = new Array(TOTAL_APP);
+
+v[0] = new cV("HTTP",1);
+v[0].e[0] = new iVe("80","TCP","80");
+
+v[1] = new cV("FTP",1);
+v[1].e[0] = new iVe("21","TCP","21");
+
+v[2] = new cV("SSH",1);
+v[2].e[0] = new iVe("22","TCP","22");
+
+v[3] = new cV("Telnet",1);
+v[3].e[0] = new iVe("23","TCP","23");
+
+v[4] = new cV("MS Remote",1);
+v[4].e[0] = new iVe("3389","TCP","3389");
+
+function cV(name,entryNum)
+{
+  this.name = name;
+  this.eNum = entryNum;
+  this.e = new Array(1);
+}
+
+function iVe(eStart1,proto,eEnd1)
+{
+  this.eStart1 = eStart1;
+  this.proto = proto;
+  this.eEnd1 = eEnd1;
+}
+
+function clearAll()
+{
+  with (document.pfFrm){
+    eStart1.value = "";
+	eEnd1.value = "";
+	proto.value = "TCP";
+	
+	eStart2.value = "";
+	eEnd2.value = "";
+	proto2.value = "TCP";
+  } 
+}
+
+function appSelect(sName)
+{
+  clearAll();
+  with (document.pfFrm){
+  
+    if (sName == "Benutzerdef"){
+	  usedName = "";
+	  return;
+	}
+	
+	for (i = 0; i < TOTAL_APP; i++ ){
+	  if (v[i].name == sName){
+	    var entryNum = v[i].eNum;
+		usedName = sName;
+		
+		if(sName == "FTP")
+		{
+			eStart1.value = "20";
+			proto.value = v[i].e[0].proto;
+			eEnd1.value = "20";
+			
+			eStart2.value = v[i].e[0].eStart1;
+			proto2.value = v[i].e[0].proto;
+			eEnd2.value = v[i].e[0].eEnd1;
+			
+			selectPort.selectedIndex = 1;
+			proto2.disabled = 0;	
+			eStart2.readOnly = false;
+			eEnd2.readOnly = false;
+		}
+		else
+		{
+			eStart1.value = v[i].e[0].eStart1;
+			proto.value = v[i].e[0].proto;
+			eEnd1.value = v[i].e[0].eEnd1;
+			
+			eStart2.value = "";
+			proto2.value = v[i].e[0].proto;
+			eEnd2.value = "";
+			
+			selectPort.selectedIndex = 0;
+			proto2.disabled = 1;
+			eStart2.readOnly = true;
+			eEnd2.readOnly = true;
+		}
+		
+		break;
+	  }
+	}
+  }
+}
+
+function appSelectPort(portValue)
+{
+  
+  if (portValue == "onePortbereich")
+  {
+	document.pfFrm.proto2.disabled = 1;
+	document.pfFrm.eStart2.readOnly = true;
+	document.pfFrm.eEnd2.readOnly = true;
+	
+	document.pfFrm.eStart2.value = "";
+	document.pfFrm.eEnd2.value = "";
+  }
+  else
+  {
+	document.pfFrm.proto2.disabled = 0;
+	document.pfFrm.eStart2.readOnly = false;
+	document.pfFrm.eEnd2.readOnly = false;
+  }
+  
+}
+
+function frmLoad()
+{
+  for (i = 0; i < 4; i++ ){
+    document.pfFrm.sIp[i].value = '';
+  }
+ 
+  for (i = 0; i < 3; i++) {
+    m = parseInt(mask[i]);
+    if (m == 255)
+	{
+       document.pfFrm.sIp[i].value = lan[i];
+	   document.pfFrm.sIp[i].readOnly = true;
+	}
+	else
+	   document.pfFrm.sIp[i].readOnly = false;
+  }
+  
+  document.pfFrm.sIp[3].readOnly = false;
+  clearAll();
+}
+
+function SetStyle()
+{
+   with (document.pfFrm) {
+     if (dstPortEnbl.checked == true)
+	   dstPort.readOnly = false;
+     else
+	 {
+	   dstPort.readOnly = true;
+	   dstPort.value = "";
+	 }	
+   } 
+}
+
+function btnApply() {
+   var loc = 'portForwarding.cmd?action=add';
+   with (document.pfFrm) {
+   
+       if (sIp[3].value != "")
+         var srcIp = sIp[0].value + '.' +  sIp[1].value + '.' + sIp[2].value + '.' + sIp[3].value;
+	   else
+	     var srcIP = "";
+		 
+	   if (srcIP == "")
+	   {
+	   		showErr('Bitte geben Sie eine gültige IP-Adresse für den Computer ein.');
+			return;
+	   }
+		 
+	   if (sIp[3].value == "255" || parseInt(sIp[3].value) == 0 || parseInt(sIp[3].value) == parseInt(lan[3]) )
+	   {
+		   showErr('Bitte geben Sie eine gültige IP-Adresse für den Computer ein.');
+           return;
+	   }
+	   
+	   if (ruleEnbl.checked == true)
+	     loc += '&ruleEnbl=' + 1;
+	   else
+	     loc += '&ruleEnbl=' + 0;
+		 
+	   if (dstPortEnbl.checked == true)
+	   	 loc += '&dstPortEnbl=' + 1;
+	   else
+	     loc += '&dstPortEnbl=' + 0;
+   
+       if (usedName == ""){
+	     loc += '&srvName=' + 'Benutzerdef';
+	   }
+	   else
+	     loc += '&srvName=' + usedName;
+	  
+      if (srcIp != "" && isValidIpAddress(srcIp) == false) {
+	  	 showErr('Bitte geben Sie eine gültige IP-Adresse für den Computer ein.');
+         return;
+      }  
+	  
+      loc += '&srvAddr=' + srcIp;
+	  
+	  
+	  if (selectPort.options[selectPort.selectedIndex].value == "onePortbereich"){
+		 if (eStart1.value == "" && eEnd1.value == ""){
+		    showErr('Der Port muss einen Wert zwischen 1 und 65535 haben.');
+			return;
+		 }
+	     
+	     if (eStart1.value == "" || eEnd1.value == ""){
+		    showErr('Der Port muss einen Wert zwischen 1 und 65535 haben.');
+			return;
+		 } 
+	  }
+	  else{ // twoPortbereiche
+		 if (eStart1.value == "" && eEnd1.value == "" && eStart2.value == "" && eEnd2.value == ""){
+		    showErr('Der Port muss einen Wert zwischen 1 und 65535 haben.');
+			return;
+		 }
+		 
+	     if (eStart1.value == "" || eEnd1.value == "" || eStart2.value == "" || eEnd2.value == ""){
+		    showErr('Der Port muss einen Wert zwischen 1 und 65535 haben.');
+			return;
+		 }
+	  }
+	
+      protoLoc = '&proto=';
+      eStartLoc = '&eStart=';
+      eEndLoc = '&eEnd=';
+	  
+	  if (dstPortEnbl.checked == true)
+	  {
+	      iStartLoc = '&iStart=';
+          iEndLoc = '&iEnd=';
+	  }
+	   
+      if (isValidPort(eStart1.value) == false ) {
+	  	  showErr('Der Startport muss einen Wert zwischen 1 und 65535 haben.');
+          return;
+      }
+      if (isValidPort(eEnd1.value) == false ) {
+	  	  showErr('Der Endport muss einen Wert zwischen 1 und 65535 haben.');
+          return;
+      }
+      if (eStart2.value != '' && isValidPort(eStart2.value) == false ) {
+	      showErr('Der Startport muss einen Wert zwischen 1 und 65535 haben.');
+          return;
+      }
+      if (eEnd2.value != '' && isValidPort(eEnd2.value) == false ) {
+	      showErr('Der Endport muss einen Wert zwischen 1 und 65535 haben.');
+          return;
+      }
+			  
+	  if (eStart1.readOnly == false && eEnd1.readOnly == false && eStart1.value != "" 
+	       && eEnd1.value != "" && parseInt(eEnd1.value) < parseInt(eStart1.value))
+	  {
+	  	  showErr('Ungültiger Portbereich.');
+                return;
+	  }
+	  
+	  if (eStart2.readOnly == false && eEnd2.readOnly == false && eStart2.value != "" 
+	       && eEnd2.value != "" && parseInt(eEnd2.value) < parseInt(eStart2.value))
+	  {
+	  	  showErr('Ungültiger Portbereich.');
+                return;
+	  }
+	  
+	  if (dstPortEnbl.checked == true && dstPort.value == "")
+	  {
+	      showErr('Bitte geben Sie den Zielport ein.');
+		  return;
+	  }
+	  
+	  if (isValidPort(dstPort.value) == false )
+	  {
+	  	  showErr('Ungültiger Zielport.');
+          return;
+	  } 
+		  
+      if (selectPort.options[selectPort.selectedIndex].value == "onePortbereich"){
+	     eStartLoc = eStartLoc + eStart1.value + ',';
+         eEndLoc = eEndLoc + eEnd1.value + ',';
+		 protoLoc = protoLoc + proto.value + ',';
+		 if (dstPortEnbl.checked == true)
+		 {
+		 	iStartLoc = iStartLoc + dstPort.value + ',';
+		 	iEndLoc = iEndLoc + dstPort.value + ',';	
+		 }
+	  }
+	  else{
+	     eStartLoc = eStartLoc + eStart1.value + ',';
+		 eStartLoc = eStartLoc + eStart2.value + ',';
+         eEndLoc = eEndLoc + eEnd1.value + ',';
+		 eEndLoc = eEndLoc + eEnd2.value + ',';
+		 protoLoc = protoLoc + proto.value + ',';
+		 protoLoc = protoLoc + proto2.value + ',';
+		 if (dstPortEnbl.checked == true)
+		 {
+		 	iStartLoc = iStartLoc + dstPort.value + ',';
+		 	iStartLoc = iStartLoc + dstPort.value + ',';
+		 	iEndLoc = iEndLoc + dstPort.value + ',';
+		 	iEndLoc = iEndLoc + dstPort.value + ',';
+		 }
+	  }       
+   
+      if (dstPortEnbl.checked == true)
+        loc = loc + protoLoc + eStartLoc + eEndLoc + iStartLoc + iEndLoc;
+      else
+        loc = loc + protoLoc + eStartLoc + eEndLoc;
+   } 
+   
+   loc += '&sessionKey=' + sessionKey;
+   var code = 'location="' + loc + '"';
+   fadding();
+   eval(code);
+}
+
+function btnBack(){
+    var code = 'location="portForwarding.cmd?action=view"';
+    eval(code);
+}
+
+parent.document.getElementById("headerText").innerHTML="<b>Heimnetz&nbsp;&nbsp; </b>Port Forwarding";
+</script>
+</head>
+<body onLoad='frmLoad();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabDB" value="IPv4" onclick="location.href='portForwarding.cmd?action=view'"></td>
+					<td><input type="button" class="tabB" value="IPv6" onclick="location.href='portForwarding.cmd?action=ipv6View'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class='bg_body_auto2' style='min-height:450px;_height:450px;' id='defaultId'>
+			<div class="left">
+			<form name="pfFrm"> 
+				<div class="stepWrapper">
+					<div class='headline'>Port Forwarding erstellen (IPv4)</div>
+					<table class="alignment">
+						<tr>
+							<td colspan="2"><input type="checkbox" id="Checkbox1" name="ruleEnbl" value="on" checked/>&nbsp;&nbsp;&nbsp;&nbsp;Diese Regel aktivieren</td>
+					  	</tr>
+						<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+						<tr>
+							<td>Dienst:</td>
+						  	<td>
+							    <select name="srvName" id="Combobox1" class="blue_frame" style="width:150px" onChange='appSelect(this.value)'>
+                            		<option selected="selected" value="Benutzerdef">Benutzerdef</option>
+									<option value="HTTP">HTTP</option>
+									<option value="FTP">FTP</option>
+									<option value="SSH">SSH</option>
+									<option value="Telnet">Telnet</option>
+									<option value="MS Remote">MS Remote</option>
+                          		</select>
+							</td>
+					 	</tr>
+						<tr>
+							<td width="202">Computer:</td>
+							<td width="293"><input id="ip1" type="text" name="sIp" class="blue_frame" size="2" readonly="true">
+							  .
+						      <input id="ip2" type="text" name="sIp" size="2" class="blue_frame" readonly="true">
+						      .
+						      <input id="ip3" type="text" name="sIp" size="2" class="blue_frame" readonly="true">
+						      .
+						      <input id="ip4" type="text" name="sIp" size="2" class="blue_frame" readonly="true" maxlength="3"></td>
+						</tr>
+						<tr>
+							<td>Port(bereich/e):</td>
+						  	<td><select name="selectPort" id="selectPort" class="blue_frame" style="width:150px" onChange='appSelectPort(this.value)'>
+									<option selected="selected" value="onePortbereich">1 Portbereich</option>
+									<option value="twoPortbereiche">2 Portbereiche</option>
+							  	</select>
+							</td>
+					  	</tr>
+						<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+						<tr>
+							<td>1. Portbereich:</td>
+						  	<td><input type="text" id="portrange1" class="blue_frame" name="eStart1" size="4" maxlength="5">&nbsp; bis &nbsp;
+					      		<input type="text" id="portrange2" class="blue_frame" name="eEnd1" size="4" maxlength="5">
+							</td>
+					 	</tr>
+						<tr>
+						  	<td>Protokoll:</td>
+						  	<td><select name='proto' id="selectproto1" class="blue_frame" style="width:150px">
+									<option selected="selected" value="TCP">TCP</option>
+									<option value="UDP">UDP</option>
+                          		</select>
+							</td>
+					  	</tr>
+						<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+						<tr>
+							<td>2. Portbereich:</td>
+						  	<td><input type="text" id="portrange3" class="blue_frame" value="" name="eStart2" size="4" readonly="true" maxlength="5">&nbsp; bis &nbsp;
+					      		<input type="text" id="portrange4" class="blue_frame" value="" name="eEnd2" size="4" readonly="true" maxlength="5">
+							</td>
+					 	</tr>
+						<tr>
+						 	<td>Protokoll:</td>
+						  	<td><select name="proto2" id="selectproto2" class="blue_frame" style="width:150px" disabled="disabled">
+									<option selected="selected" value="TCP">TCP</option>
+									<option value="UDP">UDP</option>
+								</select>
+							</td>
+					  	</tr>
+						<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+						<tr>
+							  <td colspan="2"><input type="checkbox" id="Checkbox12" onclick="SetStyle()" name="dstPortEnbl" value="on">&nbsp;&nbsp;&nbsp;&nbsp;Anderen Zielport für Portbereich(e) verwenden</td>
+					  	</tr>
+						<tr>
+							  <td>Ziel-Port:</td>
+							  <td><input id="dstport" type="text" class="blue_frame" value="" name="dstPort" readonly="true" maxlength="5"></td>
+					  	</tr>
+					</table>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='IPv4_add'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_center">
+				<input type="button" class="button" value="Speichern" onclick="showWait();btnApply()">
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

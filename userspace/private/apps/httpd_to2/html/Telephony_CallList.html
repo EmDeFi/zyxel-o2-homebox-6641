@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+var CallListData = '<%ejGetOther(callListData)%>';
+var CallListEntries = CallListData.split("&");
+var totalpage = CallListEntries[0];
+var currentpage = '<%ejGet(callListPage)%>';
+
+function replace2IMG(type)
+{
+	if(type == 'Answered')
+		return '<img src="images1/callIn.gif">'; 
+	else if(type == 'Missed')
+		return '<img src="images1/callErr.gif">'; 
+	if(type == 'Outgoing')
+		return '<img src="images1/callOut.gif">'; 
+}
+
+function printCallListEntry()
+{
+	with(document.forms[0]){
+
+		for(var index=1 ;index < CallListEntries.length - 1; index++)
+		{
+			var element = CallListEntries[index].split(",");
+/*
+    CallListEntries Example : 101,Answered,14.10.12-10:10:00,14.10.12-10:10:10,00:00:10,0,035165335641,Sam,SIP1,1,0,0  
+    element[0] mapping to 101 , element[1] mapping to Answerd ...etc.
+
+*/
+			document.writeln('<tr>');
+                        document.writeln('<td width="80">'+replace2IMG(element[4])+'</td>');
+                        document.writeln('<td width="160">'+element[1]+'</td>');
+//                        document.writeln('<td width="160">'+element[2].slice(0,14).replace("-"," - ")+' Uhr </td>');
+                        document.writeln('<td width="140">'+element[2]+'</td>');
+                        document.writeln('<td>'+element[3]+'</td>');
+                        //document.writeln('<td>'+element[6].slice(0,4)+' '+element[6].slice(4,element[6].length)+'</td>');
+			document.writeln('</tr>');
+		}
+	}
+}
+
+
+function printIndex()
+{
+	if (totalpage == 1)	return;
+
+	if (currentpage > totalpage || currentpage == 0) currentpage=1;
+
+	document.writeln('<p></p>');
+	document.writeln('<table class="myTable font12" width="530">');
+	document.writeln('<tr>');
+	document.writeln('<td style="text-align:center">');
+
+	with(document.forms[0]){
+		for(var index=1 ; index <= totalpage ; index++)
+		{
+			if(index == currentpage)
+				document.writeln('<b>'+index+'</b>')
+			else
+				document.writeln('<a href=Telephony_CallList.cgi?sessionKey='+sessionkey+'&callListPage='+index+'>'+index+'</a>');
+		}
+	}
+	
+	document.writeln('</td>');
+	document.writeln('</tr>');
+	document.writeln('</table>');
+	
+	return;
+
+}
+
+function deleteall()
+{
+	var r=confirm("Die Anrufliste wird gelöscht.");
+
+	if (r == true)
+	{
+		showWait();
+		var loc = 'voiceCallListControl.cmd?currentview=Telephony_CallList.html&callListPage=1&action=DELALL';
+		loc += '&sessionKey='+sessionkey;
+		var code = 'location="' + loc + '"';
+		eval(code);
+  	}
+	else
+	{
+  	}
+}
+
+function exportClick()
+{
+	var loc = 'calllist.csv';
+
+	var code = 'location="' + loc + '"';
+	eval(code);
+}
+
+  parent.document.getElementById("headerText").innerHTML="<b>Telefonie&nbsp;&nbsp; </b>Anruflisten";
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onLoad="operaResize();">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+					<div class="subhead">Anrufliste</div>
+					<table class="alignment">
+						<tr>
+							<td><a href="#" onclick="deleteall();"><img src="images1/callListDelete.gif"></img></a></td>
+						</tr>
+					</table>
+					<!--
+					<div><div>Export Call List</div></div>
+					<table>
+						<tr>
+							<td><input type='button' value='Export' onClick='exportClick()'></td>
+						</tr>
+					</table>
+					-->
+					
+					<div class="subhead">Ihre Anrufliste</div>
+					<div class="font12" style="width:528px;border:1px solid #66CCFF; border-radius:5px 5px 5px 5px;">
+					<table class=" font12">
+						<tr class="bold">
+							<td width="80">Anruftyp</td>
+							<td width="160">Anrufzeitpunkt</td>
+							<td width="140">Dauer (hh:mm:ss)</td>
+							<td>Rufnummer/Name</td>
+						</tr>
+					</table>
+					<div style="width:520px;height:200px;overflow:auto;">
+					<table class="font12">
+						 <SCRIPT LANGUAGE="JavaScript">
+						printCallListEntry();	
+						</SCRIPT>
+					</table>
+					</div>
+					</div>
+					<p></p>
+					<table class="myTable font12" width="530px">
+						<tr>
+							<td class="bold" width="80">Legende</td>
+							<td width="100"><img src="images1/callIn.gif"></img>eingehend</td>
+							<td width="100"><img src="images1/callOut.gif"></img>ausgehend</td>
+							<td><img src="images1/callErr.gif"></img> versäumt</td>
+						</tr>
+					</table>
+							<SCRIPT LANGUAGE="JavaScript">printIndex();</SCRIPT>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Anruflisten'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+		</div>
+	</div>
+
+</body>
+</html>
+

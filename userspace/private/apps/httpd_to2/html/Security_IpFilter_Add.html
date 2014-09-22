@@ -1,0 +1,625 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+var ethIpAddress = '<%ejGet(ethIpAddress)%>';
+var ethMask = '<%ejGet(ethSubnetMask)%>';
+
+function appSelectProtocol(protoValue)
+{
+  
+  if (protoValue == "TCP" || protoValue == "UDP" || protoValue == "6" || protoValue == "17" || protoValue == "TCPorUDP") /*TCP, UDP*/
+  {
+	document.ipFilterFrm.srcstartport.readOnly = false;
+	document.ipFilterFrm.srcendport.readOnly = false;
+	document.ipFilterFrm.dststartport.readOnly = false;
+	document.ipFilterFrm.dstendport.readOnly = false;
+	
+	if (protoValue != "6" && protoValue != "17")
+	{
+		document.ipFilterFrm.prot.readOnly = true;
+		document.ipFilterFrm.prot.value = "";
+	}
+  }
+  else if (protoValue == "ICMP" || protoValue == "AH" || protoValue == "ESP" || protoValue == "All")/*for ICMP, AH, ESP, All*/
+  {
+	document.ipFilterFrm.srcstartport.readOnly = true;
+	document.ipFilterFrm.srcendport.readOnly = true;
+	document.ipFilterFrm.dststartport.readOnly = true;
+	document.ipFilterFrm.dstendport.readOnly = true;
+	
+	document.ipFilterFrm.srcstartport.value = "";
+	document.ipFilterFrm.srcendport.value = "";
+	document.ipFilterFrm.dststartport.value = "";
+	document.ipFilterFrm.dstendport.value = "";
+	
+	document.ipFilterFrm.prot.readOnly = true;
+	document.ipFilterFrm.prot.value = "";
+  }
+  else /*other*/
+  {
+  	document.ipFilterFrm.srcstartport.readOnly = true;
+	document.ipFilterFrm.srcendport.readOnly = true;
+	document.ipFilterFrm.dststartport.readOnly = true;
+	document.ipFilterFrm.dstendport.readOnly = true;
+	
+	document.ipFilterFrm.srcstartport.value = "";
+	document.ipFilterFrm.srcendport.value = "";
+	document.ipFilterFrm.dststartport.value = "";
+	document.ipFilterFrm.dstendport.value = "";
+	
+	document.ipFilterFrm.prot.readOnly = false;
+  }
+}
+
+function appSelectSrcIpType(srcTypeValue)
+{
+  if (srcTypeValue == "All")
+  {
+    for (var i = 0; i < 4; i++){
+	  document.ipFilterFrm.srcip[i].readOnly = true;
+	  document.ipFilterFrm.srcip[i].value = "";
+	  document.ipFilterFrm.srcmask[i].value = "";
+	}
+	
+	document.ipFilterFrm.srcPrefix.readOnly = true;
+	document.ipFilterFrm.srcPrefix.value = "";
+  }
+  else if (srcTypeValue == "SingleIP")
+  {
+    for (var i = 0; i < 4; i++){
+	  document.ipFilterFrm.srcip[i].readOnly = false;
+	  document.ipFilterFrm.srcmask[i].value = 255;
+	}
+	  
+	document.ipFilterFrm.srcPrefix.readOnly = true;
+	document.ipFilterFrm.srcPrefix.value = 32;
+  }
+  else
+  {
+    for (var i = 0; i < 4; i++)
+	   document.ipFilterFrm.srcip[i].readOnly = false;
+	  
+	document.ipFilterFrm.srcPrefix.readOnly = false;
+	
+	mask = ethMask.split('.');
+    maskCount = 0;
+  
+    for (i = 0; i < 4; i++)
+    {
+      m = parseInt(mask[i]);
+	
+	  if (m == 255){
+	    maskCount += 1;
+	    document.ipFilterFrm.srcmask[i].value = mask[i];
+	  }
+	  else
+	    document.ipFilterFrm.srcmask[i].value = mask[i];
+    }
+  
+    document.ipFilterFrm.srcPrefix.value = maskCount * 8;
+  }
+}
+
+function appSelectDstIpType(dstTypeValue)
+{
+  
+  if (dstTypeValue == "All")
+  {
+    for (var i = 0; i < 4; i++){
+	  document.ipFilterFrm.dstip[i].readOnly = true;
+	  document.ipFilterFrm.dstip[i].value = "";
+	  document.ipFilterFrm.dstmask[i].value = "";
+	}
+	  
+	document.ipFilterFrm.dstPrefix.readOnly = true;
+	document.ipFilterFrm.dstPrefix.value = "";
+  }
+  else if (dstTypeValue == "SingleIP")
+  {
+    for (var i = 0; i < 4; i++){
+	  document.ipFilterFrm.dstip[i].readOnly = false;
+	  document.ipFilterFrm.dstmask[i].value = 255;
+	}
+	  
+	document.ipFilterFrm.dstPrefix.readOnly = true;
+	document.ipFilterFrm.dstPrefix.value = 32;
+  }
+  else
+  {
+    for (var i = 0; i < 4; i++)
+	  document.ipFilterFrm.dstip[i].readOnly = false;
+	  
+	document.ipFilterFrm.dstPrefix.readOnly = false;
+	
+	mask = ethMask.split('.');
+    maskCount = 0;
+  
+    for (i = 0; i < 4; i++)
+    {
+      m = parseInt(mask[i]);
+	
+	  if (m == 255){
+	    maskCount += 1;
+	    document.ipFilterFrm.dstmask[i].value = mask[i];
+	  }
+	  else
+	    document.ipFilterFrm.dstmask[i].value = mask[i];
+    }
+  
+    document.ipFilterFrm.dstPrefix.value = maskCount * 8;
+  }
+  
+}
+
+function showSrcNetMask(srcPrefixValue)
+{
+	var nMask = new Array( 0, 0, 0, 0);
+	var iPart = 0;
+	
+	if (srcPrefixValue > 32 || srcPrefixValue == "")
+	{
+		srcPrefixValue = 32;
+		document.ipFilterFrm.srcPrefix.value = 32;
+	}
+		
+	for ( var i = 0; i < srcPrefixValue; i++)
+	{
+		nMask[iPart] >>= 1;
+		nMask[iPart] |= 0x80;
+		if ( nMask[iPart] == 255)
+			iPart++;
+	}
+	
+	for ( var j = 0; j <= 3; j++)
+		document.ipFilterFrm.srcmask[j].value = nMask[j];
+}
+
+function showDstNetMask(dstPrefixValue)
+{
+	var nMask = new Array( 0, 0, 0, 0);
+	var iPart = 0;
+	
+	if (dstPrefixValue > 32 || dstPrefixValue == "")
+	{
+		dstPrefixValue = 32;
+		document.ipFilterFrm.dstPrefix.value = 32;
+	}
+		
+	for ( var i = 0; i < dstPrefixValue; i++)
+	{
+		nMask[iPart] >>= 1;
+		nMask[iPart] |= 0x80;
+		if ( nMask[iPart] == 255)
+			iPart++;
+	}
+	
+	for ( var j = 0; j <= 3; j++)
+		document.ipFilterFrm.dstmask[j].value = nMask[j];
+}
+
+function btnApply() {
+   var loc = 'security_frwlRule.cmd?action=add';
+   var reg_char = /^[0-9]*$/; /*legal of character*/
+   var isPrivateIP = 0;
+
+   with ( document.forms[0] ) {
+   
+   	  if (srcIpType.options[srcIpType.selectedIndex].value == "SingleIP" || srcIpType.options[srcIpType.selectedIndex].value == "Subnet")
+	  {
+	  	 if (srcip[0].value == "" || srcip[1].value == "" || srcip[2].value == "" || srcip[3].value == "")
+		 {
+		 	msg = 'Bitte geben Sie die Heimnetz-IP-Adresse an.';
+		 	showErr(msg);
+		 	return;
+		 }
+	  }
+	  
+	  if (dstIpType.options[dstIpType.selectedIndex].value == "SingleIP" || dstIpType.options[dstIpType.selectedIndex].value == "Subnet")
+	  {
+	  	 if (dstip[0].value == "" || dstip[1].value == "" || dstip[2].value == "" || dstip[3].value == "")
+		 {
+		 	msg = 'Bitte geben Sie die Internet-IP-Adresse an.';
+		 	showErr(msg);
+		 	return;
+		 }
+	  }
+     
+	  if (srcip[0].value != '')
+	     var srcIp = srcip[0].value + '.' +  srcip[1].value + '.' + srcip[2].value + '.' + srcip[3].value;
+	  else
+	     var srcIp = "";
+	  
+	  if (dstip[0].value != '')
+	     var dstIp = dstip[0].value + '.' +  dstip[1].value + '.' + dstip[2].value + '.' + dstip[3].value;
+	  else
+	     var dstIp = "";
+		 
+	  if (srcIpType.options[srcIpType.selectedIndex].value == "Subnet")
+	  	 var srcMask = srcmask[0].value + '.' + srcmask[1].value + '.' + srcmask[2].value + '.' + srcmask[3].value;
+	  else
+	     var srcMask = "";
+		 
+	  if (dstIpType.options[dstIpType.selectedIndex].value == "Subnet")
+	  	 var dstMask = dstmask[0].value + '.' + dstmask[1].value + '.' + dstmask[2].value + '.' + dstmask[3].value;
+	  else
+	  	 var dstMask = "";
+		 
+	  if (srcIpType.options[srcIpType.selectedIndex].value == "SingleIP" && srcip[3].value != '' && (srcip[3].value == 0 || srcip[3].value == 255))
+	  {
+	  	 msg = 'Die Heimnetz-IP-Adresse ' + srcIp + ' ist ungültig.';
+		 showErr(msg);
+		 return;
+	  }
+	  
+	  addrParts = ethIpAddress.split('.');
+	  subnetIP = addrParts[0] + '.' + addrParts[1] + '.' + addrParts[2] + '.';
+	  
+	  if (srcIpType.options[srcIpType.selectedIndex].value == "SingleIP" || srcIpType.options[srcIpType.selectedIndex].value == "Subnet")
+	  {
+	  	 if (srcip[0].value != addrParts[0] || srcip[1].value != addrParts[1] || srcip[2].value != addrParts[2])
+		 {
+		 	msg = 'Die Heimnetz-IP muss aus dem lokalen bereich ['+subnetIP+'1 - '+subnetIP+'254] stammen.';
+		 	showErr(msg);
+		 	return;
+		 }
+	  }
+	  
+	  if (dstIpType.options[dstIpType.selectedIndex].value == "SingleIP" && dstip[3].value != '' && (dstip[3].value == 0 || dstip[3].value == 255))
+	  {
+	  	 msg = 'Die Internet-IP-Adresse ' + dstIp + ' ist ungültig.';
+		 showErr(msg);
+		 return;
+	  } 
+
+      if ( srcIp != "" && isValidIpAddress(srcIp) == false ) {
+		 msg = 'Die Heimnetz-IP-Adresse ' + srcIp + ' ist ungültig.';
+		 showErr(msg);
+         return;
+      }
+
+      if (srcstartport.readOnly == false && srcstartport.value != "" && isValidPort(srcstartport.value) == false ) { 
+         msg = 'Der Heimnetz-Port muss einen Wert zwischen 1 und 65535 haben.';
+         showErr(msg);
+         return;
+      }
+
+	  if (srcstartport.readOnly == false && srcstartport.value == "" && srcendport.value != ""){
+		 msg = 'Ungültiger Heimnetz-Portbereich.';
+         showErr(msg);
+         return;	
+	  }
+
+	  if (srcstartport.readOnly == false && srcstartport.value != "" && srcendport.value != "" && isValidPort(srcendport.value) == false ){
+		 msg = 'Der Heimnetz-Port muss einen Wert zwischen 1 und 65535 haben.';
+         showErr(msg);
+         return;	
+	  }
+	  
+      if ( dstIp != "" && isValidIpAddress(dstIp) == false ) {
+		 msg = 'Die Internet-IP-Adresse ' + dstIp + ' ist ungültig.';
+         showErr(msg);
+         return;
+      }
+	  
+	  if (dstIpType.options[dstIpType.selectedIndex].value == "SingleIP" || dstIpType.options[dstIpType.selectedIndex].value == "Subnet")
+	  {
+	  	 /*10.0.0.0 - 10.255.255.255*/
+		 if (dstip[0].value == 10)
+		 	isPrivateIP = 1;
+			
+		 /*172.16.0.0 - 172.31.255.255*/
+		 if (dstip[0].value == 172 && (dstip[1].value >= 16 && dstip[1].value <= 31))
+		 	isPrivateIP = 1;
+			
+		 /*192.168.0.0 - 192.168.255.255*/
+		 if (dstip[0].value == 192 && dstip[1].value == 168)
+		 	isPrivateIP = 1;
+			
+		 if (isPrivateIP == 1)
+		 {
+		 	msg = 'Die Internet-IP muss einer öffentlichen Adresse entsprechen.';
+         	showErr(msg);
+         	return;
+		 }
+	  }
+
+      if ( dststartport.readOnly == false && dststartport.value != "" && isValidPort(dststartport.value) == false ) { 
+         msg = 'Der Internet-Port muss einen Wert zwischen 1 und 65535 haben.';
+         showErr(msg);
+         return;
+      }
+
+	  if ( dststartport.readOnly == false && dststartport.value == "" && dstendport.value != ""){
+		 msg = 'Ungültiger Internet-Portbereich.';
+         showErr(msg);
+         return;	
+	  }
+
+	  if ( dststartport.readOnly == false && dststartport.value != "" && dstendport.value != "" && isValidPort(dstendport.value) == false ){
+		 msg = 'Der Internet-Port muss einen Wert zwischen 1 und 65535 haben.';
+         showErr(msg);
+         return;	
+	  }     
+	  
+	  if(srcstartport.readOnly == false && srcstartport.value != "" && srcendport.value != "" 
+	     && parseInt(srcstartport.value) > parseInt(srcendport.value)){
+	     msg = 'Ungültiger Heimnetz-Portbereich.';
+		 showErr(msg);
+		 return;
+      }	  
+	  
+	  if(dststartport.readOnly == false && dststartport.value != "" && dstendport.value != "" 
+	     && parseInt(dststartport.value) > parseInt(dstendport.value)){
+	     msg = 'Ungültiger Internet-Portbereich.';
+		 showErr(msg);
+		 return;
+	  }
+	  
+	  loc += '&srvName=' + 'IPv4IpFilter';	 
+
+	  // active
+	  if(ruleenbl.checked == true)
+	    loc += '&ruleEnbl=' + 1;
+	  else
+	  	loc += '&ruleEnbl=' + 0;
+	  
+      // protocol
+      if(protocol.options[protocol.selectedIndex].value == "Other"){
+	    if (!reg_char.test(prot.value) || parseInt(prot.value) > 142) {
+			showErr('Das Protokoll muss einen Wert zwischen 0 und 142 haben.');
+			return;
+		}
+		 
+	    loc += '&protocol=' + protocol.options[protocol.selectedIndex].value;
+        loc += '&protocolNum=' + prot.value;
+	  }
+	  else
+	    loc += '&protocol=' + protocol.options[protocol.selectedIndex].value; 
+      
+      // source address
+      if ( srcIp != "" )
+         loc += '&srcAddr=' + srcIp;
+
+      // source subnet mask
+      if ( srcMask != "" )
+         loc += '&srcMask=' + srcMask;
+
+      // source start port
+      if ( srcstartport.readOnly == false && srcstartport.value != "" )
+         loc += '&srcStartPort=' + srcstartport.value;
+
+	  // source end port
+	  if ( srcstartport.readOnly == false && srcstartport.value != "" && srcendport.value != "")
+         loc += '&srcEndPort=' + srcendport.value;
+      
+      // destination address
+      if ( dstIp != "" )
+         loc += '&dstAddr=' + dstIp;
+
+      // destination subnet mask
+      if ( dstMask != "" )
+         loc += '&dstMask=' + dstMask;
+
+      // destination start port
+      if ( dststartport.readOnly == false && dststartport.value != "" )
+         loc += '&dstStartPort=' + dststartport.value;
+
+	  // destination end port
+      if ( dststartport.readOnly == false && dststartport.value != "" && dstendport.value != "")
+         loc += '&dstEndPort=' + dstendport.value;
+		 
+	  // direction
+	  //if(direction.options[direction.selectedIndex].value == "Incoming")
+	    //loc += '&direction=' + 'In';
+	  //else if (direction.options[direction.selectedIndex].value == "Outgoing")
+	    //loc += '&direction=' + 'Out';
+	  //else
+	    loc += '&direction=' + 'INandOUT';
+
+	  // action
+	  //if(action.options[action.selectedIndex].value == "Disallow")
+	    loc += '&actionType=' + 'Drop';
+
+	  loc += '&sessionKey=' + sessionKey;
+   }
+
+   var code = 'location="' + loc + '"';
+   fadding();
+   eval(code);
+}
+
+function btnBack(){
+    var code = 'location="security_frwlRule.cmd?action=view"';
+    eval(code);
+}
+
+parent.document.getElementById("headerText").innerHTML="<b>Sicherheit&nbsp;&nbsp;</b> IP-Filter";
+</script>
+</head>
+<body class="body_no_scroll" onLoad="operaResize();faddingReload();">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabDB" value="IPv4" onclick="location.href='security_frwlRule.cmd?action=view'"></td>
+					<td><input type="button" class="tabB" value="IPv6" onclick="location.href='security_frwlRule.cmd?action=ipv6View'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class='bg_body_auto2' style='min-height:450px;_height:450px;' id='defaultId'>
+			<div class="left">
+			<form action="" method="post" enctype="multipart/form-data" name="ipFilterFrm" id="ipFilterFrm"> 
+			  <div class="stepWrapper">
+					<div class='headline'>Regel für IP-Filter erstellen</div>
+					<table class="alignment">
+						<tr>
+							<td>Über IP-Filter-Regeln beschränken Sie den Datenverkehr zwischen Ihrem Heimnetz und dem Internet. Die Regeln wirken in beide Richtungen.</td>
+						</tr>
+						<tr><td></td></tr>
+						<tr>
+							<td colspan="2"><input type="checkbox" id="Checkbox1" name="ruleenbl" value="checkbox" checked>
+							&nbsp;&nbsp;&nbsp;&nbsp;Diese Regel aktivieren</td>
+						</tr>
+					</table>
+					<table class="alignment">
+						<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+						<tr>
+							<td width="110">Protokoll:</td>
+							<td>
+								<select name="protocol" id="selectProto" class="blue_frame" style="width:150px" onChange='appSelectProtocol(this.value)'>
+									<option selected="selected" value="All">Alle</option>
+									<option value="TCPorUDP">TCP und UDP</option>
+									<option value="TCP">TCP</option>
+									<option value="UDP">UDP</option>
+									<option value="ICMP">ICMP</option>
+									<option value="AH">AH</option>
+									<option value="ESP">ESP</option>
+									<option value="Other">Weitere</option>
+								</select>
+								<input id="proto1" type="text" class="blue_frame" name="prot" size="5" readonly="true" maxlength="3" onChange='appSelectProtocol(this.value)'>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+					</table>
+					<div class='subhead'>Heimnetz-Konfiguration</div>
+					<table class="alignment">
+						<tr>
+							<td width="110">IP-Typ:</td>
+							<td>
+								<select name="srcIpType" id="selectSrcIpType" class="blue_frame" style="width:150px" onChange='appSelectSrcIpType(this.value)'>
+									<option value="All">Alle</option>
+									<option selected="selected" value="SingleIP">Einzeln</option>
+									<option value="Subnet">Subnetz</option>
+								</select>							
+							</td>
+						</tr>
+						<tr>
+							<td width="110">IP-Adresse:</td>
+							<td>
+								<input id="srcip1" type="text" class="blue_frame" value="" name="srcip" size="2" maxlength="3">.
+								<input id="srcip2" type="text" class="blue_frame" value="" name="srcip" size="2" maxlength="3">.
+								<input id="srcip3" type="text" class="blue_frame" value="" name="srcip" size="2" maxlength="3">.
+								<input id="srcip4" type="text" class="blue_frame" value="" name="srcip" size="2" maxlength="3">
+							</td>
+						</tr>
+						<tr>
+							<td width="110">Netzmaske:</td>
+							<td>
+								<input type="text" class="blue_frame" value="255" name="srcmask" size="2" readonly="true">.
+								<input type="text" class="blue_frame" value="255" name="srcmask" size="2" readonly="true">.
+								<input type="text" class="blue_frame" value="255" name="srcmask" size="2" readonly="true">.
+								<input type="text" class="blue_frame" value="255" name="srcmask" size="2" readonly="true"><b>/</b>
+								<input id="srcprefix" type="text" class="blue_frame" value="32" name="srcPrefix" size="2" readonly="true" maxlength="2" onchange="showSrcNetMask(this.value)">
+							</td>
+						</tr>
+						<tr>
+							<td width="110">Portbereich:</td>
+							<td>
+								<input id="srcPort1" type="text" class="blue_frame" value="" name="srcstartport" readonly="true" size="4" maxlength="5">&nbsp; bis &nbsp;
+								<input id="srcPort2" type="text" class="blue_frame" value="" name="srcendport" readonly="true" size="4" maxlength="5">
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+					</table>
+					<div class='subhead'>Internet (Webseiten)-Konfiguration</div>
+					<table class="alignment">
+						<tr>
+							<td width="110">IP-Typ:</td>
+							<td>
+								<select name="dstIpType" id="selectDstIpType" class="blue_frame" style="width:150px" onChange='appSelectDstIpType(this.value)'>
+									<option value="All">Alle</option>
+									<option selected="selected" value="SingleIP">Einzeln</option>
+									<option value="Subnet">Subnetz</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td width="110">IP-Adresse:</td>
+						  <td>
+								<input id="dstip1" type="text" class="blue_frame" value="" name="dstip" size="2" maxlength="3">.
+								<input id="dstip2" type="text" class="blue_frame" value="" name="dstip" size="2" maxlength="3">.
+								<input id="dstip3" type="text" class="blue_frame" value="" name="dstip" size="2" maxlength="3">.
+								<input id="dstip4" type="text" class="blue_frame" value="" name="dstip" size="2" maxlength="3"/>
+						  </td>
+						</tr>
+						<tr>
+							<td width="110">Netzmaske</td>
+							<td>
+								<input type="text" class="blue_frame" value="255" name="dstmask" size="2" readonly="true">.
+								<input type="text" class="blue_frame" value="255" name="dstmask" size="2" readonly="true">.
+								<input type="text" class="blue_frame" value="255" name="dstmask" size="2" readonly="true">.
+								<input type="text" class="blue_frame" value="255" name="dstmask" size="2" readonly="true"><b>/</b>
+								<input id="dstprefix" type="text" class="blue_frame" value="32" name="dstPrefix" size="2" readonly="true" maxlength="2" onchange="showDstNetMask(this.value)">
+							</td>
+						</tr>
+						<tr>
+							<td width="110">Portbereich:</td>
+							<td>
+								<input id="dstPort1" type="text" class="blue_frame" value="" name="dststartport" readonly="true" size="4" maxlength="5">&nbsp; bis &nbsp;
+								<input id="dstPort2" type="text" class="blue_frame" value="" name="dstendport" readonly="true" size="4" maxlength="5">
+							</td>
+						</tr>
+						<!--<tr>
+							<td colspan="2"><img src="images1/bar.png"></td>
+						</tr>
+						<tr>
+						    <td>Richtung:</td>
+							<td>
+							   <select name="direction" class="blue_frame" style="width:150px">
+									<option value="Incoming">Eingehend</option>
+									<option value="Outgoing">Abgehend</option>
+									<option selected="selected" value="Both">Beide</option>
+							  </select>
+							</td>
+						</tr>-->
+						<!--<tr>
+						    <td>Aktion:</td>
+							<td>
+								<select name="action" class="blue_frame" style="width:150px">
+									<option selected="selected" value="Disallow">Ablehnen</option>
+								</select>
+							</td>
+						</tr>-->
+					</table>
+			  </div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='S_IPv4_add'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_center">
+				<!--<a onClick='btnBack()' href="#"><img src="images1/back.gif"></img></a>
+				<a onClick='showWait();btnApply()' href="#"><img src="images1/apply.gif"></img></a> -->
+				<!--<input type="button" class="button" value="Zurück" onclick="btnBack()">-->
+				<input type="button" class="button" value="Speichern" onclick="showWait();btnApply()">
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

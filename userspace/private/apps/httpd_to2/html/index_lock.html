@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>o2.box</title>
+  <script src="menu<%ejGetOther(fileVersion)%>.js" type="text/javascript"></script>
+  <!--<script src="TO2.js" type="text/javascript"></script>-->
+  <script type="text/javascript">
+   var isIE = navigator.userAgent.search("MSIE") > -1; 
+	var isOpera = navigator.userAgent.search("Opera") > -1;
+	var isSafari = navigator.userAgent.search("Safari") > -1;
+	
+  	var setprotectStatus = '<%ejGetOther(protectstatus,setCurrProtectStatus)%>';
+
+	function SetCwinHeight() {
+		/*var iframe = document.getElementById("mainframe");
+		var bHeight = iframe.contentWindow.document.body.scrollHeight;
+		var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+		var height = bHeight>dHeight?bHeight:dHeight;
+		iframe.height = height*/
+
+		var iframe = document.getElementById("mainframe");
+		
+		if(isOpera || isSafari)
+		{
+			//iframe.height = iframe.contentWindow.document.documentElement.scrollHeight;
+		}
+		else if(isIE)
+		{
+			iframe.height = iframe.contentWindow.document.body.scrollHeight+8;
+		}
+		else//other broswer
+		{
+			iframe.height = iframe.contentWindow.document.documentElement.offsetHeight+2;
+		}
+	}
+	
+	function hideBody(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'hidden';
+	   if (document.getElementById)  // DOM3 = IE5, NS6
+		  document.getElementById('bodyhide').style.visibility = status;
+	   else {
+		  if (document.layers == false) // IE4
+			 document.all.bodyhide.style.visibility = status;
+	   }
+	}
+	
+	function frmLoad()
+	{
+		var setprotectStatus = '<%ejGetOther(protectstatus,setCurrProtectStatus)%>';	
+		if( window.self != window.top )
+		{	
+			hideBody(1);
+			self.parent.location.href = self.location.href;
+	/*		var parenturl = parent.window.location.href;
+			var partsparenturl = parenturl.split("/");
+			parent.window.location.replace(partsparenturl[0] + '/' + partsparenturl[1] + '/' + partsparenturl[2] + '/index_setupWizard.html');
+	*/	}
+		else
+		{
+			hideBody(0);
+		}
+	}
+  </script>
+  <link href="menu<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload="frmLoad()" class="body_center" id='bodyhide' style="visibility:hidden" onresize="javascript:SetCwinHeight();">
+<div class="topinfo"></div>
+<div class="logo_header">
+    <span id="headerText"></span>
+    
+</div>
+<div class="main">
+  <div class="mainnav">
+    <div class="menu"></div>
+    <div id="menu" style="display:none">
+      <div class="menu_head"></div>
+      <ul class="flipMenu">
+        <li class="flipLock"><a target="mainframe" class="padding20" style="color:#686868">Übersicht</a><ul></ul></li>
+        <li class="flipLock"><a target="mainframe" class="padding20" style="color:#686868">Internet</a><ul></ul></li>          
+        <li class="flipLock"><a target="mainframe" class="padding20" style="color:#686868">Telefonie</a><ul></ul></li>        
+        <li class="flipLock"><a target="mainframe" class="padding20" style="color:#686868">Heimnetz</a><ul></ul></li>
+        <li class="flipLock"><a target="mainframe" class="padding20" style="color:#686868">Sicherheit</a><ul></ul></li> 		 
+        <li class="flipLock"><a target="mainframe" class="padding20" style="color:#686868">System</a><ul></ul></li>   
+      </ul>
+      <div><a class="selected_SetupWizard_Lock">Einrichtungsassistent</a></div>
+      <br/><br/>
+
+    </div>
+  </div>
+  <div class="data">
+    <iframe id="mainframe" name="mainframe" src="kennwortlock.cmd?action=view" width="100%"
+            onload="javascript:SetCwinHeight();" frameborder="0"></iframe> 
+  </div>
+  <div></div>
+</div>
+</body>
+</html>

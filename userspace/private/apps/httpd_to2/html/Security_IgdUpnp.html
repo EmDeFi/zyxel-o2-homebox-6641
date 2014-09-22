@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="javascript">
+<!-- hide
+var sessionKey = "<%ejGetOther(sessionKey)%>";
+
+function btnApplySave() {
+   var loc = 'Security_IgdUpnp.cgi?';
+
+   with ( document.forms[0] ) {
+     if (chkUpnp.checked == true)
+        loc += 'enblUpnp=1';
+     else
+        loc += 'enblUpnp=0';
+	 if (chkUpnpNATT.checked == true)
+        loc += '&NATTenable=1';
+     else
+        loc += '&NATTenable=0';
+   }
+   loc += '&sessionKey=' + sessionKey;
+   var code = 'location="' + loc + '"';
+   fadding();
+   eval(code);
+}
+
+
+function frmLoad() {
+   with ( document.forms[0] ) {
+	  var enblUpnp = '<%ejGetOther(sysInfo, upnpEnable)%>';
+	  var NATTenable = "<%ejGetOther(sysInfo, NATTenable)%>";
+      if (enblUpnp == 1)
+         chkUpnp.checked = true;
+      else 
+         chkUpnp.checked = false;
+
+	  if (NATTenable == 1)
+         chkUpnpNATT.checked = true;
+      else 
+         chkUpnpNATT.checked = false; 
+   }
+}
+
+// done hiding -->
+parent.document.getElementById("headerText").innerHTML="<b>Sicherheit&nbsp;&nbsp; </b>IGD/UPnP";
+</script>
+</head>
+<body onLoad='frmLoad();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+					<div class="headline">Internet Gateway Device/Universal Plug and Play</div>
+					<table width="530" class="alignment">
+						<tr>
+							<td>Universal Plug and Play (UPnP) stellt der o2 HomeBox mit dem IGD-Protokoll eine einfache Möglichkeit zur Verfügung, Ports zu öffnen und Anfragen aus dem Internet an einen Rechner weiterzuleiten (z.B. bei Filesharing, Videokonferenzen etc.)</td>
+						</tr>
+					</table>
+					<div class="subhead">UPnP-Statusinformation</div>
+					<table width="530" class="alignment">
+						<tr>
+							<td>Mit der   Aktivierung der Statusinformation machen Sie Ihre o2 HomeBox (IGD) im   Netzwerk sichtbar. Damit ist über den Datei-Explorer ein Zugriff auf die   GUI möglich (empfohlene Eintstellung). Diese Einstellung ist nicht   sicherheitsrelevant.</td>
+						</tr>
+						<tr height="35">
+							<td><input type="checkbox" name='chkUpnp'>&nbsp;&nbsp;&nbsp; Aktivieren von UPnP-Statusinformationen</td>
+						</tr>
+					</table>
+					<div class="subhead">UPnP-Sicherheitseinstellungen</div>
+					<table width="530" class="alignment">
+						<tr>
+							<td>
+							UPnP-Port-Weiterleitungen werden z.B. für Datentransfers bei Instant-Messaging-Programmen (z.B. Skype) und Filesharing (z.B. eMule) benötigt. Zur Aktivierung der Funktion muss der Haken im Feld von "UPnP-Port-Weiterleitungen erlauben" gesetzt sein. Durch die automatische Konfiguration der Ports ist ein potentielles Sicherheitsrisiko gegeben. Aktivieren Sie diese Option nur, wenn die eingehende Verbindung aus dem Internet gestattet werden soll.
+							</td>
+						</tr>
+						<tr height="35">
+							<td><input type="checkbox" name='chkUpnpNATT'>&nbsp;&nbsp;&nbsp; UPnP-Port-Weiterleitungen erlauben</td>
+						</tr>
+					</table>
+				</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='UPnP'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<!--<div class="button_center"><a href="#" onclick="showWait();btnApplySave()"><img src="images1/apply.gif"></img></a></div> -->
+			<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();btnApplySave()"></div>
+		</div>
+	</div>
+
+</body>
+</html>

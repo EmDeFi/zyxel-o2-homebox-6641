@@ -1,0 +1,348 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="javascript">
+
+var sessionKey = "<%ejGetOther(sessionKey)%>";
+var getHttpsPort = "<%ejGetOther(sysInfo, httpsPort)%>";
+var getRemoteUsername = "<%ejGetOther(sysInfo, userRemoteUsername)%>";
+var getRemotePassword = "<%ejGetOther(sysInfo, userRemotePassword)%>";
+var getUserRemoteEnable = "<%ejGetOther(sysInfo, userRemoteEnable)%>";
+
+var getServicePassword = "<%ejGetOther(sysInfo, serviceRemotePassword)%>";
+var getServiceRemoteEnable = "<%ejGetOther(sysInfo, serviceRemoteEnable)%>";
+var isDual = "<%ejGetOther(sysInfo, isDual)%>";
+
+
+function serviceBtnApply(){
+	var loc = 'serviceRemoteGUI.cmd?';
+	
+	with (document.forms[0]) 
+	{		
+		if(getServiceRemoteEnable == 1)
+			loc += 'enable=0';
+		else
+			loc += 'enable=1';
+	}
+	
+	loc += '&sessionKey=' + sessionKey;
+	loc += '&action=serviceBtnApply';
+	var code = 'location="' + loc + '"';
+	
+	//alert(code);
+	fadding();
+	eval(code);
+}
+
+function btnApply() {
+	
+	var loc = 'userRemoteGUI.cmd?';
+	
+	/*legal of character*/
+	var reg_char = /^[A-Za-z0-9\/._!~*'()=+$,?:#%-]*$/;
+	var reg_char2 = /^\d*$/;
+	/*number of character*/
+	var reg_num = /^[A-Za-z0-9\/._!~*'()=+$,?:#%-]{1,16}$/;
+	var reg_num2 = /^[A-Za-z0-9\/._!~*'()=+$,?:#%-]{5,16}$/;
+	
+
+	with (document.forms[0]) 
+	{
+		/*disable*/
+		if(getUserRemoteEnable == 1)
+		{	
+			loc += 'userRemoteEnable=0';
+			loc += '&port=' + port.value;
+		}
+		/*enable*/	
+		else
+		{	
+			/*must enter all fields*/
+			loc += 'userRemoteEnable=1';
+				
+			//check username
+			if (username.value == '') {
+				//alert('Please enter login name');
+				showErr('Bitte geben Sie einen Login Namen ein.');
+				return;
+			}
+				
+			if (username.value == 'Service') {
+				//alert('Login name can not use \'Service\'');
+				showErr('Der Login-Name kann nicht verwendet werden \'Service\'.');
+				return;
+			}
+		
+			if (!reg_char.test(username.value) ) {
+				//alert('Character of login name should be [0-9],[a-z],[A-Z],[._-!~*\'()=+$,?/:#%]');
+				showErr("Der Login-Name darf nur aus den Zeichen [0-9],[a-z],[A-Z],[._-!~*\'()=+$,?/:#%] bestehen.");
+				return;
+			}
+			
+			if (!reg_num.test(username.value) ) {
+				//alert('Length of login name should be 1-16');
+				showErr("Das Login-Name muss zwischen 1 und 16 Zeichen lang sein.");
+				return;
+			}
+				
+			//check password
+			if (password.value == '') {
+				//alert('Please enter password');
+				showErr("Bitte geben Sie ein Kennwort ein.");
+				return;
+			}
+			
+			if (!reg_char.test(password.value) ) {
+				//alert('Character of password should be [0-9],[a-z],[A-Z],[._-!~*\'()=+$,?/:#%]');
+				showErr("Das Kennwort darf nur aus den Zeichen [0-9],[a-z],[A-Z],[._-!~*\'()=+$,?/:#%] bestehen.");
+				return;
+			}
+			
+			if (!reg_num2.test(password.value) ) {
+				//alert('Length of new password at least 5 characters');
+				showErr("Das Kennwort ist zu kurz, bitte wählen Sie ein Kennwort mit mindestens 5 Zeichen.");
+				return;
+			}
+			
+			//check re_password
+			if (re_password.value == '') {
+				//alert('Please enter password(confirm)');
+				showErr("Bitte bestätigen Sie Ihr Kennwort.");
+				return;
+			}
+			
+			if(re_password.value != password.value){
+				//alert('Password(confirm) not match the password field, please re-type again');
+				showErr("Bitte geben Sie das richtige Kennwort ein.");
+				return;
+			}
+		
+			//check port
+			if (port.value == '') {
+				//alert('Please enter port');
+				showErr("Bitte geben Sie einen Port ein.");
+				return;
+			}
+				
+			if (port.value <= 0 || port.value >= 65536 || !reg_char2.test(port.value)) {
+				//alert('Value of port should be 1-65535');
+				showErr("Der Port muss einen Wert zwischen 1 und 65535 haben.");
+				return;
+			}
+			
+			/*
+			if ((isDaul == 0) && (port.value == 5060 || port.value == 7170)) {
+				//alert('Value of port should be 1-65535 except 5060 and 7170');
+				showErr("Der Port muss einen Wert zwischen 1 und 65535 haben, Nicht für die 5060 und 7170.");
+				return;
+			}*/
+			
+			if(isDual == 0) /*single wan or no wan*/
+			{
+				if(port.value == 21 || port.value == 22 || port.value == 23 ||  port.value == 123 || port.value == 139 || port.value == 445 || port.value == 515 || port.value == 631 || port.value == 1115 || port.value == 1990 || port.value == 5060 || port.value == 5431 || port.value == 5916 || port.value == 7170 || port.value == 9100)
+				{
+					//alert('Invalid port');
+					//showErr("Bitte nutzen sie keinen der folgenden Ports: 21, 22, 23, 123, 445, 515, 9100, 1115, 5060, 7170.");
+					showErr("Bitte nutzen sie keinen der folgenden Ports: 21, 22, 23, 123, 139, 445, 515, 631, 1115, 1990, 5060, 5431, 5916, 7170, 9100.");
+					return;
+				}
+			}
+			else /*dual wan*/
+			{
+				if(port.value == 21 || port.value == 22 || port.value == 23 ||  port.value == 123 || port.value == 139 || port.value == 445 || port.value == 515 || port.value == 631 || port.value == 1115 || port.value == 1990 || port.value == 5060 || port.value == 5431 || port.value == 5916 || port.value == 7170 || port.value == 9100)
+				{
+					//alert('Invalid port.');
+					//showErr("Bitte nutzen sie keinen der folgenden Ports: 21, 22, 23, 123, 445, 515, 9100, 1115, 5060, 7170.");
+					showErr("Bitte nutzen sie keinen der folgenden Ports: 21, 22, 23, 123, 139, 445, 515, 631, 1115, 1990, 5060, 5431, 5916, 7170, 9100.");
+					return;
+				}
+			}
+			
+			loc += "&username=" + encodeUrl(username.value);
+			loc += '&password=' + encodeUrl(password.value);
+			loc += '&port=' + port.value;
+		}
+	}
+	
+	loc += '&sessionKey=' + sessionKey;
+	loc += '&action=btnApply';
+	var code = 'location="' + loc + '"';
+	
+	fadding();
+	eval(code);
+	
+}
+
+function disconnect() {
+	var loc = 'disconnectHttpsSession.cmd?';
+	
+	loc += 'sessionKey=' + sessionKey;
+	var code = 'location="' + loc + '"';
+	
+	eval(code);
+}
+
+function frmLoad() {
+	with (document.forms[0]) 
+	{
+		port.value = getHttpsPort;
+		username.value = getRemoteUsername;
+		password.value = getRemotePassword;
+		re_password.value = getRemotePassword;
+		
+		/*service remote*/
+		if(getServiceRemoteEnable == 1)
+		{
+			var isIE = navigator.userAgent.search("MSIE") > -1;  
+			if (isIE) {  
+				document.getElementById('serviceStatus').innerHTML = "<img src='images1/yes.jpg'>Servicezugang erlaubt."
+				document.getElementById('serviceUsername').innerText = "Service";
+				document.getElementById('servicePassword').innerText = getServicePassword;
+				document.getElementById('serviceButton').innerHTML = "<input type='button' class='button' value='Trennen' onclick='showWait();serviceBtnApply()'>";
+			}  
+			else
+			{
+				document.getElementById('serviceStatus').innerHTML = "<img src='images1/yes.jpg'>Servicezugang erlaubt."
+				document.getElementById('serviceUsername').textContent = "Service";
+				document.getElementById('servicePassword').textContent = getServicePassword;
+				document.getElementById('serviceButton').innerHTML = "<input type='button' class='button' value='Trennen' onclick='showWait();serviceBtnApply()'>";
+			}
+		}
+		else
+		{
+			var isIE = navigator.userAgent.search("MSIE") > -1;  
+			if (isIE) {  
+				document.getElementById('serviceStatus').innerHTML = "<img src='images1/no.jpg'>&nbsp;&nbsp;&nbsp;Servicezugang gesperrt."
+				document.getElementById('serviceUsername').innerText = "";
+				document.getElementById('servicePassword').innerText = "";
+				document.getElementById('serviceButton').innerHTML = "<input type='button' class='button' value='Ausführen' onclick='showWait();serviceBtnApply()'>";
+			}  
+			else
+			{
+				document.getElementById('serviceStatus').innerHTML = "<img src='images1/no.jpg'>&nbsp;&nbsp;&nbsp;Servicezugang gesperrt."
+				document.getElementById('serviceUsername').textContent = "";
+				document.getElementById('servicePassword').textContent = "";
+				document.getElementById('serviceButton').innerHTML = "<input type='button' class='button' value='Ausführen' onclick='showWait();serviceBtnApply()'>";
+			}
+		}
+		
+		/*user remote*/
+		if(getUserRemoteEnable == 1)
+		{
+			document.getElementById('userStatus').innerHTML = "<img src='images1/yes.jpg'>Gerätekonfiguration über WAN erlaubt."
+			/*port.disabled = true;
+			username.disabled = true;
+			password.disabled = true;
+			re_password.disabled = true;*/
+			
+			port.readOnly = true;
+			username.readOnly = true;
+			password.readOnly = true;
+			re_password.readOnly = true;
+			
+			document.getElementById('userButton').innerHTML = "<input type='button' class='button' value='Trennen' onclick='showWait();btnApply()'>";
+		}
+		else
+		{
+			document.getElementById('userStatus').innerHTML = "<img src='images1/no.jpg'>&nbsp;&nbsp;&nbsp;Gerätekonfiguration über WAN gesperrt."
+			/*
+			port.disabled = false;
+			username.disabled = false;
+			password.disabled = false;
+			re_password.disabled = false;*/
+			
+			port.readOnly = false;
+			username.readOnly = false;
+			password.readOnly = false;
+			re_password.readOnly = false;
+			
+			document.getElementById('userButton').innerHTML = "<input type='button' class='button' value='Ausführen' onclick='showWait();btnApply()'>";
+		}
+		
+	}
+}
+
+parent.document.getElementById("headerText").innerHTML="<b>System&nbsp;&nbsp; </b>Fernwartung";
+</script>
+</head>
+
+<body onLoad='frmLoad();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:560px;_height:560px;" id="defaultId">
+			<div class="left">
+			<form> 
+				<div class="stepWrapper">
+					<div class="headline">Servicezugang </div>
+					<table class="alignment">
+						<tr>
+						  <td colspan="2" id='serviceStatus'></td>
+						</tr>
+						<tr>
+						  <td width="170">Login-Name:</td>
+						  <td id="serviceUsername"></td>
+						</tr>
+						<tr>
+						  <td>Neues Kennwort:</td>
+						  <td id="servicePassword"></td>
+						</tr>
+						<tr>
+							<td colspan="2" height="50" id='serviceButton'></td>
+						</tr>			
+					</table>
+				</div>
+				<div class="stepWrapper">
+                <div class="headline">Gerätekonfiguration über WAN erlauben</div>
+					<table class="alignment">
+						<tr>
+						  <td colspan="2" id='userStatus'></td>
+						</tr>
+						<tr>
+						  <td width="170">Login-Name:</td>
+						  <td><input name="username" type="text" class="blue_frame" style="width:150px" maxlength="16"></td>
+						</tr>
+						<tr>
+						  <td>Neues Kennwort:</td>
+						  <td><input name="password" type="password" class="blue_frame" style="width:150px" maxlength="16"></td>
+						</tr>
+						<tr>
+						  <td>Kennwortbestätigung:</td>
+						  <td><input name="re_password" type="password" class="blue_frame" style="width:150px" maxlength="16"></td>
+						</tr>
+						<tr>
+						  <td>Port:</td>
+						  <td><input name="port" type="text" class="blue_frame" style="width:150px;" maxlength="5"></td>
+						</tr>
+					</table>
+					<table class="alignment">	
+				  		<tr>
+						  <td height="60" id='userButton'></td>
+						</tr>
+					</table>
+              	</div>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='Fernwartung'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+		</div>
+	</div>
+
+</body>
+</html>

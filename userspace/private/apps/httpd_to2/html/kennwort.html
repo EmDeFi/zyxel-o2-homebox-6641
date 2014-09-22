@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>o2 Box</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<meta name="generator" content="WYSIWYG Web Builder - http://www.wysiwygwebbuilder.com">
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="JavaScript">
+var getBBIActivated = '<%ejGetOther(sysInfo, isBBIActivated)%>';
+var getActivated ='<%ejGetOther(sysInfo, activated)%>';
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+var protectStatus = '<%ejGetOther(protectstatus,ProtectEnable)%>';
+var ErrorStatus = '<%ejGetOther(protectstatus,ErrorStatus)%>';
+var getServiceModel ='<%ejGetOther(sysInfo, GetSM)%>';
+var firstAccess = 1;
+var ActivatedStatus_ADSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_HANSENETULL)%>'; 
+var ActivatedStatus_ADSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_ADSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesalePIN)%>';
+var ActivatedStatus_ADSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_Bitstream)%>';
+var ActivatedStatus_ETH_SMode_ETHER='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_ETHER)%>';
+var ActivatedStatus_ETH_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesaleTK)%>';
+var ActivatedStatus_ETH_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesalePIN)%>';
+var ActivatedStatus_ETH_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_Bitstream)%>';
+var ActivatedStatus_VDSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_HANSENETULL)%>';
+var ActivatedStatus_VDSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesaleTK)%>';
+var ActivatedStatus_VDSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesalePIN)%>';	
+var ActivatedStatus_VDSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_Bitstream)%>';
+var nextpref;
+function hideNewPasswd(hide)
+{
+   var status = '';
+
+   if ( hide == 1 )
+      status = 'none';
+   if (document.getElementById) { // DOM3 = IE5, NS6
+      document.getElementById('newPasswdTable').style.display = status;
+	  document.getElementById('newPasswdText').style.display = status;
+   }
+   else {
+      if (document.layers == false){ // IE4
+         document.all.newPasswdTable.style.display = status;
+		 document.all.newPasswdText.style.display = status;
+	  }
+   }
+}
+function status()
+{
+/*
+	if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL)
+	{
+		nextpref="zugangsdaten.html";
+	}
+	else if(getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK)
+	{
+		nextpref="zugangsdaten.html";
+	}
+	else if(getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN)
+	{
+		if(getActivated == 'TRUE')
+			nextpref="zugangsdaten.html";
+		else
+			nextpref="zugangs-PIN.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream)
+	{
+		nextpref="zugangs-PIN.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_ETH_SMode_ETHER)
+	{
+		nextpref="zugangsdaten.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK)
+	{
+		nextpref="zugangsdaten.html";
+	}
+	else if(getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN)
+	{
+		if(getActivated == 'TRUE')
+			nextpref="zugangsdaten.html";
+		else
+			nextpref="zugangs-PIN.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_ETH_SMode_Bitstream)
+	{
+		nextpref="zugangs-PIN.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL)
+	{
+		nextpref="zugangsdaten.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK)
+	{
+		nextpref="zugangsdaten.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+	{
+		if(getActivated == 'TRUE')
+			nextpref="zugangsdaten.html";
+		else
+			nextpref="zugangs-PIN.html";		
+	}
+	else if(getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream)
+	{
+		nextpref="zugangs-PIN.html";		
+	}
+*/	
+	/*
+	if(getServiceModel == ActivatedStatus_ADSL_SMode_HANSENETULL ||
+		getServiceModel == ActivatedStatus_ADSL_SMode_WholesaleTK ||
+		getServiceModel == ActivatedStatus_ETH_SMode_ETHER ||
+		getServiceModel == ActivatedStatus_ETH_SMode_WholesaleTK ||
+		getServiceModel == ActivatedStatus_VDSL_SMode_HANSENETULL ||
+		getServiceModel == ActivatedStatus_VDSL_SMode_WholesaleTK ||
+		getActivated == 'TRUE')
+	{
+		parent.hideZugangsPIN(1);
+	}
+	else
+	{
+		parent.hideZugangsPIN(0);
+	}
+	if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+		getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+		getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream ||
+		getBBIActivated == '1')
+	{
+		parent.hideZugangsdaten(1);
+	}
+	else
+	{
+		parent.hideZugangsdaten(0);
+	}
+	*/
+}
+
+
+function btnApply()
+{	
+	with(document.forms[0]){
+		
+		var loc = '';
+		/*legal of character*/
+		var reg_char = /^[A-Za-z0-9\/._!~*'()=+$,?:#%-]*$/;	
+		/*number of character*/
+		var reg_num2 = /^[A-Za-z0-9\/._!~*'()=+$,?:#%-]{5,16}$/;
+			
+		if(protectStatus == 0)
+		{
+			if(check.checked == true)
+			{
+				if(text_npw.value.length >=5 && text_cpw.value.length >=5 
+				&& text_npw.value.length <=16 && text_cpw.value.length <=16)
+				{
+					if(!reg_char.test(text_npw.value))
+					{
+						showErr("Das Kennwort darf nur aus den Zeichen [0-9], [a-z], [A-Z],[._-!~*\'()=+$,?/:#%] bestehen.");					
+						//alert('Input is not alphanumeric');
+						return;
+					}	
+										
+					if(text_npw.value == text_cpw.value)
+					{
+						loc = 'kennwort.cmd?';
+	//					loc += 'nextpage='+nextpref;
+	//					loc += 'nextpage=kennwort.html';	
+						loc += '&ProtectEnable=true';
+						loc += '&Protectpwd='+ encodeUrl(text_npw.value);
+						loc += '&SourcePage=kennwort.html';								
+						loc += '&sessionKey='+sessionkey;					
+					}else
+					{
+						showErr("Bitte geben Sie das richtige Kennwort ein.");					
+						//alert("Password is incorrect!!");
+						return;					
+					}			
+				}
+				else
+				{
+					showErr("Das Kennwort muss zwischen 5 und 16 Zeichen lang sein.");				
+					//alert("Password length should be greater than '5' and less then '16' , or Password is not match.");
+					return;
+				}
+			}
+			else
+			{
+				if(firstAccess == 1)
+				{
+					firstAccess = 0;
+					if(confirm('Sie haben kein Kennwort gesetzt. Es wird empfohlen eines zu setzen, um ihre o2 HomeBox vor unerwünschtem Zugriff zu schützen. Bitte drücken sie OK um jetzt ein Kennwort zu setzen. Falls Sie ohne Kennwort fortfahren möchten drücken Sie Abbrechen.'))
+					{		
+						return;
+					}
+				}
+				
+				loc = 'kennwort.cmd?';
+//				loc += 'nextpage='+nextpref;	
+				loc += '&ProtectEnable=false';
+				loc += '&SourcePage=kennwort.html';							
+				loc += '&sessionKey='+sessionkey;
+			}		
+		}
+		else if(protectStatus == 1)
+		{
+			if(check.checked == false)
+			{
+				if(text_pw.value.length <5 || text_pw.value.length >16 )
+				{
+					showErr("Das Kennwort muss zwischen 5 und 16 Zeichen lang sein.");				
+					//alert("Password length should be greater than '5' and less then '16' , or Password is not match.");
+					return;
+				}
+
+				if (!reg_char.test(text_pw.value))
+				{
+					showErr("Das Kennwort darf nur aus den Zeichen [0-9], [a-z], [A-Z],[._-!~*\'()=+$,?/:#%] bestehen.");
+					//alert('Input is not alphanumeric');
+					return;
+				}
+				
+				loc = 'kennwort.cmd?';
+//				loc += 'nextpage='+nextpref;		
+				loc += '&ProtectEnable=false';
+				loc += '&Protectpwd='+encodeUrl(text_pw.value);
+				loc += '&SourcePage=kennwort.html';							
+				loc += '&sessionKey='+sessionkey;				
+			}
+			else if(check.checked == true)
+			{
+				if(text_pw.value == "" && text_npw.value == "" && text_cpw.value == "")
+				{
+					loc = nextpref;
+					loc += '#sessionKey='+sessionkey;
+				}
+				else
+				{					
+					/* change password case */
+					if(text_pw.value.length <5 || text_pw.value.length >16 ||
+					text_npw.value.length <5 || text_npw.value.length >16 ||
+					text_cpw.value.length <5 || text_cpw.value.length >16)
+					{
+						showErr("Das Kennwort muss zwischen 5 und 16 Zeichen lang sein.");								
+						//alert("Password length should be greater than '5' and less then '16' , or Password is not match.");
+						return;
+					}
+	
+					if (!reg_char.test(text_pw.value) || !reg_char.test(text_npw.value) || !reg_char.test(text_cpw.value))
+					{
+						showErr("Das Kennwort darf nur aus den Zeichen [0-9], [a-z], [A-Z],[._-!~*\'()=+$,?/:#%] bestehen.");
+						//alert('Input is not alphanumeric');
+						return;
+					}
+	
+					if(text_npw.value != text_cpw.value)
+					{
+						showErr("Bitte geben Sie das richtige Kennwort ein.");					
+						//alert("Password is incorrect!!");
+						return;					
+					}
+	
+					loc = 'kennwort.cmd?';
+//					loc += 'nextpage='+nextpref;		
+					loc += '&ProtectEnable=true';
+					loc += '&Oldpwd='+encodeUrl(text_pw.value);				
+					loc += '&Protectpwd='+encodeUrl(text_npw.value);
+					loc += '&SourcePage=kennwort.html';			
+					loc += '&sessionKey='+sessionkey;					
+				}
+			}
+		}
+		
+		var code = 'location="' + loc + '"';
+		eval(code);		
+	}
+}
+
+function checkstatus()
+{
+	with(document.forms[0]){
+		if(protectStatus == 1)
+		{
+			if(check.checked == true)
+			{
+				document.forms[0].text_npw.readOnly = false;
+				document.forms[0].text_cpw.readOnly = false;
+				hideNewPasswd(0);
+			}
+			else if(check.checked == false)
+			{
+				document.forms[0].text_npw.readOnly = true;
+				document.forms[0].text_cpw.readOnly = true;
+				hideNewPasswd(1);
+			}	
+		}	
+		else if(protectStatus == 0)
+		{
+			if(check.checked == true)
+			{
+				document.forms[0].text_npw.readOnly = false;
+				document.forms[0].text_cpw.readOnly = false;
+			}
+			else if(check.checked == false)
+			{
+				document.forms[0].text_npw.readOnly = true;
+				document.forms[0].text_cpw.readOnly = true;
+			}			
+		}
+	}
+}
+
+function PrintTable()
+{
+	with(document.forms[0]){
+		document.writeln("<table class='alignment'>");
+		document.writeln('<tr>');
+		document.writeln('<td colspan="2"><input type="checkbox" id="check" name="check" onclick="checkstatus()">&nbsp;&nbsp;&nbsp;&nbsp;Zugang schützen</td>');
+		document.writeln('</tr>');
+		document.writeln('</table>');
+		document.writeln("<div style='height:10px;'></div>");	
+
+		if(protectStatus == 1)
+		{
+			check.checked = true;
+			document.writeln("<table class='alignment'>");
+			document.writeln('<tr>');
+			document.writeln('<td width="170">Kennwort:</td>');
+			document.writeln('<td><input type="password" id="text_pw" name="text_pw" style="width:150px" class="blue_frame"></td>');					
+			document.writeln('</tr>');
+			document.writeln('</table>');	
+			document.writeln("<table id='newPasswdTable' class='alignment'>");
+			document.writeln('<tr>');
+			document.writeln('<td width="170">Neues Kennwort:</td>');
+			document.writeln('<td><input type="password" id="text_npw" name="text_npw" style="width:150px" class="blue_frame"></td>');	
+			document.writeln('</tr>')
+			document.writeln('<tr>')
+			document.writeln('<td width="170">Kennwortbestätigung:</td>');
+			document.writeln('<td><input type="password" id="text_cpw" name="text_cpw" style="width:150px" class="blue_frame"></td>');						
+			document.writeln('</tr>');
+			document.writeln('</table>');
+			document.forms[0].text_npw.readOnly = false;
+			document.forms[0].text_cpw.readOnly = false;				
+			
+		}
+		else if(protectStatus == 0)
+		{
+			check.checked = true;	
+			document.writeln("<table id='newPasswdTable' class='alignment'>");
+			document.writeln('<tr>');
+			document.writeln('<td width="170">Neues Kennwort:</td>');
+			document.writeln('<td><input type="password" id="text_npw" name="text_npw" style="width:150px" class="blue_frame"></td>');	
+			document.writeln('</tr>')
+			document.writeln('<tr>')
+			document.writeln('<td width="170">Kennwortbestätigung:</td>');
+			document.writeln('<td><input type="password" id="text_cpw" name="text_cpw" style="width:150px" class="blue_frame"></td>');						
+			document.writeln('</tr>');
+			document.writeln('</table>');	
+			document.forms[0].text_npw.readOnly = false;
+			document.forms[0].text_cpw.readOnly = false;		
+		}
+	}
+}
+
+function checkerror()
+{
+	if(ErrorStatus == 1)
+	{
+		showErr("Bitte geben Sie das richtige Kennwort ein.");		
+		//alert("Password is incorrect!!");
+		return;		
+	}
+}
+parent.setBoldofMenu('Kennwort');
+parent.document.getElementById("headerText").innerHTML="<b>Einrichtungsassistent&nbsp;&nbsp;</b> Kennwort";
+</script>
+</head>
+<body onLoad='checkerror();status();operaResize()' class="body_no_scroll">
+	<div class="content_right">
+<!--
+</script>
+</head>
+
+<body onload='status()'>
+<div id="wrapper">
+	<div id="head">
+		<div id="logo1">
+			<div><img src="images1/O2_logo.png" id="logo_O2"></img></div>
+		</div>
+		<div id="logo2">
+			<div id="logo2_text">
+				<b>Einrichtungsassistent&nbsp;Kennwort</b></div>
+			<!--<div id="infos">
+				<a href="javascript:popupwnd('./Infos_von_A-Z.html','no','no','no','no','no','no','','','','')" target="_self"><img src="images/img2150.png"></a>
+			</div>
+			
+		</div>
+	</div>
+	<div id="content_left">
+		<div id="menu_header"></div>
+		<div id="menu_list">
+			<script language ="javascript">
+			{	
+				var getServiceModel ='<%ejGetOther(sysInfo, GetSM)%>'; 
+				var ActivatedStatus_ADSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_HANSENETULL)%>'; 
+				var ActivatedStatus_ADSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesaleTK)%>';
+				var ActivatedStatus_ADSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_WholesalePIN)%>';
+				var ActivatedStatus_ADSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ADSL_SMode_Bitstream)%>';
+				var ActivatedStatus_ETH_SMode_ETHER='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_ETHER)%>';
+				var ActivatedStatus_ETH_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesaleTK)%>';
+				var ActivatedStatus_ETH_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_WholesalePIN)%>';
+				var ActivatedStatus_ETH_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_ETH_SMode_Bitstream)%>';
+				var ActivatedStatus_VDSL_SMode_HANSENETULL='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_HANSENETULL)%>';
+				var ActivatedStatus_VDSL_SMode_WholesaleTK='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesaleTK)%>';
+				var ActivatedStatus_VDSL_SMode_WholesalePIN='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_WholesalePIN)%>';	
+				var ActivatedStatus_VDSL_SMode_Bitstream='<%ejGetOther(sysInfo, ActivatedStatus_VDSL_SMode_Bitstream)%>';
+				if(getServiceModel == ActivatedStatus_ADSL_SMode_WholesalePIN ||
+					getServiceModel == ActivatedStatus_ETH_SMode_WholesalePIN ||
+					getServiceModel == ActivatedStatus_VDSL_SMode_WholesalePIN)
+					WriteMenuHeader('SetupWizard_Password_PIN_Access_Summary');
+				else if(getServiceModel == ActivatedStatus_ADSL_SMode_Bitstream ||
+					getServiceModel == ActivatedStatus_ETH_SMode_Bitstream ||
+					getServiceModel == ActivatedStatus_VDSL_SMode_Bitstream)
+					WriteMenuHeader('SetupWizard_Password_PIN_Summary');
+				else
+					WriteMenuHeader('SetupWizard_Password_Access_Summary');
+			}
+			</script>
+		</div>
+	</div>
+	<div id="content_right">-->	
+		<div class="bg_body_auto" style="min-height:480px;_height:480px;" id="defaultId">
+			<div class="left">
+			<form> 	
+				<div class="stepWrapper" style="width:530px;">				
+					<div class="headline">Kennwort-Schutz konfigurieren	</div>
+					<div>Bei aktiviertem Kennwortschutz ist der Zugriff auf die Bedienoberfläche und auf  alle Einstellungen nur mit dem hier eingestellten Kennwort möglich.</div>
+					<div style='height:10px;'></div>									
+					<SCRIPT LANGUAGE="JavaScript">
+					PrintTable();
+					</SCRIPT>
+					<div style='height:10px;'></div>
+				</div>	
+				<div class="stepWrapper" id="newPasswdText" style="width:530px;">
+					<div>Bitte notieren Sie das Kennwort und bewahren Sie es sorgfältig auf. Bei Vergessen ist die Benutzeroberfläche erst nach dem Rücksetzen auf Werkseinstellungen wieder erreichbar.</div>
+				</div>	
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='S_Kennwort'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_center"><a href="#"><img src='images1/more.gif' onclick="btnApply()"></img></a></div>
+	  	</div>
+	</div><!-- end class="content_right"-->
+</body>
+</html>

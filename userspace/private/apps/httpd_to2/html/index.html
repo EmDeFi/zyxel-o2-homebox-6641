@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <title>o2.box</title>
+  <script src="menu<%ejGetOther(fileVersion)%>.js" type="text/javascript"></script>
+  <SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+  <script src="jquery-1.9.1.min.js.js" type="text/javascript"></script> 
+  <script type="text/javascript">
+	function SetCwinHeight() 
+	{
+		/*
+		var iframe = document.getElementById("mainframe");
+		var bHeight = iframe.contentWindow.document.body.scrollHeight;
+		var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+		var height = bHeight>dHeight?bHeight:dHeight;
+		iframe.height = height;*/
+		
+		var iframe = document.getElementById("mainframe");
+		
+		if(isOpera || isSafari)
+		{
+			//iframe.height = iframe.contentWindow.document.documentElement.scrollHeight;
+		}
+		else if(isIE)
+		{
+			iframe.height = iframe.contentWindow.document.body.scrollHeight+8;
+		}
+		else//other broswer
+		{
+			iframe.height = iframe.contentWindow.document.documentElement.offsetHeight+2;
+		}
+		
+	}
+	
+    function popupwnd(url, toolbar, menubar, locationbar, resize, scrollbars, statusbar, left, top, width, height)
+	{
+      var popupwindow = this.open(url, '', 'toolbar=' + toolbar + ',menubar=' + menubar + ',location=' + locationbar + ',scrollbars=' + scrollbars + ',resizable=' + resize + ',status=' + statusbar + ',left=' + left + ',top=' + top + ',width=' + width + ',height=' + height);
+    }
+
+	function ProtectLock()
+	{
+		var iframe = document.getElementById("mainframe");
+		with(iframe.contentWindow.document.forms[0]){
+			//var loc = 'kennwort_lock.html#';    //chinglung
+			var loc = 'index_lock.html#';
+			loc += 'action=lock'
+			var code = 'location="' + loc + '"';
+			eval(code);
+		}
+	}
+	
+	function EinrichtungsassistentOnclick()
+	{
+		
+		var getActivated ='<%ejGetOther(sysInfo, activated)%>';
+		var sessionKey = top.mainframe.sessionKey;	
+		
+		if(sessionKey == null)
+		{
+			sessionKey = top.mainframe.sessionkey; //other sessionkey variable
+		}
+		
+		if(getActivated == 'TRUE')
+		{		
+			if(confirm("Der o2-Dienst ist bereits auf Ihrem Gerät eingerichtet. Wenn Sie Ihr o2-Gerät neu einrichten wollen, z.B. nach einem Umzug, drücken Sie OK. Der vorhandene DSL-und Telefoniezugang wird gelöscht!"))
+			{
+				var loc = 'restoreinfo2.cgi?';
+				loc += 'sessionKey=' + sessionKey;
+				//document.getElementById("Einrichtungsassistent").href="rebootmsg.html";
+				//document.getElementById("Einrichtungsassistent").target="mainframe";
+				document.getElementById("Einrichtungsassistent").href = loc;
+				//window.top.mainframe.location.href = "rebootmsg.html";
+			}
+			else
+			{
+				document.getElementById("Einrichtungsassistent").href="Survey.html";
+				//window.location.href = "index.html";
+			}
+		}
+		else
+		{
+			//document.getElementById("Einrichtungsassistent").href="index_setupWizard.html";
+			window.location.href = "index_setupWizard.html";
+		}
+	}
+	
+	function hideBody(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'hidden';
+	   if (document.getElementById)  // DOM3 = IE5, NS6
+		  document.getElementById('bodyhide').style.visibility = status;
+	   else {
+		  if (document.layers == false) // IE4
+			 document.all.bodyhide.style.visibility = status;
+	   }
+	}
+	function frmload()
+	{
+		if( window.self != window.top )
+		{	
+			hideBody(1);
+			self.parent.location.href = self.location.href;
+	/*		var parenturl = parent.window.location.href;
+			var partsparenturl = parenturl.split("/");
+			parent.window.location.replace(partsparenturl[0] + '/' + partsparenturl[1] + '/' + partsparenturl[2] + '/index_setupWizard.html');
+	*/	}
+		else
+		{
+			hideBody(0);
+		}
+	}
+ function detectBrowser(){
+	var sAgent = navigator.userAgent.toLowerCase();
+	this.isIE = (sAgent.indexOf("msie")!=-1); //IE6.0-7
+	this.isIE6 = (sAgent.indexOf("msie 6")!=-1); //IE6
+	this.isIE7= (sAgent.indexOf("msie 7")!=-1); //IE7
+	this.isFF = (sAgent.indexOf("firefox")!=-1);//firefox
+	this.isSa = (sAgent.indexOf("safari")!=-1);//safari
+	this.isOp = (sAgent.indexOf("opera")!=-1);//opera
+	this.isNN = (sAgent.indexOf("netscape")!=-1);//netscape
+	this.isCh = (sAgent.indexOf("chrome")!=-1);//chrome
+	this.isMa = this.isIE;//marthon
+	this.isOther = (!this.isIE && !this.isFF && !this.isSa && !this.isOp && !this.isNN && !this.isSa);//unknown Browser
+}
+  </script>
+  <link href="menu<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="body_center" id='bodyhide' style="visibility:hidden" onload="frmload()" onresize="javascript:SetCwinHeight();">
+<div class="topinfo"></div>
+<div class="logo_header">
+    <span id="headerText"></span>
+    <a href="javascript:popupwnd('./Infos_von_index.html','no','no','no','0','no','no','','','1024','768')" target="_self" class="infos_von">Infos von A-Z</a>
+</div>
+<div class="main">
+  <div class="mainnav">
+    <div class="menu"></div>
+    <div id="menu" style="display:none">
+      <div class="menu_head"></div>
+      <ul class="flipMenu">
+        <li class="flipFolderOpen" id="Survey"><a href="Survey.html" target="mainframe" class="padding20">Übersicht</a><ul></ul></li>
+        <li id="Internet"><a href="Internet_Access.html" target="mainframe" class="padding20" >Internet</a>
+          <ul id="InternetList">
+            <li><a href="Internet_Access.html" target="mainframe" class="padding35">Zugang einrichten</a></li>
+            <li><a href="dyndns.cmd?action=view" target="mainframe" class="padding35">DynDNS</a></li>
+          </ul>
+        </li>
+        <li id="Telefonie"><a href="Telephony_Overview.html" target="mainframe" class="padding20">Telefonie</a>
+          <ul id="TelefonieList">
+            <li><a href="Telephony_Overview.html" target="mainframe" class="padding35">Übersicht</a></li>
+            <li><a href="Telephony_CallList.html" target="mainframe" class="padding35">Anruflisten</a></li>
+            <li><a href="voiceservicephonebook.cmd?action=view" target="mainframe" class="padding35">Telefonbuch</a></li>
+            <li><a id="Konfiguration" href="Telephony_DECT.html" target="mainframe" class="padding35">Konfiguration</a></li>
+            <li><a href="Telephony_InternalNumbers.html" target="mainframe" class="padding35">Rufnummernplan</a></li>
+          </ul>
+        </li>
+        <li id="Heimnetz"><a href="HomeGroup_Survey.html" target="mainframe" class="padding20">Heimnetz</a>
+          <ul id="HeimnetzList">
+            <li><a href="HomeGroup_Survey.html" target="mainframe" class="padding35">Übersicht</a></li>
+            <li><a href="HomeGroup_LAN_DHCP.html" target="mainframe" class="padding35">LAN</a></li>
+            <li><a href="wlBsMngr.cmd?action=view" target="mainframe" class="padding35">WLAN</a></li>
+            <li><a href="portForwarding.cmd?action=view" target="mainframe" class="padding35">Port Forwarding</a></li>
+			<li><a href="storage.html" target="mainframe" class="padding35">USB</a></li>
+          </ul>
+        </li>
+        <li id="Sicherheit"><a href="security_frwlRule.cmd?action=view" target="mainframe" class="padding20">Sicherheit</a>
+		  <ul id="SicherheitList">
+            <li><a href="security_frwlRule.cmd?action=view" target="mainframe" class="padding35">IP-Filter</a></li>
+            <li><a href="scmacflt.cmd?action=view" target="mainframe" class="padding35">MAC-Adressfilter</a></li>
+            <li><a href="Security_IgdUpnp.html" target="mainframe" class="padding35">IGD/UPnP</a></li>
+          </ul>
+		</li>  
+        <li id="System"><a href="System_Password.html" target="mainframe" class="padding20">System</a>
+          <ul id="SystemList">
+            <li><a href="System_Password.html" target="mainframe" class="padding35">Kennwort</a></li>
+<script type="text/javascript">
+var checkBrowser = new detectBrowser();
+if (checkBrowser.isIE) { 
+	document.write("<li><a href='System_SaveSettings_ie.html' target='mainframe' class='padding35'>Einstellungen sichern</a></li>");
+}
+else
+{
+	document.write("<li><a href='System_SaveSettings.html' target='mainframe' class='padding35'>Einstellungen sichern</a></li>");
+}
+</script>            
+            <li><a href="System_Back.html" target="mainframe" class="padding35">Zurücksetzen</a></li>
+            <li><a href="System_remoteMaintenance.html" target="mainframe" class="padding35">Fernwartung</a></li>
+          </ul>
+        </li>
+      </ul>
+		<div><a class="selected_SetupWizard" id='Einrichtungsassistent' href="" onclick="EinrichtungsassistentOnclick();" target="mainframe">Einrichtungsassistent</a></div>
+		
+      <br/><br/>
+<!--	  <div><a class="selected_SetupWizard" href="kennwort_lock.html">Zugang schutzen</a></div> -->
+
+	  <script type="text/javascript">
+	  {
+		var AccessMode = '<%ejGetOther(accessMode)%>';
+	  	var protectStatus = '<%ejGetOther(protectstatus,ProtectEnable)%>';
+		if(AccessMode == "0")
+		{
+			if(protectStatus == '1')
+				document.writeln("<div id='lock'><a class='selected_SetupWizard' href='index_lock.html'>Abmelden</a></div>");		
+		}else
+		{		
+			document.writeln("<div><a class='selected_SetupWizard' href='disconnectHttpsSession.cmd?' target='mainframe'>Abmelden</a></div>");
+		}
+	  }
+	  </script>
+    </div>
+ </div>
+  <div class="data">
+    <iframe id="mainframe" name="mainframe" width="100%" onload="javascript:SetCwinHeight();" frameborder="0"></iframe>
+  </div>
+  <div></div>
+</div>
+</body>
+<script type="text/javascript">
+//document.getElementById("mainframe").src = "Survey.html";
+var oBrowser = new detectBrowser();
+if (oBrowser.isCh && oBrowser.isSa) 
+{
+	$(document).ready(function(){
+     if($("iframe").attr('src') == null ){
+	     setTimeout( function(){
+		  $("iframe").attr('src',"Survey.html");
+  		     },300);   
+     }
+  });
+}
+if (oBrowser.isIE) { 
+	document.getElementById("mainframe").src = "Survey.html";
+}
+else if (oBrowser.isSa && !oBrowser.isCh) { 
+	document.getElementById("mainframe").src = "Survey.html";
+} 
+else if (oBrowser.isOp) { 
+	document.getElementById("mainframe").src = "Survey.html";
+} 
+else if(oBrowser.isFF) { 
+	document.getElementById("mainframe").src = "Survey.html";
+}
+else
+{
+	document.getElementById("mainframe").src = "Survey.html";
+}
+
+</script>
+</html>

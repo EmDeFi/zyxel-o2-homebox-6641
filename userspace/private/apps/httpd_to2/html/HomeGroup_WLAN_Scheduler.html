@@ -1,0 +1,1347 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="javascript">
+<!--
+var Mon= '';
+var Tue= '';
+var Wed= '';
+var Thu= '';
+var Fri= '';
+var Sat= '';
+var Sun= '';
+var Week= '';
+var MonSchMode= '';
+var TueSchMode= '';
+var WedSchMode= '';
+var ThuSchMode= '';
+var FriSchMode= '';
+var SatSchMode= '';
+var SunSchMode= '';
+var WeekSchMode= '';
+var MonStartHr= '';
+var TueStartHr= '';
+var WedStartHr= '';
+var ThuStartHr= '';
+var FriStartHr= '';
+var SatStartHr= '';
+var SunStartHr= '';
+var WeekStartHr= '';
+var MonEndHr= '';
+var TueEndHr= '';
+var WedEndHr= '';
+var ThuEndHr= '';
+var FriEndHr= '';
+var SatEndHr= '';
+var SunEndHr= '';
+var WeekEndHr= '';
+var MonStartMin= '';
+var TueStartMin= '';
+var WedStartMin= '';
+var ThuStartMin= '';
+var FriStartMin= '';
+var SatStartMin= '';
+var SunStartMin= '';
+var WeekStartMin='';
+var MonEndMin= '';
+var TueEndMin= '';
+var WedEndMin= '';
+var ThuEndMin= '';
+var FriEndMin= '';
+var SatEndMin= '';
+var SunEndMin= '';
+var WeekEndMin= '';
+
+var MonInfo = '<%ejGetWSchedulel(Mon)%>';
+var TueInfo = '<%ejGetWSchedulel(Tue)%>';
+var WedInfo = '<%ejGetWSchedulel(Wed)%>';
+var ThuInfo = '<%ejGetWSchedulel(Thu)%>';
+var FriInfo = '<%ejGetWSchedulel(Fri)%>';
+var SatInfo = '<%ejGetWSchedulel(Sat)%>';
+var SunInfo = '<%ejGetWSchedulel(Sun)%>';
+var WeekInfo = '<%ejGetWSchedulel(Week)%>';
+var WlanForced= '<%ejGetWSchedulel(WlanForced)%>';
+GetVar();
+
+
+if ( wlRefresh == '1' ) {
+   var code = 'location="HomeGroup_WLAN_Schedulerrefresh.wl?wlRefresh=0"';
+   eval(code);
+}
+function SelectionGrayOut(){
+with(document.forms[0]){
+	if(WeekSchMode.checked == false){
+		WeekStartMin.selectedIndex = 0;
+		WeekStartHr.selectedIndex = 0;
+		WeekEndHr.selectedIndex = 23;
+		WeekEndMin.selectedIndex = 59;
+		WeekStartHr.disabled=true;
+		WeekStartMin.disabled=true;
+		WeekEndHr.disabled=true;
+		WeekEndMin.disabled=true;
+	}
+	else{
+		WeekStartHr.disabled=false;
+		WeekStartMin.disabled=false;
+		WeekEndHr.disabled=false;
+		WeekEndMin.disabled=false;
+	}
+	
+	if(MonSchMode.checked == false){
+		MonStartMin.selectedIndex = 0;
+		MonStartHr.selectedIndex = 0;
+		MonEndHr.selectedIndex = 23;
+		MonEndMin.selectedIndex = 59;
+		MonStartHr.disabled=true;
+		MonStartMin.disabled=true;
+		MonEndHr.disabled=true;
+		MonEndMin.disabled=true;
+	}
+	else{
+		MonStartHr.disabled=false;
+		MonStartMin.disabled=false;
+		MonEndHr.disabled=false;
+		MonEndMin.disabled=false;
+	}
+	
+	if(TueSchMode.checked == false){
+		TueStartMin.selectedIndex = 0;
+		TueStartHr.selectedIndex = 0;
+		TueEndHr.selectedIndex = 23;
+		TueEndMin.selectedIndex = 59;
+		TueStartHr.disabled=true;
+		TueStartMin.disabled=true;
+		TueEndHr.disabled=true;
+		TueEndMin.disabled=true;
+	}
+	else{
+		TueStartHr.disabled=false;
+		TueStartMin.disabled=false;
+		TueEndHr.disabled=false;
+		TueEndMin.disabled=false;
+	}
+	
+	if(WedSchMode.checked == false){
+		WedStartMin.selectedIndex = 0;
+		WedStartHr.selectedIndex = 0;
+		WedEndHr.selectedIndex = 23;
+		WedEndMin.selectedIndex = 59;
+		WedStartHr.disabled=true;
+		WedStartMin.disabled=true;
+		WedEndHr.disabled=true;
+		WedEndMin.disabled=true;
+	}
+	else{
+		WedStartHr.disabled=false;
+		WedStartMin.disabled=false;
+		WedEndHr.disabled=false;
+		WedEndMin.disabled=false;
+	}
+	
+	if(ThuSchMode.checked == false){
+		ThuStartMin.selectedIndex = 0;
+		ThuStartHr.selectedIndex = 0;
+		ThuEndHr.selectedIndex = 23;
+		ThuEndMin.selectedIndex = 59;
+		ThuStartHr.disabled=true;
+		ThuStartMin.disabled=true;
+		ThuEndHr.disabled=true;
+		ThuEndMin.disabled=true;
+	}
+	else{
+		ThuStartHr.disabled=false;
+		ThuStartMin.disabled=false;
+		ThuEndHr.disabled=false;
+		ThuEndMin.disabled=false;
+	}
+	
+	if(FriSchMode.checked == false){
+		FriStartMin.selectedIndex = 0;
+		FriStartHr.selectedIndex = 0;
+		FriEndHr.selectedIndex = 23;
+		FriEndMin.selectedIndex = 59;
+		FriStartHr.disabled=true;
+		FriStartMin.disabled=true;
+		FriEndHr.disabled=true;
+		FriEndMin.disabled=true;
+	}
+	else{
+		FriStartHr.disabled=false;
+		FriStartMin.disabled=false;
+		FriEndHr.disabled=false;
+		FriEndMin.disabled=false;
+	}
+	
+	if(SatSchMode.checked == false){
+		SatStartMin.selectedIndex = 0;
+		SatStartHr.selectedIndex = 0;
+		SatEndHr.selectedIndex = 23;
+		SatEndMin.selectedIndex = 59;
+		SatStartHr.disabled=true;
+		SatStartMin.disabled=true;
+		SatEndHr.disabled=true;
+		SatEndMin.disabled=true;
+	}
+	else{
+		SatStartHr.disabled=false;
+		SatStartMin.disabled=false;
+		SatEndHr.disabled=false;
+		SatEndMin.disabled=false;
+	}
+	
+	if(SunSchMode.checked == false){
+		SunStartMin.selectedIndex = 0;
+		SunStartHr.selectedIndex = 0;
+		SunEndHr.selectedIndex = 23;
+		SunEndMin.selectedIndex = 59;
+		SunStartHr.disabled=true;
+		SunStartMin.disabled=true;
+		SunEndHr.disabled=true;
+		SunEndMin.disabled=true;
+	}
+	else{
+		SunStartHr.disabled=false;
+		SunStartMin.disabled=false;
+		SunEndHr.disabled=false;
+		SunEndMin.disabled=false;
+	}
+}
+}
+function GetVar()
+{	
+	var tokens;
+	
+		tokens = MonInfo.split("&");
+		
+		Mon = tokens[0];
+		if(Mon =='1')
+		{
+			MonStartHr = tokens[1];
+			MonStartMin = tokens[2];
+			MonEndHr = tokens[3];
+			MonEndMin = tokens[4];
+			MonSchMode = tokens[5];			
+		}
+	
+		tokens = TueInfo.split("&");
+		Tue = tokens[0];
+		if(Tue =='1')
+		{
+			TueStartHr = tokens[1];
+			TueStartMin = tokens[2];
+			TueEndHr = tokens[3];
+			TueEndMin = tokens[4];
+			TueSchMode = tokens[5];			
+		}
+	
+		tokens = WedInfo.split("&");
+		Wed = tokens[0];
+		if(Wed =='1')
+		{
+			WedStartHr = tokens[1];
+			WedStartMin = tokens[2];
+			WedEndHr = tokens[3];
+			WedEndMin = tokens[4];
+			WedSchMode = tokens[5];			
+		}
+		
+		tokens = ThuInfo.split("&");
+		Thu = tokens[0];
+		if(Thu =='1')
+		{
+			ThuStartHr = tokens[1];
+			ThuStartMin = tokens[2];
+			ThuEndHr = tokens[3];
+			ThuEndMin = tokens[4];
+			ThuSchMode = tokens[5];			
+		}
+	
+		tokens = FriInfo.split("&");
+		Fri = tokens[0];
+		if(Fri =='1')
+		{
+			FriStartHr = tokens[1];
+			FriStartMin = tokens[2];
+			FriEndHr = tokens[3];
+			FriEndMin = tokens[4];
+			FriSchMode = tokens[5];			
+		}
+	
+		tokens = SatInfo.split("&");
+		Sat = tokens[0];
+		if(Sat =='1')
+		{
+			SatStartHr = tokens[1];
+			SatStartMin = tokens[2];
+			SatEndHr = tokens[3];
+			SatEndMin = tokens[4];
+			SatSchMode = tokens[5];			
+		}
+	
+		tokens = SunInfo.split("&");
+		Sun = tokens[0];
+		if(Sun =='1')
+		{
+			SunStartHr = tokens[1];
+			SunStartMin = tokens[2];
+			SunEndHr = tokens[3];
+			SunEndMin = tokens[4];
+			SunSchMode = tokens[5];			
+		}
+	
+		tokens = WeekInfo.split("&");
+		Week = tokens[0];
+		if(Week =='1')
+		{
+			WeekStartHr = tokens[1];
+			WeekStartMin = tokens[2];
+			WeekEndHr = tokens[3];
+			WeekEndMin = tokens[4];
+			WeekSchMode = tokens[5];			
+		}
+	
+}
+
+function CmdLink(){
+	  var loc = 'HomeGroup_WLAN_Advance.cmd?action=view';
+      var code = 'location="' + loc + '"';
+  	  eval(code);
+}
+function normaldaydefault(){
+	document.forms[0].MonStartHr.selectedIndex = 0;
+	document.forms[0].TueStartHr.selectedIndex = 0;
+	document.forms[0].WedStartHr.selectedIndex = 0;
+	document.forms[0].ThuStartHr.selectedIndex = 0;
+	document.forms[0].FriStartHr.selectedIndex = 0;
+	document.forms[0].SatStartHr.selectedIndex = 0;
+	document.forms[0].SunStartHr.selectedIndex = 0;
+
+
+	document.forms[0].MonStartMin.selectedIndex = 0;
+	document.forms[0].TueStartMin.selectedIndex = 0;
+	document.forms[0].WedStartMin.selectedIndex = 0;
+	document.forms[0].ThuStartMin.selectedIndex = 0;
+	document.forms[0].FriStartMin.selectedIndex = 0;
+	document.forms[0].SatStartMin.selectedIndex = 0;
+	document.forms[0].SunStartMin.selectedIndex = 0;
+	
+
+	document.forms[0].MonEndHr.selectedIndex = 23;
+	document.forms[0].TueEndHr.selectedIndex = 23;
+	document.forms[0].WedEndHr.selectedIndex = 23;
+	document.forms[0].ThuEndHr.selectedIndex = 23;
+	document.forms[0].FriEndHr.selectedIndex = 23;
+	document.forms[0].SatEndHr.selectedIndex = 23;
+	document.forms[0].SunEndHr.selectedIndex = 23;
+	
+
+	document.forms[0].MonEndMin.selectedIndex = 59;
+	document.forms[0].TueEndMin.selectedIndex = 59;
+	document.forms[0].WedEndMin.selectedIndex = 59;
+	document.forms[0].ThuEndMin.selectedIndex = 59;
+	document.forms[0].FriEndMin.selectedIndex = 59;
+	document.forms[0].SatEndMin.selectedIndex = 59;
+	document.forms[0].SunEndMin.selectedIndex = 59;
+	
+	
+	document.forms[0].MonSchMode.checked =false;
+	document.forms[0].TueSchMode.checked =false;
+	document.forms[0].WedSchMode.checked =false;
+	document.forms[0].ThuSchMode.checked =false;
+	document.forms[0].FriSchMode.checked =false;
+	document.forms[0].SatSchMode.checked =false;
+	document.forms[0].SunSchMode.checked =false;
+}
+function clearsetting(){
+/*var deleteSch ="0";
+var AddSch ="1";
+var splitmark ="Sp";
+var loc = 'HomeGroup_WLAN_Scheduler.wlsch?';
+ var getothersessionkey;
+ getothersessionkey = '&sessionKey=<%ejGetOther(sessionKey)%>';
+  var SchWeekMode;
+ var SchMonMode;
+ var SchTueMode;
+ var SchWedMode;
+ var SchThuMode;
+ var SchFriMode;
+ var SchSatMode;
+ var SchSunMode;
+  SchWeekMode='Disabled';
+ SchMonMode='Disabled';
+ SchTueMode='Disabled';
+ SchWedMode='Disabled';
+ SchThuMode='Disabled';	
+ SchFriMode='Disabled';	
+ SchSatMode='Disabled';	
+ SchSunMode='Disabled';	*/
+	normaldaydefault();
+	document.forms[0].WeekStartHr.selectedIndex = 0;
+	document.forms[0].WeekStartMin.selectedIndex = 0;
+	document.forms[0].WeekEndHr.selectedIndex = 23;
+	document.forms[0].WeekEndMin.selectedIndex = 59;
+	document.forms[0].WeekSchMode.checked=false;
+	document.forms[0].WlanForcedSelect.checked = false;					
+	dailyclick();
+	btnApply();
+
+
+}
+function dailyclick(){
+	with(document.forms[0]){
+		if(WeekSchMode.checked==true){
+		/*
+			SchMon.disabled=true;
+			SchTue.disabled=true;
+			SchWed.disabled=true;
+			SchThu.disabled=true;
+			SchFri.disabled=true;
+			SchSat.disabled=true;
+			SchSun.disabled=true;
+			*/
+			normaldaydefault();
+			MonSchMode.disabled=true;
+			TueSchMode.disabled=true;
+			WedSchMode.disabled=true;
+			ThuSchMode.disabled=true;
+			FriSchMode.disabled=true;
+			SatSchMode.disabled=true;
+			SunSchMode.disabled=true;
+			
+			MonStartHr.disabled=true;
+			TueStartHr.disabled=true;
+			WedStartHr.disabled=true;
+			ThuStartHr.disabled=true;
+			FriStartHr.disabled=true;
+			SatStartHr.disabled=true;
+			SunStartHr.disabled=true;
+			
+			MonStartMin.disabled=true;
+			TueStartMin.disabled=true;
+			WedStartMin.disabled=true;
+			ThuStartMin.disabled=true;
+			FriStartMin.disabled=true;
+			SatStartMin.disabled=true;
+			SunStartMin.disabled=true;
+			
+			MonEndHr.disabled=true;
+			TueEndHr.disabled=true;
+			WedEndHr.disabled=true;
+			ThuEndHr.disabled=true;
+			FriEndHr.disabled=true;
+			SatEndHr.disabled=true;
+			SunEndHr.disabled=true;
+			
+			MonEndMin.disabled=true;
+			TueEndMin.disabled=true;
+			WedEndMin.disabled=true;
+			ThuEndMin.disabled=true;
+			FriEndMin.disabled=true;
+			SatEndMin.disabled=true;
+			SunEndMin.disabled=true;
+			
+	
+		}
+		else{
+		/*
+			SchMon.disabled=false;
+			SchTue.disabled=false;
+			SchWed.disabled=false;
+			SchThu.disabled=false;
+			SchFri.disabled=false;
+			SchSat.disabled=false;
+			SchSun.disabled=false;
+			*/
+			
+			MonSchMode.disabled=false;
+			TueSchMode.disabled=false;
+			WedSchMode.disabled=false;
+			ThuSchMode.disabled=false;
+			FriSchMode.disabled=false;
+			SatSchMode.disabled=false;
+			SunSchMode.disabled=false;
+			
+			MonStartHr.disabled=false;
+			TueStartHr.disabled=false;
+			WedStartHr.disabled=false;
+			ThuStartHr.disabled=false;
+			FriStartHr.disabled=false;
+			SatStartHr.disabled=false;
+			SunStartHr.disabled=false;
+			
+			MonStartMin.disabled=false;
+			TueStartMin.disabled=false;
+			WedStartMin.disabled=false;
+			ThuStartMin.disabled=false;
+			FriStartMin.disabled=false;
+			SatStartMin.disabled=false;
+			SunStartMin.disabled=false;
+			
+			MonEndHr.disabled=false;
+			TueEndHr.disabled=false;
+			WedEndHr.disabled=false;
+			ThuEndHr.disabled=false;
+			FriEndHr.disabled=false;
+			SatEndHr.disabled=false;
+			SunEndHr.disabled=false;
+			
+			MonEndMin.disabled=false;
+			TueEndMin.disabled=false;
+			WedEndMin.disabled=false;
+			ThuEndMin.disabled=false;
+			FriEndMin.disabled=false;
+			SatEndMin.disabled=false;
+			SunEndMin.disabled=false;
+		}
+	}
+	SelectionGrayOut();
+}
+function frmLoad(){
+/*
+if(WeekSchMode=='Enabled')
+	document.forms[0].WeekSchMode.selectedIndex=1;
+else
+	document.forms[0].WeekSchMode.selectedIndex=0;	
+
+if(MonSchMode=='Enabled')
+	document.forms[0].MonSchMode.selectedIndex=1;
+else
+	document.forms[0].MonSchMode.selectedIndex=0;	
+
+if(TueSchMode=='Enabled')
+	document.forms[0].TueSchMode.selectedIndex=1;
+else
+	document.forms[0].TueSchMode.selectedIndex=0;	
+
+if(WedSchMode=='Enabled')
+	document.forms[0].WedSchMode.selectedIndex=1;
+else
+	document.forms[0].WedSchMode.selectedIndex=0;	
+
+if(ThuSchMode=='Enabled')
+	document.forms[0].ThuSchMode.selectedIndex=1;
+else
+	document.forms[0].ThuSchMode.selectedIndex=0;
+	
+if(FriSchMode=='Enabled')
+	document.forms[0].FriSchMode.selectedIndex=1;
+else
+	document.forms[0].FriSchMode.selectedIndex=0;
+	
+if(SatSchMode=='Enabled')
+	document.forms[0].SatSchMode.selectedIndex=1;
+else
+	document.forms[0].SatSchMode.selectedIndex=0;
+	
+if(SunSchMode=='Enabled')
+	document.forms[0].SunSchMode.selectedIndex=1;
+else
+	document.forms[0].SunSchMode.selectedIndex=0;								
+*/
+document.forms[0].MonStartHr.selectedIndex = MonStartHr;
+document.forms[0].TueStartHr.selectedIndex = TueStartHr;
+document.forms[0].WedStartHr.selectedIndex = WedStartHr;
+document.forms[0].ThuStartHr.selectedIndex = ThuStartHr;
+document.forms[0].FriStartHr.selectedIndex = FriStartHr;
+document.forms[0].SatStartHr.selectedIndex = SatStartHr;
+document.forms[0].SunStartHr.selectedIndex = SunStartHr;
+document.forms[0].WeekStartHr.selectedIndex = WeekStartHr;
+
+document.forms[0].MonStartMin.selectedIndex = MonStartMin;
+document.forms[0].TueStartMin.selectedIndex = TueStartMin;
+document.forms[0].WedStartMin.selectedIndex = WedStartMin;
+document.forms[0].ThuStartMin.selectedIndex = ThuStartMin;
+document.forms[0].FriStartMin.selectedIndex = FriStartMin;
+document.forms[0].SatStartMin.selectedIndex = SatStartMin;
+document.forms[0].SunStartMin.selectedIndex = SunStartMin;
+document.forms[0].WeekStartMin.selectedIndex = WeekStartMin;
+
+if(Mon=='1'){
+	document.forms[0].MonSchMode.checked=true;
+	document.forms[0].MonEndHr.selectedIndex = MonEndHr;
+	document.forms[0].MonEndMin.selectedIndex = MonEndMin;
+}
+if(Tue=='1'){
+	document.forms[0].TueSchMode.checked=true;
+	document.forms[0].TueEndHr.selectedIndex = TueEndHr;
+	document.forms[0].TueEndMin.selectedIndex = TueEndMin;
+}	
+if(Wed=='1'){
+	document.forms[0].WedSchMode.checked=true;
+	document.forms[0].WedEndHr.selectedIndex = WedEndHr;
+	document.forms[0].WedEndMin.selectedIndex = WedEndMin;
+}	
+if(Thu=='1'){
+	document.forms[0].ThuSchMode.checked=true;
+	document.forms[0].ThuEndHr.selectedIndex = ThuEndHr;
+	document.forms[0].ThuEndMin.selectedIndex = ThuEndMin;
+}	
+if(Fri=='1'){
+	document.forms[0].FriSchMode.checked=true;
+	document.forms[0].FriEndHr.selectedIndex = FriEndHr;
+	document.forms[0].FriEndMin.selectedIndex = FriEndMin;
+}	
+if(Sat=='1'){
+	document.forms[0].SatSchMode.checked=true;
+	document.forms[0].SatEndHr.selectedIndex = SatEndHr;
+	document.forms[0].SatEndMin.selectedIndex = SatEndMin;
+}	
+if(Sun=='1'){
+	document.forms[0].SunSchMode.checked=true;
+	document.forms[0].SunEndHr.selectedIndex = SunEndHr;
+	document.forms[0].SunEndMin.selectedIndex = SunEndMin;
+}	
+if(Week =='1')	{	
+	document.forms[0].WeekSchMode.checked=true;
+	document.forms[0].WeekEndHr.selectedIndex = WeekEndHr;
+	document.forms[0].WeekEndMin.selectedIndex = WeekEndMin;
+}			
+
+if(WlanForced=='1')	
+	document.forms[0].WlanForcedSelect.checked = true;			
+dailyclick();
+
+
+
+}
+/*if ( wlRefresh == '1' ) {
+   var code = 'location="HomeGroup_WLAN_Schedulerfresh.wl?wlRefresh=0"';
+   eval(code);   
+}*/
+function btnApply() {
+var deleteSch ="0";
+var AddSch ="1";
+var splitmark ="Sp";
+var loc = 'HomeGroup_WLAN_Scheduler.wlsch?';
+ var getothersessionkey;
+ getothersessionkey = '&sessionKey=<%ejGetOther(sessionKey)%>';
+ with ( document.forms[0] ){
+ var MonStart = ((MonStartHr.selectedIndex)*60)+(MonStartMin.selectedIndex);
+ var TueStart = ((TueStartHr.selectedIndex)*60)+(TueStartMin.selectedIndex);
+ var WedStart = ((WedStartHr.selectedIndex)*60)+(WedStartMin.selectedIndex);
+ var ThuStart = ((ThuStartHr.selectedIndex)*60)+(ThuStartMin.selectedIndex);
+ var FriStart = ((FriStartHr.selectedIndex)*60)+(FriStartMin.selectedIndex);
+ var SatStart = ((SatStartHr.selectedIndex)*60)+(SatStartMin.selectedIndex);
+ var SunStart = ((SunStartHr.selectedIndex)*60)+(SunStartMin.selectedIndex);
+ var WeekStart = ((WeekStartHr.selectedIndex)*60)+(WeekStartMin.selectedIndex);
+ var MonEnd = ((MonEndHr.selectedIndex)*60)+(MonEndMin.selectedIndex);
+ var TueEnd = ((TueEndHr.selectedIndex)*60)+(TueEndMin.selectedIndex);
+ var WedEnd = ((WedEndHr.selectedIndex)*60)+(WedEndMin.selectedIndex);
+ var ThuEnd = ((ThuEndHr.selectedIndex)*60)+(ThuEndMin.selectedIndex);
+ var FriEnd = ((FriEndHr.selectedIndex)*60)+(FriEndMin.selectedIndex);
+ var SatEnd = ((SatEndHr.selectedIndex)*60)+(SatEndMin.selectedIndex);
+ var SunEnd = ((SunEndHr.selectedIndex)*60)+(SunEndMin.selectedIndex);
+ var WeekEnd = ((WeekEndHr.selectedIndex)*60)+(WeekEndMin.selectedIndex);
+ var SchWeekMode;
+ var SchMonMode;
+ var SchTueMode;
+ var SchWedMode;
+ var SchThuMode;
+ var SchFriMode;
+ var SchSatMode;
+ var SchSunMode;
+ if((MonSchMode.checked==true && MonStart>=MonEnd)||(TueSchMode.checked==true && TueStart>=TueEnd)||(WedSchMode.checked==true && WedStart>=WedEnd)||(ThuSchMode.checked==true && ThuStart>=ThuEnd)||(FriSchMode.checked==true && FriStart>=FriEnd)||(SatSchMode.checked==true && SatStart>=SatEnd)||(SunSchMode.checked==true&& SunStart>=SunEnd)||(WeekSchMode.checked==true && WeekStart>=WeekEnd)){
+ showErr('Endzeitpunkt muss groser sein als Startzeitpunkt.');
+ return
+ }
+ SchWeekMode='Disabled';
+ SchMonMode='Disabled';
+ SchTueMode='Disabled';
+ SchWedMode='Disabled';
+ SchThuMode='Disabled';	
+ SchFriMode='Disabled';	
+ SchSatMode='Disabled';	
+ SchSunMode='Disabled';	
+ /*
+ if (WeekSchMode.selectedIndex=='1')
+ 	SchWeekMode='Enabled';
+ else
+ 	SchWeekMode='Disabled';
+	
+ if (MonSchMode.selectedIndex=='1')
+ 	SchMonMode='Enabled';
+ else
+ 	SchMonMode='Disabled';
+	
+ if (TueSchMode.selectedIndex=='1')
+ 	SchTueMode='Enabled';
+ else
+ 	SchTueMode='Disabled';	
+	
+ if (WedSchMode.selectedIndex=='1')
+ 	SchWedMode='Enabled';
+ else
+ 	SchWedMode='Disabled';
+
+ if (ThuSchMode.selectedIndex=='1')
+ 	SchThuMode='Enabled';
+ else
+ 	SchThuMode='Disabled';		
+	
+ if (FriSchMode.selectedIndex=='1')
+ 	SchFriMode='Enabled';
+ else
+ 	SchFriMode='Disabled';	
+	
+ if (SatSchMode.selectedIndex=='1')
+ 	SchSatMode='Enabled';
+ else
+ 	SchSatMode='Disabled';	
+
+if (SunSchMode.selectedIndex=='1')
+ 	SchSunMode='Enabled';
+ else
+ 	SchSunMode='Disabled';	
+*/			
+	
+ if(WeekSchMode.checked==true){
+ 	loc += 'WeekSch=' +AddSch+splitmark+WeekStart+splitmark+WeekEnd+splitmark+SchWeekMode;
+	loc += '&MonSch=' +deleteSch+splitmark+MonStart+splitmark+MonEnd+splitmark+SchMonMode;
+	loc += '&TueSch=' +deleteSch+splitmark+TueStart+splitmark+TueEnd+splitmark+SchTueMode;
+	loc += '&WedSch=' +deleteSch+splitmark+WedStart+splitmark+WedEnd+splitmark+SchWedMode;
+	loc += '&ThuSch=' +deleteSch+splitmark+ThuStart+splitmark+ThuEnd+splitmark+SchThuMode;
+	loc += '&FriSch=' +deleteSch+splitmark+FriStart+splitmark+FriEnd+splitmark+SchFriMode;
+	loc += '&SatSch=' +deleteSch+splitmark+SatStart+splitmark+SatEnd+splitmark+SchSatMode;
+	loc += '&SunSch=' +deleteSch+splitmark+SunStart+splitmark+SunEnd+splitmark+SchSunMode;
+	if(WlanForcedSelect.checked == true)
+		loc += '&WlanForced=1';
+	else
+		loc += '&WlanForced=0';
+ }
+ else{
+ 	/*Week*/
+ 	loc += 'WeekSch=' +deleteSch+splitmark+WeekStart+splitmark+WeekEnd+splitmark+SchWeekMode;	
+	
+	/*Monday*/
+ 	if(MonSchMode.checked == true)
+ 		loc += '&MonSch=' +AddSch+splitmark+MonStart+splitmark+MonEnd+splitmark+SchMonMode;
+ 	else
+ 		loc += '&MonSch=' +deleteSch+splitmark+MonStart+splitmark+MonEnd+splitmark+SchMonMode;
+	
+ 	/*Tuesday*/	
+ 	if(TueSchMode.checked == true)
+ 		loc += '&TueSch=' +AddSch+splitmark+TueStart+splitmark+TueEnd+splitmark+SchTueMode;
+ 	else
+ 		loc += '&TueSch=' +deleteSch+splitmark+TueStart+splitmark+TueEnd+splitmark+SchTueMode;
+ 
+ 	/*Wednesday*/	
+ 	if(WedSchMode.checked == true)
+ 		loc += '&WedSch=' +AddSch+splitmark+WedStart+splitmark+WedEnd+splitmark+SchWedMode;
+ 	else
+ 		loc += '&WedSch=' +deleteSch+splitmark+WedStart+splitmark+WedEnd+splitmark+SchWedMode;
+	
+ 	/*Thursday*/	
+	 if(ThuSchMode.checked == true)
+ 		loc += '&ThuSch=' +AddSch+splitmark+ThuStart+splitmark+ThuEnd+splitmark+SchThuMode;
+	 else
+ 		loc += '&ThuSch=' +deleteSch+splitmark+ThuStart+splitmark+ThuEnd+splitmark+SchThuMode;	
+	
+ 	/*Frisday*/		
+ 	if(FriSchMode.checked == true)
+ 		loc += '&FriSch=' +AddSch+splitmark+FriStart+splitmark+FriEnd+splitmark+SchFriMode;
+ 	else
+ 		loc += '&FriSch=' +deleteSch+splitmark+FriStart+splitmark+FriEnd+splitmark+SchFriMode;	
+	
+	 /*Saturday*/		
+ 	if(SatSchMode.checked == true)
+ 		loc += '&SatSch=' +AddSch+splitmark+SatStart+splitmark+SatEnd+splitmark+SchSatMode;
+ 	else
+ 		loc += '&SatSch=' +deleteSch+splitmark+SatStart+splitmark+SatEnd+splitmark+SchSatMode;	
+
+ 	/*Sunday*/		
+ 	if(SunSchMode.checked == true)
+ 		loc += '&SunSch=' +AddSch+splitmark+SunStart+splitmark+SunEnd+splitmark+SchSunMode;
+ 	else
+ 		loc += '&SunSch=' +deleteSch+splitmark+SunStart+splitmark+SunEnd+splitmark+SchSunMode;
+		
+	if(WlanForcedSelect.checked == true)
+		loc += '&WlanForced=1';
+	else
+		loc += '&WlanForced=0';
+
+ }	
+ }
+loc += getothersessionkey;
+var code = 'location="' + loc + '"';
+fadding();
+eval(code);
+}
+ parent.document.getElementById("headerText").innerHTML="<b>Heimnetz&nbsp;&nbsp;</b> WLAN";
+//-->
+</script>
+</head>
+
+<body onLoad='frmLoad();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<!--<td><a href="HomeGroup_WLAN_BaseStation.html"><div class="tabB">Basisstationen</div></a></td>
+					<td><a href="HomeGroup_WLAN_Security.html"><div class="tabB">Verschlüsselung</div></a></td>
+					<td><a href="HomeGroup_WLAN_Scheduler.html"><div class="tabDB">Nachtschaltung</div></a></td> -->
+					<td><input type="button" class="tabB" value="Basisstationen" onclick="location.href='HomeGroup_WLAN_BaseStation.html'"></td>
+					<td><input type="button" class="tabB" value="Verschlüsselung" onclick="location.href='HomeGroup_WLAN_Security.html'"></td>
+					<td><input type="button" class="tabDB" value="Nachtschaltung" onclick="location.href='HomeGroup_WLAN_Scheduler.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:450px;_height:450px;" id="defaultId">
+			<form name="WLAN_Scheduler_form">
+				 <div class="stepWrapper">
+					<div class="headline">WLAN-Basisstation ausschalten</div>
+					<table width="550" class="alignment">
+						<tr class="bold">
+							<td width="110"></td>
+							<td width="140">Startzeitpunkt</td>
+							<td width="140">Endzeitpunkt</td>
+							<td>Regel nutzen</td>
+						</tr>
+						<tr>
+							<td>&nbsp; Täglich:</td>
+							<td><select style="width:50px" class="blue_frame" name='WeekStartHr'>
+									<option selected>00</option>
+									<script language="javascript">
+									<!-- hide
+										for(j = 1; j<24; j++)
+										{
+											if(j<10)
+												document.writeln("<option>" + "0" + j +"</option>");
+											else	
+												document.writeln("<option>" + j +"</option>");
+										}	
+									// done hiding -->
+									</script>
+								</select>:
+								<select style="width:50px" class="blue_frame"  name='WeekStartMin'>
+									<option selected>00</option>
+									<script language="javascript">
+									<!-- hide
+									for(j = 1; j<60; j++)
+									{
+										if(j<10)
+											document.writeln("<option>" + "0" + j +"</option>");
+										else	
+											document.writeln("<option>" + j +"</option>");
+									}	
+									// done hiding -->
+									</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame"  name='WeekEndHr'>
+								<script language="javascript">
+								<!-- hide
+								for(j = 0; j<23; j++)
+								{
+									if(j<10)
+										document.writeln("<option>" + "0" + j +"</option>");
+									else	
+										document.writeln("<option>" + j +"</option>");
+								}	
+								// done hiding -->
+								</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='WeekEndMin'>
+								<script language="javascript">
+								<!-- hide
+									for(j = 0; j < 59; j++)
+									{
+										if(j<10)
+											document.writeln("<option>" + "0" + j +"</option>");
+										else	
+											document.writeln("<option>" + j +"</option>");
+									}	
+								// done hiding -->
+								</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							<td><input type="checkbox" name='WeekSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4"><img src="images1/bar.png"></td>
+						</tr>
+						<tr>
+							<td>&nbsp; Montag:</td>
+							<td><select style="width:50px" class="blue_frame" name='MonStartHr'>
+									<option selected>00</option>
+									<script language="javascript">
+									<!-- hide
+										for(j = 1; j<24; j++)
+										{
+											if(j<10)
+												document.writeln("<option>" + "0" + j +"</option>");
+											else	
+												document.writeln("<option>" + j +"</option>");
+										}	
+										// done hiding -->
+									</script>
+								</select>:
+								<select style="width:50px" class="blue_frame"  name='MonStartMin'>
+									<option selected>00</option>
+									<script language="javascript">
+									<!-- hide
+										for(j = 1; j<60; j++)
+										{
+											if(j<10)
+												document.writeln("<option>" + "0" + j +"</option>");
+											else	
+												document.writeln("<option>" + j +"</option>");
+										}	
+									// done hiding -->
+									</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame"  name='MonEndHr'>
+								<script language="javascript">
+								<!-- hide
+									for(j = 0; j<23; j++)
+									{
+										if(j<10)
+											document.writeln("<option>" + "0" + j +"</option>");
+										else	
+											document.writeln("<option>" + j +"</option>");
+									}	
+								// done hiding -->
+								</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='MonEndMin'>
+								<script language="javascript">
+								<!-- hide
+									for(j = 0; j<59; j++)
+									{
+										if(j<10)
+											document.writeln("<option>" + "0" + j +"</option>");
+										else	
+											document.writeln("<option>" + j +"</option>");
+									}	
+								// done hiding -->
+								</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							<td><input type="checkbox" name='MonSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp; Dienstag:</td>
+							<td><select style="width:50px" class="blue_frame" name='TueStartHr'>
+									<option selected>00</option>
+									<script language="javascript">
+									<!-- hide
+										for(j = 1; j<24; j++)
+										{
+											if(j<10)
+												document.writeln("<option>" + "0" + j +"</option>");
+											else	
+												document.writeln("<option>" + j +"</option>");
+										}	
+									// done hiding -->
+									</script>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='TueStartMin'>
+									<option selected>00</option>
+									<script language="javascript">
+									<!-- hide
+										for(j = 1; j<60; j++)
+										{
+											if(j<10)
+												document.writeln("<option>" + "0" + j +"</option>");
+											else	
+												document.writeln("<option>" + j +"</option>");
+										}	
+									// done hiding -->
+									</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame" name='TueEndHr'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<23; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='TueEndMin'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<59; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							<td><input type="checkbox" name='TueSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp; Mittwoch:</td>
+							<td><select style="width:50px" class="blue_frame" name='WedStartHr'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<24; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='WedStartMin'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<60; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame" name='WedEndHr'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<23; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='WedEndMin'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<59; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							
+							<td><input type="checkbox" name='WedSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp; Donnerstag:</td>
+							<td><select style="width:50px" class="blue_frame" name='ThuStartHr'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<24; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='ThuStartMin'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<60; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame" name='ThuEndHr'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<23; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='ThuEndMin'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<59; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							<td><input type="checkbox" name='ThuSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp; Freitag:</td>
+							<td><select style="width:50px" class="blue_frame" name='FriStartHr'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<24; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='FriStartMin'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<60; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame" name='FriEndHr'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<23; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='FriEndMin'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<59; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							<td><input type="checkbox" name='FriSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp; Samstag:</td>
+							<td><select style="width:50px" class="blue_frame" name='SatStartHr'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<24; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='SatStartMin'>
+									<option selected>00</option>
+<script language="javascript">
+<!-- hide
+	for(j = 1; j<60; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame" name='SatEndHr'>
+<script language="javascript">
+<!-- hide
+	for(j = 0; j<23; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='SatEndMin'>
+									<script language="javascript">
+<!-- hide
+	for(j = 0; j<59; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							<td><input type="checkbox" name='SatSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td>&nbsp; Sonntag:</td>
+							<td><select style="width:50px" class="blue_frame" name='SunStartHr'>
+									<option selected>00</option>
+									<script language="javascript">
+<!-- hide
+	for(j =1; j<24; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='SunStartMin'>
+									<option selected>00</option>
+									<script language="javascript">
+<!-- hide
+	for(j = 1; j<60; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+								</select>
+							</td>
+							<td><select style="width:50px" class="blue_frame" name='SunEndHr'>
+									<script language="javascript">
+<!-- hide
+	for(j = 0; j<23; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>23</option>
+								</select>:
+								<select style="width:50px" class="blue_frame" name='SunEndMin'>
+								<script language="javascript">
+<!-- hide
+	for(j = 0; j<59; j++)
+	{
+		if(j<10)
+			document.writeln("<option>" + "0" + j +"</option>");
+		else	
+			document.writeln("<option>" + j +"</option>");
+	}	
+// done hiding -->
+</script>
+									<option selected>59</option>
+								</select>
+							</td>
+							<td><input type="checkbox" name='SunSchMode' onClick=dailyclick()>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="4"><img src="images1/bar.png"></td>
+						</tr>
+					</table>
+					<table>
+						<tr>
+							<td><input type="checkbox" name='WlanForcedSelect' ></td>
+							<td>Erzwinge Deaktivierung der WLAN -Schnittstellen</td>
+						</tr>
+					</table>		
+			 	</div>
+	  		</form>
+			<div id='help' name='Nachtschaltung'>
+			<script type="text/javascript">
+				showHelp();
+			</script>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_2">
+				<!--<a href="#"  onClick='clearsetting()'><img src="images1/back2.gif"></img></a>
+				<a href="#" onClick='showWait();btnApply()'><img src="images1/apply.gif"></img></a> -->
+				<input type="button" class="button" value="Zurücksetzen" onclick="clearsetting()">
+				<input type="button" class="button" value="Speichern" onclick="showWait();btnApply()">
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

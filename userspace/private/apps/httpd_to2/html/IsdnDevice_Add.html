@@ -1,0 +1,345 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script language="JavaScript">
+  parent.document.getElementById("headerText").innerHTML="<b>Telefonie&nbsp;&nbsp; </b>Konfiguration";
+</script>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+var isModify = false;
+var modifyName = "";
+var modifyNumber = "";
+var position= "";
+
+var FxsInUseList = '<%ejGetVoice(FxsInUseList)%>';
+var FxsInUse = FxsInUseList.split(" ");
+
+var ISDNInternalIndexList = '<%ejGetVoice(IsdnInternalIndexList)%>';
+var ISDNInternalIndex = ISDNInternalIndexList.split(" ");
+
+var ISDNInternalDisableIndexList = '<%ejGetVoice(IsdnInternalDisableIndexList)%>';
+var ISDNInternalDisableIndex = ISDNInternalDisableIndexList.split(" ");
+
+var FXSInternalNameList = '<%ejGetVoice(FxsInternalNameList)%>';
+var FXSInternalName = FXSInternalNameList.split(" ");
+var FXSInternalNumberList = '<%ejGetVoice(FxsInternalNumberList)%>';
+var FXSInternalNumber = FXSInternalNumberList.split(" ");
+
+var ISDNInternalNameList = '<%ejGetVoice(IsdnInternalNameList)%>';
+var ISDNInternalName = ISDNInternalNameList.split(" ");
+var ISDNInternalNumberList = '<%ejGetVoice(IsdnInternalNumberList)%>';
+var ISDNInternalNumber = ISDNInternalNumberList.split(" ");
+
+var DECTInternalNameList = '<%ejGetVoice(DectInternalNameList)%>';
+var DECTInternalName = DECTInternalNameList.split(" ");
+var DECTInternalNumberList = '<%ejGetVoice(DectInternalNumberList)%>';
+var DECTInternalNumber = DECTInternalNumberList.split(" ");
+
+//var CallWaitingList = '<%ejGetVoice(IsdnCallWaitingList)%>';
+//var CallWaiting = CallWaitingList.split(" ");
+
+var DevNumberInUse = '';
+var DevNameInUse = '';
+
+function getValue()
+{
+		with ( document.forms[0] ) {
+				var url = window.location.href;
+				var qparts = url.split("#");
+				if ((qparts.length == 0) || (qparts[1].length == 0)){
+						return;
+				}
+				else 
+				{
+					  isModify = true;
+		
+					  var query = qparts[1];
+					  var vars = query.split("&");
+		
+					  for (i=0; i<vars.length; i++)
+						{
+					  	var parts = vars[i].split("=");
+					  	if (parts[0] == "InternalName")
+							{
+								modifyName = parts[1];
+								DevNameInUse = parts[1];
+							}
+
+							if(parts[0] == "InternalNumber")
+							{
+								DevNumberInUse = parts[1];
+								modifyNumber = parts[1];
+							}
+
+							if(parts[0] == "Position")
+							{
+								position = parts[1];
+							}
+						}
+						devicename.value = modifyName;
+						devicenumber.value = modifyNumber;
+//						deviceCallwaiting.value = CallWaiting[parseInt(ISDNInternalIndex[position-1],10)];
+				}
+		}
+}
+function printISDNListBox(){
+
+   with ( document.forms[0] ) {
+
+	  var url = window.location.href;
+	  var qparts = url.split("#");
+
+		if ((qparts.length == 0) || (qparts[1].length == 0)){
+			for(i = 0; i < ISDNInternalDisableIndex.length; i++) {
+				document.writeln("<option value=\"" + ISDNInternalDisableIndex[i] + "\" >");
+				document.writeln("ISDN - " + eval(parseInt(ISDNInternalDisableIndex[i],10)+1));
+			}
+		} else {
+
+
+			  isModify = true;
+
+			  var query = qparts[1];
+			  var vars = query.split("&");
+
+			  for (i=0; i<vars.length; i++)
+			  {
+			    var parts = vars[i].split("=");
+			    if (parts[0] == "InternalName")
+			    {
+			      modifyName = parts[1];
+				  DevNameInUse = parts[1];
+			    }
+
+			    if(parts[0] == "InternalNumber")
+			    {
+			      modifyNumber = parts[1];
+				  DevNumberInUse = parts[1];
+			    }
+
+			    if(parts[0] == "Position")
+			    {
+			      position = parts[1];
+			    }	
+
+			  }
+				deviceIndex.disabled=true;
+				devicename.value = modifyName;
+				devicenumber.value = modifyNumber;	
+			for(i = 0; i < ISDNInternalIndex.length; i++) {
+				if (i == (position-1)) {
+					document.writeln("<option value=\"" + ISDNInternalIndex[i] + "\" >");
+					document.writeln("ISDN - " + eval(parseInt(ISDNInternalIndex[i],10)+1));
+//					deviceCallwaiting.value = CallWaiting[parseInt(ISDNInternalIndex[i],10)];
+				}
+			}
+		}
+   	}
+}
+
+function formcheck(){
+	with ( document.forms[0] ) {
+		//alert("formcheck()");
+		var NumberCheckError = devicenumber.value.replace(/[0-9]/g,'');
+		var NameCheckEmpty = devicename.value.replace(/[ ]/g,'');
+		var NameCheckError = devicename.value.replace(/[a-zA-Z0-9]/g,'');
+		if(devicename.value.length == 0 || NameCheckError.length != 0 || NameCheckEmpty.length == 0){
+			showErr('Der eingegebene Name beinhaltet unerlaubte Zeichen (0-9, a-z, A-Z).');
+			//alert("ISDN Name ist illegale");
+			return false;
+		}
+		
+		if(devicenumber.value.length == 0 || NumberCheckError.length != 0){
+			showErr("Die  vergebene interne Rufnummer ist ungültig ( 10 - 99, Keine Doppelvergabe).");
+			//alert("Interne Rufnummer ist illegale");
+			return false;
+		}
+		
+		return true;
+	}
+		
+}
+
+function internalNumCheck()
+{
+	with ( document.forms[0] ) 
+	{
+		var interNumber = parseInt(devicenumber.value, 10);
+		if((interNumber > 99) || (interNumber < 10))
+		{
+			return false;
+		}
+		return true;
+	}
+	
+}
+
+function isInternalNameAndNumUsed()
+{
+	with ( document.forms[0] ) 
+	{
+		var i = 0;
+		if((devicenumber.value == DevNumberInUse) && (devicename.value == DevNameInUse) && isModify) /*the internal number is not changed*/
+		{
+			return false;
+		}
+		
+		for(i = 0; i < FXSInternalNumber.length && FXSInternalNumber[0] != ""; i++)
+		{
+			if(((FXSInternalNumber[i] == devicenumber.value) || (FXSInternalName[i] == devicename.value)) && FxsInUse[i] == "True")
+			{
+				return true;
+			}
+		}
+		for(i = 0; i < ISDNInternalNumber.length && ISDNInternalNumber[0] != ""; i++)
+		{
+			if((ISDNInternalNumber[i] == devicenumber.value) || (ISDNInternalName[i] == devicename.value))
+			{
+				if(isModify) /*if modify, maybe user only modify one of name or number.*/
+				{
+					if((ISDNInternalNumber[i] == DevNumberInUse) || (ISDNInternalName[i] == DevNameInUse))
+					{
+						continue;
+					}
+				}
+				return true;
+			}			
+		}
+		for(i = 0; i < DECTInternalNumber.length && DECTInternalNumber[0] != ""; i++)
+		{
+			if((DECTInternalNumber[i] == devicenumber.value) || (DECTInternalName[i] == devicename.value))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}	
+}
+
+function addIsdnInternalApply(current_view){ 
+   with ( document.forms[0] ) {
+		if(!formcheck()){
+			//showErr('Please full information.');
+			//alert("Please full information");
+			return;
+		}
+		
+		if(!internalNumCheck())
+		{
+			showErr("Die  vergebene interne Rufnummer ist ungültig ( 10 - 99, Keine Doppelvergabe).");
+			return;
+		}
+		if(isInternalNameAndNumUsed())
+		{
+			showErr("Dieser Name oder interne Nummer ist bereits vergeben.");
+			return;
+		}
+			
+		var loc = 'voiceinternalapply.cmd?';
+		if(isModify == true)
+		{
+			loc += 'action=modify';
+			loc += '&addIsdnIndex='+ISDNInternalIndex[position-1];
+		}else
+		{
+			loc += 'action=add';
+			loc += '&addIsdnIndex='+ISDNInternalDisableIndex[0];
+		}	
+		//loc += '&addIsdnIndex='+deviceIndex.value;
+		loc += '&InternalType=X_ISDN';
+		loc += '&InternalName=' +devicename.value.replace(/[ ]/g,'_');
+		loc += '&InternalNumber=' + devicenumber.value;	
+//		loc += '&CallWaiting=' + deviceCallwaiting.value;
+		loc += '&currentview='+current_view;
+		loc += '&sessionKey='+sessionkey;		
+		var code = 'location="' + loc + '"';
+		//alert(code);  
+		fadding();  
+		eval(code);
+		return;
+   }   
+}
+</SCRIPT>
+</head>
+
+<body class="body_no_scroll" onload="getValue();operaResize();faddingReload();">
+	<div class="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><input type="button" class="tabB" value="DECT" onclick="location.href='Telephony_DECT.html'"></td>
+					<td><input type='button' class='tabB' value='Analog-Geräte' onclick="location.href='Telephony_AnalogDevice.html'"></td>
+					<td><input type='button' class='tabDB' value='ISDN-Geräte' onclick="location.href='Telephony_IsdnDevice.html'"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="bg_body_auto2" style="min-height:400px;_height:400px;" id="defaultId">	
+			<div class="left">
+			<form>				
+				<div class="stepWrapper">
+				<div class="subhead">ISDN-Gerät hinzufügen</div>
+					<table class="alignment">
+						<tr>
+							<td width="100" class="bold">Schritt 1:</td>
+							<td width="180">Name des ISDN-Gerätes:</td>
+							<td><input type="text" class="blue_frame" style="width:100px" name="devicename" maxlength="16"></td>
+						</tr>	
+						<tr>
+							<td class="bold">Schritt 2:</td>
+							<td>Interne Rufnummer:</td>
+							<td><input type="text" class="blue_frame" style="width:100px" name="devicenumber" maxlength="2"></td>
+						</tr>
+<!--
+						<tr>
+							<td class="bold">Schritt 3:</td>
+							<td>Anklopfen:</td>
+							<td>
+								<select name="deviceCallwaiting" class="blue_frame" style="width:100px">
+										<option value="on">ein</option>
+										<option value="off">aus</option>
+								</select>
+							</td>
+						</tr>		
+						<tr>
+							<td class="bold">Schritt 4:</td>
+							<td>ISDN-Index:</td>
+							<td>
+							    <select name="deviceIndex" class="blue_frame" style="width:100px">
+							      <script language ="javascript">
+				                      printISDNListBox();
+			                      </script>
+							    </select>
+							</td>
+						</tr>				  				  				  
+-->
+					</table>
+				</div>		
+			</form>
+			</div>
+			<div class="right"> 
+				<div id='help' name='ISDN_add'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto2"-->
+		<div class="bg_bottom_bar">
+			<!--<div class="button_center"><a href="#" onclick="showWait();addIsdnInternalApply('Telephony_IsdnDevice.html');return false;"><img src="images1/apply.gif"></img></a></div> -->
+			<div class="button_center"><input type="button" class="button" value="Speichern" onclick="showWait();addIsdnInternalApply('Telephony_IsdnDevice.html');return false;"></div>
+		</div>
+	</div><!-- end class="content_right"-->
+
+</body>
+</html>

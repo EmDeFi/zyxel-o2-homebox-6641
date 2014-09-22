@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta HTTP-EQUIV='Pragma' CONTENT='no-cache;charset=utf-8'>
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<script type="text/javascript">
+<!-- hide
+
+var enable = "<%ejGetOther(sysInfo, dmsEnabled)%>";
+var usbStorageEnabled = "<%ejGetOther(sysInfo, storageEnabled)%>";
+var dmsMediaPath = "<%ejGetOther(sysInfo, dmsMediaPath)%>";
+var allFolderName = "<%ejGetOther(sysInfo, usbFolderName)%>";
+var sessionKey = "<%ejGetOther(sessionKey)%>";
+
+var gNum=0;				// user number in group menber
+var gUlist=new Array();		// user name
+var gRenable=new Array();	// read only enable
+var gDflag=new Array();	// delete flag
+var gPrimary=0;
+var edit_index = location.search.substring(1);
+
+
+function btnApply() {
+ 	
+	var loc = 'dlnaMngr.cmd?action=add&dmsEnabled=1';
+	
+	
+	loc += '&shareFolder=';
+	loc += document.forms[0].folderlist.options[document.forms[0].folderlist.selectedIndex].text;
+	/*for(var i = 0; i < gUlist.length; i++)
+	{
+		//alert(document.getElementById('sfName'+i));
+		if(document.getElementById('sfName'+i) != null)
+			loc += document.getElementById('sfName'+i).innerHTML+ ',';
+	}*/
+				
+	loc += '&sessionKey=' + sessionKey;
+	var code = 'location="' + loc + '"';
+	
+	//alert(code);
+	eval(code);
+}
+
+function frmLoad() {
+
+	//alert(gUlist.length);
+	//alert(allFolderName);
+	var folderName = allFolderName.split("|");
+	var folderNameLength = folderName.length - 1;
+	
+	with (document.forms[0]) 
+	{
+		if(enable == 1)
+		{			
+			//if detect usb storage, list all folders in usb
+			if(usbStorageEnabled == 1)
+			{
+				folderlist.disabled = false;
+				//folderlist.options[0] = new Option(dmsMediaPath, 0);
+				for(var i = 0; i < folderNameLength; i++)
+					//folderlist.options[i+1] = new Option(folderName[i], i+1);
+					folderlist.options[i] = new Option(folderName[i], i);
+			}
+			/*no usb plug in*/
+			else
+			{
+				showErr('Kein usb.');
+				//alert("No usb.");
+				folderlist.disabled = true;
+			}
+		}
+		else /*DLNA disable*/
+		{
+			showErr('o2 MediaCenter ist deaktiviert.');
+			folderlist.disabled = true;
+		}
+	}
+}
+
+
+//add share folder
+function init()
+{
+	var GroupIndex = new Array();
+	var GroupName = new Array();
+	var GroupUserlist = new Array();
+	var GroupEnable= new Array();
+
+	
+	GroupIndex[GroupIndex.length]="1";
+	GroupName[GroupName.length]="br";
+	GroupUserlist[GroupUserlist.length]="administrator,admin,user";		
+	GroupEnable[GroupEnable.length]="1";				
+	
+	GroupIndex[GroupIndex.length]="2";
+	GroupName[GroupName.length]="pp";
+	GroupUserlist[GroupUserlist.length]="user,admin";		
+	GroupEnable[GroupEnable.length]="1";				
+	
+	
+  	var i=0;
+	var lTmp;
+	var objTmp;
+	var objText;
+	
+	// load group list
+	lTmp = document.getElementById('folderlist');
+	for (i=0;i<GroupIndex.length;i++)
+	{
+		if(GroupName[i]!="")
+		{
+			objTmp = document.createElement('option');
+			objText= document.createTextNode(GroupName[i]);
+			objTmp.appendChild(objText);
+			objTmp.setAttribute("value",i);
+			lTmp.appendChild(objTmp);	
+		}
+	}		
+
+	// load user name, password, user level, groups....		
+	lTmp = document.getElementById('title');
+	
+	// update groups show	
+	update_usergroup_show();
+}
+
+
+function btnAddNewGroup()
+{
+	var i=0,iTmp=0;
+	var Newuser;	
+	if(document.forms[0].folderlist.selectedIndex !=-1)
+	{
+		 Newuser= document.forms[0].folderlist.options[document.forms[0].folderlist.selectedIndex].text;
+	}
+	else
+	{
+		alert("folder list is empty");
+		return ;
+	}
+	for(i = 0;i < (gNum);i++)
+	{
+		if((gUlist[i]==Newuser) && (gDflag[i]==0))
+	
+		{
+			alert("The folder is already added");
+			return;
+		}
+		if(gDflag[i]==0)
+			iTmp++;		
+	}
+	if(iTmp >= 8)	
+	{
+		alert("Number of share folders is greater than 8.");
+		return;
+	}
+	gUlist[gNum]=Newuser;
+	gRenable[gNum]=0;
+	gDflag[gNum]=0;
+	gNum=gNum+1;
+	update_usergroup_show();
+}
+
+function update_usergroup_show()
+{
+	var i=0;
+	var UserStr="";
+	var UserStr1="";
+	var checkStr="";
+	var groupStr="";
+	var grpChk = "";
+	var selectGrp="";
+		
+	for (i = 0;i < (gNum);i++)
+	{
+		if(gDflag[i]==0)		
+		{
+			checkStr="";
+			if(gRenable[i]==1)//read only :enable
+			{
+			    checkStr="checked=\"checked\"";
+			}
+			if(gUlist[i] =="" )
+			  continue;
+			  
+			if(gPrimary == i){
+			 	groupStr = "(Quota Group)";
+				grpChk = "checked=\"checked\"";
+			}else{
+				groupStr = "";
+				grpChk = "";
+			}					
+
+			//UserStr += "";	
+			UserStr += "<div id=sfName"+i+" style='height:30px;line-height:30px;'>"+ gUlist[i] +"</div>";
+			//UserStr += "<div id='sfName' style='height:30px;line-height:30px;'>"+ gUlist[i] +"</div>";
+			//UserStr += "<INPUT type='text' id='sfName' disabled='disabled' value=\""+gUlist[i]+"\" style='width:150px;'>";
+			//UserStr += "<INPUT id=U"+i+" disabled=\"disabled\" value=\""+gUlist[i]+"\" style=\"width:150px;\""+">";
+			//UserStr += "";
+			
+			
+			UserStr1 += "<div class='button' style='height:30px;line-height:30px;'><a href='#' id=D"+i+" onclick=\"btnDeleteGroup("+i+")\" class='buttonStyle'>Delete</a></div>";
+			//UserStr1 += "<div class='button'><INPUT id=D"+i+" onclick=\"btnDeleteGroup("+i+")\" value='Delete' style='color:#FFFFFF;font-family: Arial;'></div>";
+			//UserStr1 += "<div><INPUT id=D"+i+" type='button' class='button' value='Delete' style='color:#FFFFFF;font-family: Arial;font-weight:bold;' onclick=\"btnDeleteGroup("+i+")\"></div>";
+			//UserStr1 += "<INPUT id=D"+i+" type='button' value='Delete' onclick=\"btnDeleteGroup("+i+")\">";
+			//UserStr1 += "<br>";
+		}
+	}
+	document.getElementById('sharelist').innerHTML = UserStr;	
+	document.getElementById('action').innerHTML = UserStr1;	
+}
+
+function btnDeleteGroup(i)
+{
+		gDflag[i]=1;
+		
+		// check if ulist is empty
+		var j = 0;
+		if(gPrimary == i)
+			for(j = 0; j < gNum; j++)
+				if(gDflag[j]==0){
+					gPrimary = j;
+					break;
+				}
+
+		if(gPrimary == i)
+			gPrimary = gNum;
+			
+		update_usergroup_show();
+}
+// done hiding -->
+parent.document.getElementById("headerText").innerHTML="<b>Heimnetz&nbsp;&nbsp;</b> MediaCenter";
+</script>
+<body onLoad='frmLoad();operaResize()' class="body_no_scroll">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:400px;_height:400px;" id="defaultId">
+			<form> 
+			  	<div class="stepWrapper">
+				<div class="subhead">Neuen Ordner im Netzwerk freigeben</div>
+				<div class="left">
+				<table class="alignment">
+					<tr>
+						<td width="150"  class="bold"> Schritt 1:</td>
+						<td> Freigabename des Ordners im Netzwerk:</td>
+						<td><input type="text"class="blue_frame" name='Ordners' style="width:150px" maxlength='16'></td>
+					</tr>
+					<tr>
+						<td width="150"  class="bold"> Schritt 2:</td>
+						<td> Angeschlossenes Speichermedium durchsuchen:</td>
+						<td><select id="" name="folderlist" class="blue_frame" style="width:150px">
+							</select>
+						</td>
+					</tr>
+				</table>
+				</div>
+				<!--<div class="stepWrapper">
+					<table class="myTable" width="350" id='sfTable'>
+						<tr class="bold">
+							<td width="200">Share List</td>
+							<td>Action</td>
+						</tr>
+						<tr >
+							<td id="sharelist"></td>
+							<td id="action"></td>
+						</tr>
+					</table>
+				</div> -->
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='MediaCenter_add'>
+				<script type="text/javascript">
+					showHelp();
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_2">
+				<a href="HomeGroup_USB_DLNA.html"><img src="images1/back.gif"></img></a>
+				<a href="#" onClick="showWait();btnApply();"><img src="images1/apply.gif"></a>
+			</div>
+		</div>
+
+</body>
+</html>

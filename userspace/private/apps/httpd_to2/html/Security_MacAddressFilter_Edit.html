@@ -1,0 +1,255 @@
+﻿
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript" SRC="util<%ejGetOther(fileVersion)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionKey = '<%ejGetOther(sessionKey)%>';
+function showMAC(id)
+{
+  if (id == -1){
+    for (var j = 0; j < 6; j++){
+	  document.macFlt.srcMac[j].value = '';
+	  //document.macFlt.srcMac[j].disabled = 0;
+	  //document.macFlt.srcMac[j].readOnly = false;
+	}
+	
+	document.macFlt.Hostname.value = '';
+	//document.macFlt.Hostname.disabled = 0;
+	document.macFlt.Hostname.readOnly = false;
+    return;
+  }
+  else{
+    for (var i = 0; i < document.macFlt.userMAC.length; i++){
+  
+      if (document.macFlt.userMAC[i].checked){
+	
+	    var mac = document.getElementById('user' + i).getElementsByTagName("td")[2].innerHTML;
+		var name = document.getElementById('user' + i).getElementsByTagName("td")[4].innerHTML;
+	    lanMAC = mac.split(':');
+	  
+	    for (var j = 0; j < 6; j++){
+	      document.macFlt.srcMac[j].value = lanMAC[j];
+		  //document.macFlt.srcMac[j].disabled = 1;
+		  //document.macFlt.srcMac[j].readOnly = true;
+		}
+		document.macFlt.Hostname.value = name;
+		//document.macFlt.Hostname.disabled = 1;
+	  }
+    }
+  } // end else
+}
+
+var ifCount = 0;
+
+function btnApply() {
+   var loc = 'scmacflt.cmd?action=edit';
+   var okChk = 0;
+   var reg_char = /^[A-Za-z0-9\-\.]*$/; /*legal of character*/
+   
+   with ( document.forms[0] ) {
+   	  for (var i = 0; i < userMAC.length; i++)
+	  {
+	     if (userMAC[i].checked == true && userMAC[i].value == "none")
+		 {
+		 	showErr('Bitte erstellen Sie zuerst einen MAC Adressen Filter für Ihren Computer.');
+			return;
+		    //if (confirm('Bitte erstellen Sie zuerst einen MAC Adressen Filter für Ihren Computer. Klicken Sie auf OK um die Regel für Ihren Computer zu erstellen. Klicken Sie auf Abbrechen um fortzufahren.'))
+			//{
+				//return;
+			//}
+		 }
+	  }
+	  
+	  if (ruleEnbl.checked == true)
+	     loc += '&ruleEnbl=' + 1;
+	   else
+	     loc += '&ruleEnbl=' + 0;
+		 
+	  if (srcMac[0].value != '')
+	     var MAC = srcMac[0].value + ':' + srcMac[1].value + ':' + srcMac[2].value + ':' + srcMac[3].value + ':' + srcMac[4].value + ':' + srcMac[5].value;
+	  else
+	     var MAC = ""; 
+    
+      if (MAC != "") {
+         if (isValidMacAddress(MAC) == false ) {
+            //alert('MAC address "' + MAC + '" is invalid. Eg. 11:22:33:AA:BB:CC');
+			//showErr('Die MAC-Adresse "' + MAC + '" ist ungültig.');
+			showErr('Ungültige MAC-Adresse.');
+            return;
+         }
+         loc += '&srcMac=' + MAC;
+      }
+	  else{
+	     //alert('MAC address must be specified.');
+		 //showErr('Die MAC-Adresse "' + MAC + '" ist ungültig.');
+		 showErr('Ungültige MAC-Adresse.');
+		 return;
+	  }
+	  
+	  if (Hostname.value != "")
+	  {
+	  	 //check hostname
+		 if (!reg_char.test(Hostname.value) ) {
+			//showErr('The Hostname should be [0-9], [a-z], [A-Z], [-.]');
+			showErr('Der GeräteName darf nur aus den Zeichen [0-9], [a-z], [A-Z] und [-.] bestehen.');
+			return;
+		 }
+		 
+	     loc += '&hostName=' + Hostname.value;
+	  }
+	  else
+	     loc += '&hostName=' + "";
+       
+   }
+   loc += '&sessionKey=' + sessionKey;
+   var code = 'location="' + loc + '"';
+   fadding();
+   eval(code);
+}
+
+function btnBack(){
+    var code = 'location="scmacflt.cmd?action=view"';
+    eval(code);
+}
+
+function frmLoad(){
+    var Enbl = '<%ejGet(macFltRuleEnbl)%>';
+	var macAddr = '<%ejGet(macFltRuleMacAddr)%>';
+	var HostName = '<%ejGet(macFltRuleHostName)%>';
+	var lanClientMac = '<%ejGet(macFltLanClient)%>';
+	
+	with ( document.forms[0] ){
+	
+	  if (Enbl == 1)
+	     ruleEnbl.checked = true;
+      else
+	     ruleEnbl.checked = false;
+		 
+	  if (macAddr != ""){
+	     tempMac = macAddr.split(':');
+		 for (i = 0; i < 6; i++ )
+		    srcMac[i].value = tempMac[i];
+	  }
+	  
+	  if (HostName != "")
+	     Hostname.value = HostName;	  
+		 
+      if (macAddr == lanClientMac)
+	  {
+	  	for (var i = 0; i < userMAC.length; i++)
+			userMAC[i].disabled = true;
+			
+		ruleEnbl.disabled = true;
+		
+		for (i = 0; i < 6; i++ )
+		    srcMac[i].readOnly = true;
+	  }
+	}
+}
+function hideTable(hide) {
+	   var status = '';
+	
+	   if ( hide == 1 )
+		  status = 'hidden';
+	   if (document.getElementById)  // DOM3 = IE5, NS6
+		  document.getElementById('myTableID').style.visibility = status;
+	   else {
+		  if (document.layers == false) // IE4
+			 document.all.myTableID.style.visibility = status;
+	   }
+	}
+parent.document.getElementById("headerText").innerHTML="<b>Sicherheit&nbsp;&nbsp;</b> MAC-Adressfilter";
+</script>
+</head>
+<body onLoad='frmLoad();operaResize();faddingReload();' class="body_no_scroll">
+	<div class="content_right">
+		<div class="bg_body_auto" style="min-height:450px;_height:450px;" id="defaultId">
+			<div class="left">
+			<form name="macFlt"> 
+				<div class="stepWrapper">
+					<div class='headline'>Freigabe erstellen</div>		
+					<table class="alignment">
+						<tr>
+							<td><input type="checkbox" id="Checkbox1" name="ruleEnbl" value="on"></td>
+							<td colspan="2">Diese Freigabe aktivieren.</td>
+						</tr>
+					</table>
+				</div>
+			
+			<table class="myTable" id="myTableID">
+			<tr><td>
+				<div class="stepWrapper">
+					<table class="font12">
+						<tr class="bold" width="300" height="50">
+							<td width="20"></td>
+							<td width="30"></td>
+							<td width="180">MAC-Adresse</td>
+							<td width="160">IP-Adresse</td>
+							<td>Host-Name</td>
+						</tr>
+						<%ejGet(dhcpLeases)%>
+						<!--<tr height="30">
+							<td></td>
+							<td><input type="radio" id="RadioButton1" name="userMAC" onclick="showMAC(-1)"></td>
+							<td>Andere</td>
+							<td></td>
+							<td></td>
+						</tr>-->
+					</table>
+					<table class="font12">
+						<tr height="50">
+							<td width="20"></td>
+							<td width="140">MAC-Adresse:</td>
+							<td>
+								<input type="text" class="blue_frame" id="macID1" name="srcMac" size="1" maxlength="2">:
+								<input type="text" class="blue_frame" id="macID2" name="srcMac" size="1" maxlength="2">:
+								<input type="text" class="blue_frame" id="macID3" name="srcMac" size="1" maxlength="2">:
+								<input type="text" class="blue_frame" id="macID4" name="srcMac" size="1" maxlength="2">:
+								<input type="text" class="blue_frame" id="macID5" name="srcMac" size="1" maxlength="2">:
+								<input type="text" class="blue_frame" id="macID6" name="srcMac" size="1" maxlength="2">
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>Hostname:</td>
+							<td>
+								<input type="text" class="blue_frame" style="width:150px;" name="Hostname" maxlength="63">
+							</td>
+						</tr>
+					</table>
+				</div>
+			</td></tr>
+			</table>
+			</form>
+			</div>
+			<div class="right">
+				<div id='help' name='MAC_edit'>
+				<script type="text/javascript">
+					showHelp();
+					hideTable(0);
+				</script>
+				</div>
+			</div>
+		</div><!-- end class="bg_body_auto"-->
+		<div class="bg_bottom_bar">
+			<div class="button_center">
+			    <!--<a onClick='btnBack()' href="#"><img src="images1/back.gif"></img></a>
+				<a onClick='showWait();btnApply()' href="#"><img src="images1/apply.gif"></img></a> -->
+				<!--<input type="button" class="button" value="Zurück" onclick="btnBack()">-->
+				<input type="button" class="button" value="Speichern" onclick="showWait();btnApply()">
+			</div>
+		</div>
+	</div>
+</body>
+</html>

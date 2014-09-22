@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<title>Unbenannte Seite</title>
+<!--for IE8-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="css3pie/PIE.htc" rel="stylesheet" type="text/css" /><![endif]-->
+<!--[if (IE 6) | (IE 7) | (IE 8)]><link href="TO2<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<!--for IE9+, other-->
+<!--[if IE 9]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]-->
+<![if !IE]><link href="TO2_noPie<%ejGetOther(fileVersion)%>.css" rel="stylesheet" type="text/css" /><![endif]>
+<link rel="icon" href="O2_logo2.png" type="image/png" sizes="16x16" />
+<SCRIPT LANGUAGE="JavaScript" SRC="TO2<%ejGetOther(sysInfo, version)%>.js" TYPE="text/javascript"></SCRIPT>
+<SCRIPT LANGUAGE="JavaScript">
+var sessionkey = '<%ejGetOther(sessionKey)%>';
+var isModify = false;
+var name = "";
+var number = "";
+var position= "";
+
+function getValue()
+{
+   with ( document.forms[0] ) {
+
+	  var url = window.location.href;
+	  var qparts = url.split("#");
+
+	  if ((qparts.length == 0) || (qparts[1].length == 0)){return;}
+
+	  var query = qparts[1];
+	  var vars = query.split("&");
+
+	  for (i=0; i<vars.length; i++)
+	  {
+	    var parts = vars[i].split("=");
+	    if (parts[0] == "DeviceName1")
+	    {
+		devicename1.value =  parts[1];		  
+	    }
+
+	    if(parts[0] == "DeviceNumber1")
+	    {
+		devicenumber1.value =  parts[1];
+	    }
+
+	    if (parts[0] == "DeviceName2")
+	    {
+		devicename2.value =  parts[1];		  
+	    }
+
+	    if(parts[0] == "DeviceNumber2")
+	    {
+		devicenumber2.value =  parts[1];
+	    }		
+
+	    if(parts[0] == "Position")
+	    {
+	    	isModify = true;
+	      position = parts[1];
+	    }		
+				  
+	  }  
+
+	  if(isModify == true)
+      	  {
+		  for(var x=1; x<=2;x++)
+		  {
+			eval("devicename"+x+".disabled='disabled'");
+			eval("devicenumber"+x+".disabled='disabled'");
+		  }      	  
+		  eval("devicename"+position+".disabled=''");
+		  eval("devicenumber"+position+".disabled=''");	  
+      	  }
+	  isModify = true;  //for add case
+   }
+}
+
+function formcheck(){
+	with ( document.forms[0] ) {
+		//alert("formcheck()");
+		var DeviceName = eval("devicename"+position+".value"); 
+		var DeviceNumber = eval("devicenumber"+position+".value"); 
+		if(DeviceName == ''){
+			alert("FXS Name is NULL");
+			return false;
+		}
+		
+		if(DeviceNumber == ''){
+			alert("FXS Number is NULL");
+			return false;
+		}
+		
+		return true;
+	}
+		
+}
+
+function addFxsInternalApply(current_view){ 
+   with ( document.forms[0] ) {
+		if(!formcheck()){
+			alert("Please full information");
+			return;
+		}
+			
+		var loc = 'voiceinternalapply.cmd?';
+		if(isModify == true)
+		{
+			loc += 'action=modify';
+			loc += '&Position='+position;			
+		}else
+		{
+			loc += 'action=add';
+		}	
+		loc += '&InternalType=X_FXS';
+		loc += '&InternalName=' +eval("devicename"+position+".value");  
+		loc += '&InternalNumber=' + eval("devicenumber"+position+".value");  
+		loc += '&currentview='+current_view;
+		loc += '&sessionKey='+sessionkey;		
+		var code = 'location="' + loc + '"';
+		//alert(code);    
+		eval(code);
+		return;
+   }   
+}
+</SCRIPT>
+</head>
+
+<body onload="getValue();operaResize()">
+<div id="wrapper">
+	<div id="head">
+		<div id="logo1">
+			<div><img src="images1/O2_logo.png" id="logo_O2"></img></div>
+		</div>
+		<div id="logo2">
+			<div id="logo2_text">
+				<b> Telefonie </b>Konfiguration
+			</div>
+			<div>
+				<a href="javascript:popupwnd('./Infos_von_A-Z.html','no','no','no','no','no','no','','','','')" target="_self" class="infos"></a>
+			</div>
+		</div>
+	</div>
+	<div id="content_left">
+		<div id="menu_header"></div>
+		<div id="menu_list">
+			<script language ="javascript">
+				WriteMenuHeader('Telephony_Configuration');
+			</script>
+		</div>
+	</div>
+	<div id="content_right">
+		<div class="tabPosition">
+			<table>
+				<tr>
+					<td><a href="Telephony_DECT.html"><div class="tabB">DECT</div></a></td>
+					<td><a href="Telephony_AnalogDevice.html"><div class="tabDB">Analog-Gerate</div></a></td>
+					<td><a href="Telephony_IsdnDevice.html"><div class="tabB" >ISDN-Gerate</div></a></td>
+				</tr>
+			</table>
+		</div> 	
+		<div class="bg_body_auto2" style="min-height:400px;_height:400px;" id="defaultId">
+			<div class="left">
+			<form>				
+				<div class="stepWrapper">
+				<div><div>Rufnummernzuordnung fur Analog-Gerate</div></div>
+					<table class="myTable font12" width="530">
+						<tr class="bold">
+							<td width="150"></td>
+							<td width="230">Name</td>
+							<td>Interne Rufnummer</td>
+						</tr>	
+						<tr>
+							<td>Anschluss 1 (TAE mitte)</td>
+							<td><input type="text" class="blue_frame" style="width:200px" name="devicename1"></td>
+							<td><input type="text" class="blue_frame" style="width:100px" name="devicenumber1"></td>
+						</tr>
+						<tr>
+							<td>Anschluss 2 (TAE rechts)</td>
+							<td><input type="text" class="blue_frame" style="width:200px" name="devicename2"></td>
+							<td><input type="text" class="blue_frame" style="width:100px" name="devicenumber2"></td>
+						</tr>				  				  				  
+					</table>
+				</div>		
+			</form>
+			</div>
+			<div class="right">
+				<div id='help'>
+				<script type="text/javascript">
+					showHelp('blue','Analog_add');
+				</script>
+				</div>
+			</div>
+		<div class="bg_bottom_bar">
+			<div class="button_center"><a href="#" onclick="addFxsInternalApply('Telephony_AnalogDevice.html');return false;"><img src="images1/apply.gif"></img></a></div>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>
