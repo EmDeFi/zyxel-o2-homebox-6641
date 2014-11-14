@@ -121,7 +121,7 @@ static inline void __deprecated print_fn_descriptor_symbol(const char *fmt, void
 
 static inline void print_ip_sym(unsigned long ip)
 {
-	printk("[<%p>] %pS\n", (void *) ip, (void *) ip);
+	printk(KERN_EMERG"[<%p>] %pS\n", (void *) ip, (void *) ip);
 }
 
 #endif /*_LINUX_KALLSYMS_H*/

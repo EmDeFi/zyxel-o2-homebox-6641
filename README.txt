@@ -1,4 +1,4 @@
-ReadMe for Homebox 6641 V1.00(AAJG.0)b14
+ReadMe for Homebox 6641 V1.00(AAJG.0)b14-1
 0. Introduction
 
   This file will show you how to build the  Homebox 6641 linux system, please 

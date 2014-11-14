@@ -1514,6 +1514,16 @@ static void AssignRxBuffer(int channel, UINT8 *pucData)
     BcmXtm_RxDma *rxdma = pGi->rxdma[channel];
     BcmPktDma_XtmRxDma *pktDmaRxInfo_p = &rxdma->pktDmaRxInfo;
 
+//<< asdrick
+    // Workround : check pointer is vaild or not .
+    if( ((unsigned int )pucData >= (0x863ffed0)) && ((unsigned int )pucData < (0x864001d0)) )
+    {
+       //buggy buf pointer ?! ... Drop it ...
+      printk(KERN_EMERG"%s:%d ignore buf pucData %p\n",__FUNCTION__,__LINE__,(uint8_t *)pucData);       
+       return ;
+    }
+//>> asdrick
+
     spin_lock_bh(&pGi->xtmlock_rx);
 
 #if (defined(CONFIG_BCM_BPM) || defined(CONFIG_BCM_BPM_MODULE))

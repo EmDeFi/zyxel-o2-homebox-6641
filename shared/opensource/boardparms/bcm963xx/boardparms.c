@@ -4777,15 +4777,19 @@ static WLAN_SROM_ENTRY wlan_patch_unique_963168VXTo2[]={
 #endif /*Jayden@MSTC support HW to change ,20121105*/
 /* The common part contains the entries that are valid for multiple boards */
 static WLAN_SROM_ENTRY wlan_patch_common_963268MBV[] = {	
+    { 66,  0x0200},
+    { 67,  0x0000},
     { 78,  0x0303}, 
     { 79,  0x0202}, 
     { 80,  0xff02},
     { 87,  0x0315}, 
     { 88,  0x0315},
+    { 93,  0xffff},
+    { 94,  0x001e},
     { 96,  0x203c}, 
     { 97,  0xFF87}, 
     { 98,  0x180F},
-    { 99,  0xFAEA},   
+    { 99,  0xFAEA},
     { 100, 0x3E3C},
     { 101, 0x4038},
     { 102, 0xFF15},
