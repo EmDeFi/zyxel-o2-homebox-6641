@@ -1947,4 +1947,11 @@ struct smb_extended_info {
 	char   samba_version_string[SAMBA_EXTENDED_INFO_VERSION_STRING_LENGTH];
 };
 
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+typedef struct fnum_info
+{
+    struct fnum_info *next,*prev;
+    int fnum;
+} fnum_info;
+#endif
 #endif /* _SMB_H */

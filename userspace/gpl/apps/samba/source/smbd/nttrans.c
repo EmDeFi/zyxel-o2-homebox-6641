@@ -25,6 +25,9 @@ extern int max_send;
 extern enum protocol_types Protocol;
 extern int smb_read_error;
 extern struct current_user current_user;
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+extern struct fnum_info *fnum_list;
+#endif
 
 static const char *known_nt_pipes[] = {
 	"\\LANMAN",
@@ -499,6 +502,10 @@ int reply_ntcreate_and_X(connection_struct *conn,
 	struct timespec m_timespec;
 	BOOL extended_oplock_granted = False;
 	NTSTATUS status;
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+    fnum_info *fnum_item = NULL;
+    fnum_info *fnumPtr = NULL;
+#endif
 
 	START_PROFILE(SMBntcreateX);
 
@@ -938,6 +945,35 @@ int reply_ntcreate_and_X(connection_struct *conn,
 	}
 
 	DEBUG(5,("reply_ntcreate_and_X: fnum = %d, open name = %s\n", fsp->fnum, fsp->fsp_name));
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+    switch(create_disposition)
+    {
+    case FILE_SUPERSEDE :
+    case FILE_CREATE :
+    case FILE_OPEN_IF :
+    case FILE_OVERWRITE_IF :
+        /*add FID item to list*/
+        if((fnum_item=SMB_MALLOC_P(fnum_info))== NULL)
+        {
+            return ERROR_NT(NT_STATUS_NO_MEMORY);
+        }
+
+        fnum_item->fnum = fsp->fnum;
+        fnum_item->prev = NULL;
+        fnum_item->next = NULL;
+        if(fnum_list == NULL)
+        {
+            fnum_list = fnum_item;
+        }
+        else
+        {
+            fnum_item->next = fnum_list;
+            fnum_list->prev = fnum_item;
+            fnum_list = fnum_item;
+        }
+        break;
+    }
+#endif
 
 	result = chain_reply(inbuf,outbuf,length,bufsize);
 	END_PROFILE(SMBntcreateX);

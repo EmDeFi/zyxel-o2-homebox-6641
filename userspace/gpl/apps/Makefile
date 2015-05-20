@@ -323,7 +323,7 @@ ntfs-3g: sanity_check
 endif
 
 ifneq ($(strip $(BUILD_SAMBA)),)
-ifneq ($(strip $(BUILD_MSTC_COMMON_PATCH)), )
+ifeq ($(strip $(BUILD_MSTC_COMMON_PATCH)), )
 samba_make:
 	cd ./samba_3_0_34/source; make bin/smbd bin/nmbd bin/smbpasswd
 	
@@ -339,9 +339,6 @@ else
 samba: sanity_check
 	(tar xkfz samba.tar.gz 2> /dev/null || true)
 	$(MAKE) -C ./samba -j 1
-
-samba: sanity_check 
-	@echo "skipping $@ (not configured)"
 endif
 else
 samba:

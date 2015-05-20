@@ -23,7 +23,12 @@ SHARED_MODULE_OBJS=mod_sftp.lo msg.lo packet.lo cipher.lo mac.lo \
 
 # Necessary redefinitions
 SSL_TREE =  $(INSTALL_DIR)/lib/public
+ifneq ($(strip $(BUILD_OPENSSL_98ZD)),)
+# [IreneWang@MSTC:TO2]$ Upgrade OpenSSL from 0.9.7f to 0.9.8zd, 20150115
+INCLUDES=-I. -I../.. -I../../include -I$(BUILD_DIR)/userspace/public/libs/openssl-0.9.8zd/include -I$(BUILD_DIR)/userspace/public/libs/zlib-1.2.7
+else
 INCLUDES=-I. -I../.. -I../../include -I$(BUILD_DIR)/userspace/public/libs/openssl/include -I$(BUILD_DIR)/userspace/public/libs/zlib-1.2.7
+endif
 CPPFLAGS= $(ADDL_CPPFLAGS) -DHAVE_CONFIG_H $(DEFAULT_PATHS) $(PLATFORM) $(INCLUDES)
 LDFLAGS=-L../../lib -L$(SSL_TREE)
 

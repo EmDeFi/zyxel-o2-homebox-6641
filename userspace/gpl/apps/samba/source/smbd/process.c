@@ -42,6 +42,9 @@ int max_send = BUFFER_SIZE;
  */
 int max_recv = BUFFER_SIZE;
 
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+fnum_info *fnum_list = NULL;
+#endif
 extern int last_message;
 extern int smb_read_error;
 SIG_ATOMIC_T reload_after_sighup = 0;

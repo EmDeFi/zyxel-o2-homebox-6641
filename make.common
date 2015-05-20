@@ -430,6 +430,11 @@ endif
 
 export DO_BUILD_OPENSSL
 
+# [IreneWang@MSTC:TO2]$ Upgrade OpenSSL from 0.9.7f to 0.9.8zd, 20150115
+ifneq ($(strip $(BUILD_OPENSSL_98ZD)),)
+CMS_DMP_FLAGS += -DOPENSSL_98ZD
+export BUILD_OPENSSL_98ZD
+endif
 
 #
 # These profiles are always defined

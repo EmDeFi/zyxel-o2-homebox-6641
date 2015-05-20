@@ -14,8 +14,14 @@ MUTILS_LIB= ./libs/libmutils/libmutils.a
 MSOCK_LIB=./libs/libmsock/libmsock.a
 SLL_LIB= ./libs/libsll/libsll.a
 
+ifneq ($(strip $(BUILD_OPENSSL_98ZD)),)
+# [IreneWang@MSTC:TO2]$ Upgrade OpenSSL from 0.9.7f to 0.9.8zd, 20150115
+OPENSSL_DIR=$(BUILD_DIR)/userspace/public/libs/openssl-0.9.8zd
+OPENSSL_INC=-I$(BUILD_DIR)/userspace/public/libs/openssl-0.9.8zd/include
+else
 OPENSSL_DIR=$(BUILD_DIR)/userspace/public/libs/openssl
 OPENSSL_INC=-I$(BUILD_DIR)/userspace/public/libs/openssl/include
+endif
 #OPENSSL_LIBS=-L/usr/local/ssl//lib -lssl -lcrypto -ldl
 
 INCLUDES=  -I. $(MUTILS_INCLUDE) $(MSOCK_INCLUDE) $(SLL_INCLUDE) $(OPENSSL_INC)

@@ -1,4 +1,6 @@
-ReadMe for Homebox 6641 V1.00(AAJG.0)b14-1
+ReadMe for Homebox 6641 V1.00(AAJG.0)b14-2
+
+
 0. Introduction
 
   This file will show you how to build the  Homebox 6641 linux system, please 
@@ -12,7 +14,7 @@ memory of EV board.
  
    B. uclibc-crosstools-gcc_source-4.4.2.tar.bz2     - Toolchains open source code
 
-   C. ReadMe_for_Homebox_6641(V1.00(AAJG.0)b14).txt  - This file
+   C. ReadMe                                         - This file
 
    D. HowToBuildToolChains.txt                       - Compile toolchains source code SOP
 
@@ -44,7 +46,7 @@ memory of EV board.
 
 
 3. Build the firmware for Web-GUI upgrade using
-   NOTE: You can't do following things as "root"
+   NOTE: You must do following things as "root"
 
    A. Untar the source code.
 
@@ -53,13 +55,14 @@ memory of EV board.
    After decompressing, you will see three files in directory:
 
    a. HomeBox6641_consumer.tar.gz            - Open source code
-   b. consumer_install                       - Installing script
+   b. consumer_install_HomeBox6641           - Installing script
    c. uclibc-crosstools-gcc-4.4.2-1.tar.bz2  - Pre-build binary package for toolchain
 
 
    B. Build image 
 
-	# ./consumer_install
+	# cd HomeBox6641_consumer_release
+	# ./consumer_install_HomeBox6641
         Press "y" 3 time
 	# cd HomeBox6641_router
 	# make PROFILE=DSL-2492GNAUID-B3CC

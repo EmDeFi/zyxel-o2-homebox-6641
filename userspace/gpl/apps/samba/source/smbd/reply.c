@@ -32,6 +32,9 @@ extern int max_send;
 extern int max_recv;
 unsigned int smb_echo_count = 0;
 extern uint32 global_client_caps;
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+extern struct fnum_info *fnum_list;
+#endif
 
 extern struct current_user current_user;
 extern BOOL global_encrypted_passwords_negotiated;
@@ -3302,6 +3305,10 @@ int reply_close(connection_struct *conn, char *inbuf,char *outbuf, int size,
 	NTSTATUS status = NT_STATUS_OK;
 	int outsize = 0;
 	files_struct *fsp = NULL;
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+	fnum_info *fnum_item = NULL;
+	fnum_info *fnumPtr = NULL;
+#endif
 	START_PROFILE(SMBclose);
 
 	outsize = set_message(outbuf,0,0,False);
@@ -3314,6 +3321,44 @@ int reply_close(connection_struct *conn, char *inbuf,char *outbuf, int size,
 
 	fsp = file_fsp(inbuf,smb_vwv0);
 
+#if 1 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/
+	/*Search and Delete item*/
+	fnumPtr = fnum_list;
+
+	while(fnumPtr != NULL)
+	{
+		/*find write file FID*/
+		if(fnumPtr->fnum==fsp->fnum)
+		{	
+			sync();
+			/*Remove item*/
+			if(fnumPtr->prev == NULL)/*Removing from the beginning*/
+			{	
+				fnum_list = fnum_list->next;
+#if 1 /*MSTC, Nelson*/
+				if (fnum_list != NULL)
+				{
+					fnum_list->prev = NULL;
+					fnumPtr->next = NULL;
+				}
+#endif			
+			}
+			else if(fnumPtr->next == NULL) /*Removing from the end*/
+			{	
+				fnumPtr->prev->next = NULL;
+				fnumPtr->prev = NULL;
+			}
+			else /*Removing from the middle*/
+			{	
+				fnumPtr->prev->next = fnumPtr->next;
+				fnumPtr->next->prev = fnumPtr->prev;				
+			}
+			SAFE_FREE(fnumPtr);
+			break;	
+		}
+		fnumPtr = fnumPtr->next;
+	}
+#endif
 	/*
 	 * We can only use CHECK_FSP if we know it's not a directory.
 	 */

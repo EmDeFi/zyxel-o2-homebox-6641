@@ -97,7 +97,12 @@ LDLIBS += rt
 endif
 
 ifeq ($(strip $(CONFIG_FEATURE_WGET_HTTPS)),y)
+ifneq ($(strip $(BUILD_OPENSSL_98ZD)),)
+# [IreneWang@MSTC:TO2]$ Upgrade OpenSSL from 0.9.7f to 0.9.8zd, 20150115
+CFLAGS += -I$(BUILD_DIR)/userspace/public/libs/openssl-0.9.8zd/include
+else
 CFLAGS += -I$(BUILD_DIR)/userspace/public/libs/openssl/include
+endif
 LDLIBS += ssl crypto gcc_s
 endif
 

@@ -566,9 +566,9 @@ static service sDefault = {
 	True,			/* bMangledNames */
 	True,			/* bWidelinks */
 	True,			/* bSymlinks */
-	False,			/* bSyncAlways */
-	False,			/* bStrictAllocate */
-	False,			/* bStrictSync */
+	True,//False,			/* bSyncAlways */
+	True,//false			/* bStrictAllocate */
+	True,//False,			/* bStrictSync */
 	'~',			/* magic char */
 	NULL,			/* copymap */
 	False,			/* bDeleteReadonly */

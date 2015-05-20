@@ -34,9 +34,13 @@
 #
 BASE_SUBDIRS := cms_boardctl cms_util cms_msg
 
-# [IreneWang@MSTC:TO2]$ Partial configuration and restore, 20121227
+# [IreneWang@MSTC:TO2]$ Partial configuration and restore+ Upgrade OpenSSL from 0.9.7f to 0.9.8zd, 20121227 + 20150115
 ifneq ($(strip $(BUILD_MSTC_TO2_GERMANY_CUSTOMIZATION)),)
+ifneq ($(strip $(BUILD_OPENSSL_98ZD)),)
+OTHER_SUBDIRS := openssl-0.9.8zd libpcap xml_parse_lib activated
+else
 OTHER_SUBDIRS := openssl libpcap xml_parse_lib activated
+endif
 else
 OTHER_SUBDIRS := openssl libpcap 
 endif
@@ -111,6 +115,16 @@ openssl: sanity_check
 	@echo "skipping openssl (not configured)"
 endif
 
+# [IreneWang@MSTC:TO2]$ Upgrade OpenSSL from 0.9.7f to 0.9.8zd, 20150115
+ifneq ($(strip $(BUILD_OPENSSL_98ZD)),)
+openssl-0.9.8zd: sanity_check
+	(tar xkz -f openssl-0.9.8zd.tar.gz 2> /dev/null || true)
+	$(MAKE) -j 1 -C openssl-0.9.8zd all
+	$(MAKE) -j 1 -C openssl-0.9.8zd install
+else
+openssl-0.9.8zd: sanity_check
+	@echo "skipping openssl-0.9.8zd (not configured)"
+endif
 
 ifneq ($(strip $(BUILD_LIBPCAP)),)
 libpcap: sanity_check

@@ -165,7 +165,10 @@ static ssize_t real_write_file(files_struct *fsp,const char *data, SMB_OFF_T pos
 		fsp->position_information = fsp->pos;
 #endif
 	}
-
+#if 0 /*__TO2__ , Hank ,[BUG FIX]Unplug USB device while transfering file, plug again, user can not modify any file.*/	
+	/*move sync() to reply_close*/
+	sync();
+#endif
 	return ret;
 }
 

@@ -316,8 +316,13 @@ test -e $TOP_DIR/$ROOTFS/lib/public/libcms_boardctl.so && ln -s /lib/public/libc
 test -e $TOP_DIR/$ROOTFS/lib/public/libcms_util.so && ln -s /lib/public/libcms_util.so $TOP_DIR/$ROOTFS/lib/libcms_util.so
 # If we support wget https in busybox, need to create symlink on ssl libraries
 if [ "$BUILD_WGET_HTTPS" == "y" ]; then
+if [ "$BUILD_OPENSSL_98ZD" == "y" ]; then
+test -e $TOP_DIR/$ROOTFS/lib/public/libssl.so.0.9.8 && ln -s /lib/public/libssl.so.0.9.8 $TOP_DIR/$ROOTFS/lib/libssl.so.0.9.8
+test -e $TOP_DIR/$ROOTFS/lib/public/libcrypto.so.0.9.8 && ln -s /lib/public/libcrypto.so.0.9.8 $TOP_DIR/$ROOTFS/lib/libcrypto.so.0.9.8
+else
 test -e $TOP_DIR/$ROOTFS/lib/public/libssl.so.0.9.7 && ln -s /lib/public/libssl.so.0.9.7 $TOP_DIR/$ROOTFS/lib/libssl.so.0.9.7
 test -e $TOP_DIR/$ROOTFS/lib/public/libcrypto.so.0.9.7 && ln -s /lib/public/libcrypto.so.0.9.7 $TOP_DIR/$ROOTFS/lib/libcrypto.so.0.9.7
+fi
 fi
 
 # If a consumer release has created a filesystem tarball, fill in
