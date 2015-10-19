@@ -129,7 +129,7 @@ old_postuninstall_cmds=""
 LTCC="gcc"
 
 # LTCC compiler flags.
-LTCFLAGS="  -O2 -DGNU -I/home/chinglung/To2_GPL_release/b14-2_GPL_release/GPL-Release/132VQH0_phase1_hotfix/bcmdrivers/opensource/include/bcm963xx -I/home/chinglung/To2_GPL_release/b14-2_GPL_release/GPL-Release/132VQH0_phase1_hotfix/shared/opensource/include/bcm963xx -I."
+LTCFLAGS="  -O2 -DGNU -I/home/chinglung/To2_GPL_release/b14-3_GPL_release/GPL-Release/132VQH0_phase1_hotfix/bcmdrivers/opensource/include/bcm963xx -I/home/chinglung/To2_GPL_release/b14-3_GPL_release/GPL-Release/132VQH0_phase1_hotfix/shared/opensource/include/bcm963xx -I."
 
 # Take the output of nm and produce a listing of raw symbols and C names.
 global_symbol_pipe="sed -n -e 's/^.*[	 ]\\([ABCDGIRSTW][ABCDGIRSTW]*\\)[	 ][	 ]*\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 \\2 \\2/p'"
