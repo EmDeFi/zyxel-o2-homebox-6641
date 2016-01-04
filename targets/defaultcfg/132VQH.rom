@@ -263,9 +263,9 @@
       <IfName>(null)</IfName>
     </X_BROADCOM_COM_EthernetSwitch>
     <ManagementServer>
-      <URL>https://regman.sip.alice-voip.de:10501/acs/</URL>
-      <Username>o2DefaultAdmin</Username>
-      <Password>o2DefaultPassword</Password>
+      <URL></URL>
+      <Username>admin</Username>
+      <Password>admin</Password>
       <PeriodicInformEnable>FALSE</PeriodicInformEnable>
       <PeriodicInformInterval>108000</PeriodicInformInterval>
       <PeriodicInformTime>0000-00-00T00:00:00+00:00</PeriodicInformTime>
@@ -1173,7 +1173,7 @@
         </Capabilities>
         <VoiceProfile instance="1">
           <NumberOfLines>1</NumberOfLines>
-          <Name>ServiceProvider-1</Name>		
+          <Name></Name>		
           <DTMFMethod>RFC2833</DTMFMethod>
           <DigitMap></DigitMap>
           <DigitMapEnable>FALSE</DigitMapEnable>
@@ -1183,9 +1183,9 @@
           <SIP>
             <ProxyServer></ProxyServer>
             <RegistrarServer></RegistrarServer>
-            <UserAgentDomain>sip.alice-voip.de</UserAgentDomain>
+            <UserAgentDomain></UserAgentDomain>
             <UserAgentPort>5060</UserAgentPort>
-            <OutboundProxy>62.52.148.70</OutboundProxy>
+            <OutboundProxy></OutboundProxy>
             <InviteExpires>180</InviteExpires>
             <X_5067F0_minSE>120</X_5067F0_minSE>
             <RegisterExpires>4500</RegisterExpires>

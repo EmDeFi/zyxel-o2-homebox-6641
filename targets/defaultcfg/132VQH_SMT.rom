@@ -197,9 +197,9 @@
       <IfName>(null)</IfName>
     </X_BROADCOM_COM_EthernetSwitch>
     <ManagementServer>
-      <URL>https://regman.sip.alice-voip.de:10501/acs/</URL>
-      <Username>CC5D4E-0000000000</Username>
-      <Password>o2acs</Password>
+      <URL></URL>
+      <Username>admin</Username>
+      <Password>admin</Password>
       <PeriodicInformInterval>108000</PeriodicInformInterval>
       <PeriodicInformTime>2013-01-01T00:00:34+00:00</PeriodicInformTime>
       <ConnectionRequestURL notification="2">(null)</ConnectionRequestURL>
@@ -1221,16 +1221,16 @@
         <Codecs nextInstance="7" ></Codecs>
       </Capabilities>
       <VoiceProfile instance="1">
-        <Name>ServiceProvider-1</Name>
+        <Name></Name>
         <MaxSessions>7</MaxSessions>
         <DTMFMethod>RFC2833</DTMFMethod>
         <DigitMapEnable>FALSE</DigitMapEnable>
         <FaxPassThrough>Disable</FaxPassThrough>
         <X_5067F0_BoundIfList>ppp0.1</X_5067F0_BoundIfList>
         <SIP>
-          <UserAgentDomain>sip.alice-voip.de</UserAgentDomain>
+          <UserAgentDomain></UserAgentDomain>
           <UserAgentPort>5060</UserAgentPort>
-          <OutboundProxy>62.52.148.70</OutboundProxy>
+          <OutboundProxy></OutboundProxy>
           <InviteExpires>180</InviteExpires>
           <X_5067F0_minSE>120</X_5067F0_minSE>
           <RegisterExpires>4500</RegisterExpires>
@@ -1760,17 +1760,17 @@ hnacRHr2lVz2XTIIM6RUthg/aFzyQkqFOFSDX9HoLPKsEdao7WNq
       <CIFS nextInstance="2" ></CIFS>
     </X_TELEFONICA-ES_CIFS>
     <DNSRouteEntry instance="1">
-      <DomainName>time.sip.alice-voip.de</DomainName>
+      <DomainName></DomainName>
       <WANConnection>ppp0.1</WANConnection>
       <dnsRouteType>NTP</dnsRouteType>
     </DNSRouteEntry>
     <DNSRouteEntry instance="2">
-      <DomainName>de.pool.ntp.org</DomainName>
+      <DomainName></DomainName>
       <WANConnection>ppp0.1</WANConnection>
       <dnsRouteType>NTP</dnsRouteType>
     </DNSRouteEntry>
     <DNSRouteEntry instance="3">
-      <DomainName>regman.sip.alice-voip.de</DomainName>
+      <DomainName></DomainName>
       <WANConnection>ppp0.1</WANConnection>
       <dnsRouteType>ACS</dnsRouteType>
     </DNSRouteEntry>

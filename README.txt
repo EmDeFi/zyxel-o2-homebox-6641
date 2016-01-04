@@ -1,4 +1,4 @@
-ReadMe for Homebox 6641 V1.00(AAJG.0)b14-3
+ReadMe for Homebox 6641 V1.00(AAJG.0)b14-4
 
 
 0. Introduction
@@ -10,15 +10,13 @@ memory of EV board.
 
 1. Package file 
 
-   A. HomeBox6641_consumer_release.tar.gz            - HomeBox6641 open source code
+   A. HomeBox6641_consumer_release.tar.gz            - Open Source Code of HomeBox6641 
  
    B. uclibc-crosstools-gcc_source-4.4.2.tar.bz2     - Toolchains open source code
 
    C. ReadMe                                         - This file
 
    D. HowToBuildToolChains.txt                       - Compile toolchains source code SOP
-
-   E. HomeBox_6641_tool.sh                           - Shell script for install necessary tools 
 
 
 2. Build up compiler environment.
@@ -38,8 +36,6 @@ memory of EV board.
       Or used command to install these tools.
 
 	$ sudo apt-get -y install links make gcc bison gawk automake flex zlib1g-dev g++
-      Or
-	$ source HomeBox_6641_tool.sh
 
        If you can't install package you can use gui interface to update system or use below command
 	$ sudo apt-get update && sudo apt-get upgrade
@@ -68,4 +64,6 @@ memory of EV board.
 	# make PROFILE=DSL-2492GNAUID-B3CC
 
     The firmware image will locate at "HomeBox6641_router/images".
+
+
 
