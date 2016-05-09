@@ -263,7 +263,7 @@
       <IfName>(null)</IfName>
     </X_BROADCOM_COM_EthernetSwitch>
     <ManagementServer>
-      <URL></URL>
+      <URL>http://1.2.3.4:5678/</URL>
       <Username>admin</Username>
       <Password>admin</Password>
       <PeriodicInformEnable>FALSE</PeriodicInformEnable>

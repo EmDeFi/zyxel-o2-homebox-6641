@@ -59,6 +59,16 @@
     ((MARK & SKBMARK_IQPRIO_MARK_M) >> SKBMARK_IQPRIO_MARK_S)
 #define SKBMARK_SET_IQPRIO_MARK(MARK, IQPRIO_MARK) \
     ((MARK & ~SKBMARK_IQPRIO_MARK_M) | (IQPRIO_MARK << SKBMARK_IQPRIO_MARK_S))
+#if 1 /*Mike@20160225,MSTC. Change the bits used for Qos vlan operation.*/
+/* VID_ACTION = mark[21:20] */
+#define SKBMARK_VID_ACTION_S       20
+#define SKBMARK_VID_ACTION_M       (0x03 << SKBMARK_VID_ACTION_S)
+#define SKBMARK_GET_VID_ACTION(MARK) \
+    ((MARK & SKBMARK_VID_ACTION_M) >> SKBMARK_VID_ACTION_S)
+#define SKBMARK_SET_VID_ACTION(MARK, FLOW) \
+    ((MARK & ~SKBMARK_VID_ACTION_M) | (FLOW << SKBMARK_VID_ACTION_S))
+#endif
+//keep the original setting for gpon preventing undefine reference
 /* port = mark[26:20]; for enet driver of gpon port, this is gem_id */
 #define SKBMARK_PORT_S          20
 #define SKBMARK_PORT_M          (0x7F << SKBMARK_PORT_S)
