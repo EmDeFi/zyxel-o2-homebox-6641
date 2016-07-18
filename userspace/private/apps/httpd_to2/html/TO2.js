@@ -866,6 +866,10 @@ function getHelpText(page)
 		case 'Fernwartung':
 			str = "Mit dem Servicezugang ermöglichen Sie dem o2 Kundenservice temporären Zugriff auf die Benutzeroberfläche des Gerätes, um die Funktionen zu prüfen. Klicken Sie nach Aufforderung des Servicemitarbeiters auf <b>Ausführen</b>. Teilen Sie ihm dann auf Nachfrage das im neuen Fenster angezeigte Kennwort mit. Der Zugang wird nach 60 Minuten automatisch getrennt. Über den <b>Trennen</b>-Button können Sie den Zugang jederzeit manuell unterbinden. <p>Sie können auch aus der Ferne Ihre o2 HomeBox über einen WAN-Zugriff bedienen. Weitere Informationen hierzu finden Sie im Benutzerhandbuch.";
 			break;
+             /* AdelineLo@MSTC: add for GPL license  ,20160614 */
+		case 'Lizenzen':
+			str = "Dieses Produkt enthält Software, die unter der GNU General Public License (GPL) lizensiert ist und Ihnen unter den Bedingungen dieser Lizenz zur Verfügung gestellt wird. Eine Kopie dieser Lizenz finden Sie auf www.zyxel.com/de/de/ support/o2_homebox_6641<br>.shtml. Sie können von uns innerhalb von 3 Jahren ab Inverkehrbringen dieses Produkts eine vollständige maschinen-lesbare Kopie des Quelltextes erhalten, in dem Sie uns unter support@zyxel.de kontak-tieren.";
+			break;	
 		/*setup wizard*/
 		case 'Startseite':
 			str = "Ihre o2 HomeBox bietet Ihnen zugleich DSL- und Telefoniemöglichkeiten.";
@@ -917,6 +921,8 @@ function WriteMenuHeader(id)
 	var HomeGroup_id ='', HomeGroup_Survey_id='', HomeGroup_LAN_id='', HomeGroup_WLAN_id='', HomeGroup_PortForwarding_id='', HomeGroup_USB_id='', MediaCenter_id = '';
 	var Security_id = '', Security_IpFilter_id='', Security_MacAddressFilter_id='', Security_IgdUpnp_id='';
 	var System_id = '', System_Password_id='', System_SaveSettings_id='', System_Back_id='',System_remoteMaintenance_id='';
+	/* AdelineLo@MSTC: add for GPL license  ,20160614 */
+	var System_license_id='';
 	
 	var SetupWizard = 0;
 	var SetupWizard_id = "class=\"selected_SetupWizard\"";
@@ -951,8 +957,10 @@ function WriteMenuHeader(id)
 		case 'System_Password': System_id = "class=\"selected\""; System_Password_id = "class=\"selected_red\"";break;
 		case 'System_SaveSettings': System_id = "class=\"selected\""; System_SaveSettings_id = "class=\"selected_red\"";break;
 		case 'System_Back': System_id = "class=\"selected\""; System_Back_id = "class=\"selected_red\"";break;	
-		case 'System_remoteMaintenance': System_id = "class=\"selected\""; System_remoteMaintenance_id = "class=\"selected_red\"";break;	
-		
+		case 'System_remoteMaintenance': System_id = "class=\"selected\""; System_remoteMaintenance_id = "class=\"selected_red\"";break;
+		/* AdelineLo@MSTC: add for GPL license  ,20160614 */
+		case 'System_license': System_id = "class=\"selected\""; System_license_id = "class=\"selected_red\"";break;
+			
 		case 'SetupWizard': break;  
 //		case 'SetupWizard_Home':SetupWizard = 1; SetupWizard_Home_id = "class=\"selected_SetupWizard1\"";break;
 //		case 'SetupWizard_Password':SetupWizard = 1; SetupWizard_Password_id = "class=\"selected_SetupWizard1\"";break;
@@ -1089,6 +1097,8 @@ function WriteMenuHeader(id)
 			document.writeln("<a href=\"System_SaveSettings.html\" " + System_SaveSettings_id + ">Einstellungen sichern</a>");
 			document.writeln("<a href=\"System_Back.html\" " + System_Back_id + ">Zurücksetzen</a>");
 			document.writeln("<a href=\"System_remoteMaintenance.html\" " + System_remoteMaintenance_id + ">Fernwartung</a>");
+			/* AdelineLo@MSTC: add for GPL license  ,20160614 */
+			document.writeln("<a href=\"System_license.html\" " + System_license_id+ ">Lizenzen</a>");
 		}
 		
 		/* Setup Wizard */

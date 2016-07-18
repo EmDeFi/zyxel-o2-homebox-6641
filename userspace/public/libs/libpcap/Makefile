@@ -185,7 +185,7 @@ uninstall:
 	rm -f $(DESTDIR)$(mandir)/man3/pcap.3
 
 clean:
-	rm -f $(CLEANFILES) fad-getad.o
+	rm -f $(CLEANFILES)
 
 distclean:
 	rm -f $(CLEANFILES) Makefile config.cache config.log config.status \
